@@ -1,1 +1,5 @@
-# SB3M
+# INF112 Maven template 
+Simple skeleton with libgdx. 
+
+
+## Known bugs
