@@ -4,15 +4,22 @@ for at alle er med på alle steg i prosessen, slik at ingen blir glemt eller hen
 
 Vi ble sammen enige om noen møtetider under den første gruppetimen, samt å alltid ha en referent på møter. Vi opprettet 
 et repository, fikk lagd en felles google drive, lagd et project board og fått satt opp en discord nærmest med en gang 
-etter prosjektstart. Deretter identifiserte vi rollene som trengs for dette prosjektet, og fordelte de rollene som lot 
+etter prosjektstart. Vi delte også annen kontaktinformasjon slik at vi kan få tak i hverandre lettere.
+Deretter identifiserte vi rollene som trengs for dette prosjektet, og fordelte de rollene som lot 
 seg fordele på et så tidlig stadie. Vi har valgt å bruke Trello project board for å holde styr på oppgavene. Vi 
 fargekoder etter type oppgave, og legger til members på hver oppgave etter hvem som utfører/skal utføre oppgaven.
+Her er brettet vårt: https://trello.com/b/dbMlsUpA/roborally. Brukerhistoriene finner man i beskrivelsen til hvert 
+enkelt gjøremål når du trykker deg inn på gjøremålet.
 
-Måten vi fordelte roller på var at den som var interessert og/eller har mest erfaring med en rolle meldte seg og tok på 
-seg ansvaret. Til nå har vi satt opp rollene teamleder, testansvarlig og ansvarlig for server. Vi har gitt Micah 
-team-leader-rollen fordi han er den på gruppen som har mest erfaring med å jobbe team innenfor IT. Når det kommer til de 
-resterende rollene fordelte vi etter interesse. Vi har satt rollene til å være veldig fleksible, så vi hjelper hverandre 
-i alle roller dersom hjelp trengs.
+Alle på teamet har nokså lik kompetanse. Vi har alle tatt INF100, INF101, INF102 og INF122. Utenom dette har to på 
+teamet litt ekstra erfaring. Micah har erfaring fra web utvikling i jobbsammenheng og har derfor noe erfaring med å 
+jobbe i teams. Sondre har erfaring med prosjektarbeid, møtestruktur, kursing i prosjektstruktur og teamarbeid.
+
+Måten vi vil fordele roller på er at den som er interessert og/eller har mest erfaring med en rolle melder seg og tar 
+på seg ansvaret. Vi planlegger å tildele rollene teamleder, testansvarlig og ansvarlig for server. Vi tenker å gi Micah 
+team-leader-rollen fordi han er den på gruppen som har mest erfaring med å jobbe team innenfor IT. Når det kommer til 
+de resterende rollene fordeler vi etter interesse. Vi har satt rollene til å være veldig fleksible, så vi hjelper 
+hverandre i alle roller dersom hjelp trengs.
 
 På hvert møte går vi også gjennom oppgavene vi har foran oss, og legger til flere oppgaver om det trengs. På møtene 
 rapporterer hvert team-medlem til resten av teamet om hvilke(n) oppgave(r) de holder på med, hvordan det går, og om man 
@@ -20,15 +27,18 @@ eventuelt trenger hjelp til oppgaven sin. Deretter justerer vi fordeling av oppg
 Dermed vet vi alltid hva vi skal gjøre frem mot neste møte og sørger for at alle har noe å gjøre samt får til å gjøre 
 det de har fått utdelt. Hyppige møter er også måten vi følger opp hverandres arbeid. På hvert møte har vi også en 
 referent. Hen skriver hva som bestemmes på møtene og laster de opp i vår google drive. På denne måten har vi alltid 
-oversikt over hva vi ble enige om på møtene.
+oversikt over hva vi ble enige om på møtene. Her er link til vår google drive, referatene ligger her:
+https://drive.google.com/drive/folders/1VpaGimflcbXHnR0sDl15mE1TTSsk2_fC?usp=sharing
 
 
 ## Prosjektmetodikk
 Prosjektmetodikken vi har valgt å prøve å følge er kanban, med elementer som parprogrammering og testing. Det er flere 
 grunner til at dette er metodikken vi ønsker å følge. En av dem er at siden vi er så få på teamet, så kan vi operere mye 
-på tillit og vi kan stille krav til disiplin. Vi liker også at metodikken er fleksibel, da vi også er det. Teamet har 
-avgjort at møter er tiden for å planlegge mer arbeid, og vi har blitt enige om at 3 oppgaver er maksimum per person til 
-enhver tid. 
+på tillit og vi kan stille krav til disiplin. Vi liker også at metodikken er fleksibel, da vi også er det. Som studenter 
+ser hver uke forskjellig ut, og da er det greit å kunne justere måten vi arbeider på etter behov. Teamet har avgjort at 
+møter er tiden for å planlegge mer arbeid, og vi har blitt enige om at 3 oppgaver er maksimum per person til enhver tid. 
+I tillegg syns vi mengden regler som inngår i de andre metodikkene vi har gått gjennom ble overflødig når teamet er såpass 
+lite, og alle har omtrent samme kompetanse.
  
 ## Spesifikasjon
 Det overordnede målet for applikasjonen å få på plass de grunnleggende strukturene og funksjonalitetene i spillet.
@@ -74,32 +84,36 @@ Det overordnede målet for applikasjonen å få på plass de grunnleggende struk
       * Sette inn grafikk og logikk for flagg
 
 
-5. Som spiller ønsker jeg et spill med hindringer slik at det kan være en utfordring og underholdende.
+5. Som spiller ønsker jeg at det registreres når roboten detter ned i et hull.
    * Akseptansekriterier:
-      * Gitt at jeg ønsker en utfordring, vil jeg ha hinder i form av steder jeg ikke kan gå på brettet representert som 
-        hull.
+      * Gitt at jeg spiller og roboten havner over et hull, skal jeg visuelt kunne se det.
    * Arbeidsoppgaver:
       * Grafikk og logikk for hull
 
-##Oppsummering
-Hva som gikk bra: 
+Vi har testet koden ved å kjøre den og sett at alt fungerer som forventet.
+
+## Oppsummering
+
 Vi strukturerte oss godt fra starten av. Var flinke på oppgavefordeling, oppfølgning og å ha jevnlige møter.
+Vi har for det meste brukt discord til å kommunisere og dette har fungert veldig godt for at alle får sine meninger hørt.
+De strukturelle og organisatoriske aspektene ved prosjektet tror vi fungerte godt fordi vi kommuniserer bra og passer på 
+at alle henger med og er inkludert i arbeidet til enhver tid.
 
-Hva som ikke fungerte helt som forventet: 
 Å vise at vi sammarbeidet godt fungerte ikke helt som forventet. Vi har brukt mye code with me og google docs for å 
-sammarbeide.
-Dermed kan man ikke se gjennom våre commits at vi har sammarbeidet godt og at alle har bidratt mer eller mindre på lik 
-linje til prosjektet.
+sammarbeide. Dermed kan man ikke se gjennom våre commits at vi har sammarbeidet godt og at alle har bidratt mer eller 
+mindre på lik linje til prosjektet.
 
-Hva som ikke virket i det hele tatt:
+En ønskelig forbedring til neste gang er at vi skal bruke git mer aktivt og effektivt. Vi har et ønske om å øke felles 
+kompetanse og bli mer komfortabel med egen git-bruk. Vi ønsker å gjøre dette med å la noen av team-medlemmene bruke mer 
+tid på å lære seg git slik at de kan bistå til hjelp ved usikkerhet og ta ansvar for å lære det videre til de andre 
+team-medlemmene og ta ansvar for å lære det videre til de andre team-medlemmene.
 
-Ønskelige forbedringer til neste gang: 
-Vi ønsker gjerne å kunne bruke git mer aktivt til neste obligatoriske oppgave.
+Vi planla å følge prosjektmetodikken kanban, men det har ikke vært spesielt sentralt i hvordan vi har jobbet med 
+oppgaven. Vi har likevel inkludert mye av det kanban går ut på, som at vi har passet på at ingen jobber med flere 
+oppgaver enn de har kapasitet til. Vi gikk også litt bort fra den planlagte rollefordelingen vår, og gikk heller over 
+til å fordele basert på tillit og tilgjengelighet.
 
-De strukturelle og organisatoriske aspektene ved prosjektet tror vi fungerte godt fordi vi kommuniserer bra og passer 
-på at alle henger med og er inkludert i arbeidet til enhver tid. Det som ikke fungerte så godt var å bruke git aktivt. 
-Dette skyldes at vi ikke har rukket å lære oss å bruke det ordentlig enda, men vi har sammen kommet frem til at vi 
-ønsker å lære og bruke dette i prosjektet fremover.
-
-Liten vurdering av hvor bra vi traff på oppgaven:
+Vi syns vi traff godt på oppgaven, både når det kom til å jobbe i team og å få utført alle arbeidsoppgavene. Hele 
+prosessen opplevdes som oversiktlig og ryddig fra start til slutt. Alle var flinke til å møte opp til avtaler og gjøre 
+sin del av arbeidet. 
 
