@@ -162,18 +162,18 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
         if(direction == Dir.W){
             if(walls.getCell((int) playerPosition.x-1, (int) playerPosition.y) == null) {cellMovingTo = -1;}
             else {cellMovingTo = walls.getCell(x-1, y).getTile().getId();}
-            if (cellMovingTo == 16 || cellMovingTo == 8 || cellMovingTo == 23 || cellCurrentlyOn == 32 || cellCurrentlyOn == 30 || cellCurrentlyOn == 24){ return false; }
+            return cellMovingTo != 16 && cellMovingTo != 8 && cellMovingTo != 23 && cellCurrentlyOn != 32 && cellCurrentlyOn != 30 && cellCurrentlyOn != 24;
         }
         if(direction == Dir.E){
             if(walls.getCell((int) playerPosition.x+1, (int) playerPosition.y) == null) {cellMovingTo = -1;}
             else {cellMovingTo = walls.getCell(x+1, y).getTile().getId();}
-            if (cellMovingTo == 32 || cellMovingTo == 30 || cellMovingTo == 24 || cellCurrentlyOn == 8 || cellCurrentlyOn == 16 || cellCurrentlyOn == 23){ return false; }
+            return cellMovingTo != 32 && cellMovingTo != 30 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 16 && cellCurrentlyOn != 23;
         }
 
         if(direction == Dir.N){
             if(walls.getCell((int) playerPosition.x, (int) playerPosition.y+1) == null) {cellMovingTo = -1;}
             else {cellMovingTo = walls.getCell(x, y+1).getTile().getId();}
-            if (cellMovingTo == 32 || cellMovingTo == 29 || cellMovingTo == 8 || cellCurrentlyOn == 31 || cellCurrentlyOn == 16 || cellCurrentlyOn == 24){ return false; }
+            return cellMovingTo != 32 && cellMovingTo != 29 && cellMovingTo != 8 && cellCurrentlyOn != 31 && cellCurrentlyOn != 16 && cellCurrentlyOn != 24;
         }
         if(direction == Dir.S){
             if(walls.getCell((int) playerPosition.x, (int) playerPosition.y-1) == null) {cellMovingTo = -1;}
