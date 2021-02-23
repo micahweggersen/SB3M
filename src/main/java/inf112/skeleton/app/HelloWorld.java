@@ -30,6 +30,7 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
     private TiledMapTileLayer playerLayer;
     private TiledMapTileLayer flagLayer;
     private TiledMapTileLayer holeLayer;
+    private TiledMapTileLayer walls;
 
     //Define view states
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -63,6 +64,7 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
         flagLayer = (TiledMapTileLayer) map.getLayers().get("Flag");
         holeLayer = (TiledMapTileLayer) map.getLayers().get("Hole");
         playerLayer = (TiledMapTileLayer) map.getLayers().get("Player");
+        walls = (TiledMapTileLayer) map.getLayers().get("Walls");
 
         // Set grid coordinate for playerFigure
         playerPosition = new Vector2(0, 0);
@@ -133,10 +135,10 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
 
         playerLayer.setCell((int)playerPosition.x, (int)playerPosition.y, null);
 
-        if (keycode == Input.Keys.LEFT) { playerPosition = new Vector2(playerPosition.x - 1, playerPosition.y); }
-        if (keycode == Input.Keys.RIGHT) { playerPosition = new Vector2(playerPosition.x + 1, playerPosition.y); }
-        if (keycode == Input.Keys.UP) { playerPosition = new Vector2(playerPosition.x, playerPosition.y + 1); }
-        if (keycode == Input.Keys.DOWN) { playerPosition = new Vector2(playerPosition.x, playerPosition.y - 1); }
+        if (keycode == Input.Keys.LEFT && canMove((int)playerPosition.x, (int)playerPosition.y, Dir.W)) { playerPosition = new Vector2(playerPosition.x - 1, playerPosition.y); }
+        if (keycode == Input.Keys.RIGHT && canMove((int)playerPosition.x, (int)playerPosition.y, Dir.E)) { playerPosition = new Vector2(playerPosition.x + 1, playerPosition.y); }
+        if (keycode == Input.Keys.UP && canMove((int)playerPosition.x, (int)playerPosition.y, Dir.N)) { playerPosition = new Vector2(playerPosition.x, playerPosition.y + 1); }
+        if (keycode == Input.Keys.DOWN && canMove((int)playerPosition.x, (int)playerPosition.y, Dir.S)) { playerPosition = new Vector2(playerPosition.x, playerPosition.y - 1); }
 
         playerLayer.setCell((int) playerPosition.x, (int) playerPosition.y, playerFigure);
 
@@ -145,4 +147,39 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
 
     private boolean isCellFlag(Vector2 playerPosition) { return flagLayer.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
     private boolean isCellHole(Vector2 playerPosition) { return holeLayer.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
+    private boolean isCellWall(Vector2 playerPosition) { return walls.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
+
+    public enum Dir {S, N, W, E}
+
+    public boolean canMove(int x, int y, Dir direction){
+
+        int cellCurrentlyOn;
+        int cellMovingTo;
+
+        if(isCellWall(playerPosition)) { cellCurrentlyOn = walls.getCell(x, y).getTile().getId(); }
+        else{ cellCurrentlyOn = -1; }
+
+        if(direction == Dir.W){
+            if(walls.getCell((int) playerPosition.x-1, (int) playerPosition.y) == null) {cellMovingTo = -1;}
+            else {cellMovingTo = walls.getCell(x-1, y).getTile().getId();}
+            return cellMovingTo != 16 && cellMovingTo != 8 && cellMovingTo != 23 && cellCurrentlyOn != 32 && cellCurrentlyOn != 30 && cellCurrentlyOn != 24;
+        }
+        if(direction == Dir.E){
+            if(walls.getCell((int) playerPosition.x+1, (int) playerPosition.y) == null) {cellMovingTo = -1;}
+            else {cellMovingTo = walls.getCell(x+1, y).getTile().getId();}
+            return cellMovingTo != 32 && cellMovingTo != 30 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 16 && cellCurrentlyOn != 23;
+        }
+
+        if(direction == Dir.N){
+            if(walls.getCell((int) playerPosition.x, (int) playerPosition.y+1) == null) {cellMovingTo = -1;}
+            else {cellMovingTo = walls.getCell(x, y+1).getTile().getId();}
+            return cellMovingTo != 32 && cellMovingTo != 29 && cellMovingTo != 8 && cellCurrentlyOn != 31 && cellCurrentlyOn != 16 && cellCurrentlyOn != 24;
+        }
+        if(direction == Dir.S){
+            if(walls.getCell((int) playerPosition.x, (int) playerPosition.y-1) == null) {cellMovingTo = -1;}
+            else {cellMovingTo = walls.getCell(x, y-1).getTile().getId();}
+            return cellMovingTo != 31 && cellMovingTo != 16 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 29 && cellCurrentlyOn != 32;
+        }
+        return true;
+    }
 }
