@@ -36,13 +36,13 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera cameraView;
 
-    //Define player states
-    private TiledMapTileLayer.Cell playerFigure;
-    private TiledMapTileLayer.Cell playerFigureHasWon;
-    private TiledMapTileLayer.Cell playerFigureHasDied;
+//    //Define player states
+//    private TiledMapTileLayer.Cell playerFigure;
+//    private TiledMapTileLayer.Cell playerFigureHasWon;
+//    private TiledMapTileLayer.Cell playerFigureHasDied;
 
-    //Define player-coordinates
-    private Vector2 playerPosition;
+//    //Define player-coordinates
+//    private Vector2 playerPosition;
 
 
     @Override
@@ -52,9 +52,9 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
         font = new BitmapFont();
         font.setColor(Color.RED);
 
-        //Load player figure and set size
-        Texture texture = new Texture("src/assets/player.png");
-        TextureRegion[][] playerFig = TextureRegion.split(texture, 300, 300);
+//        //Load player figure and set size
+//        Texture texture = new Texture("src/assets/player.png");
+//        TextureRegion[][] playerFig = TextureRegion.split(texture, 300, 300);
 
         //Tile file load
         map = new TmxMapLoader().load("src/assets/example.tmx");
@@ -66,18 +66,18 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
         playerLayer = (TiledMapTileLayer) map.getLayers().get("Player");
         walls = (TiledMapTileLayer) map.getLayers().get("Walls");
 
-        // Set grid coordinate for playerFigure
-        playerPosition = new Vector2(0, 0);
+//        // Set grid coordinate for playerFigure
+//        playerPosition = new Vector2(0, 0);
 
-        //Initialize playerFigure States
-        playerFigure = new TiledMapTileLayer.Cell();
-        playerFigureHasDied = new TiledMapTileLayer.Cell();
-        playerFigureHasWon = new TiledMapTileLayer.Cell();
-
-        //playerFigure States
-        playerFigure.setTile(new StaticTiledMapTile(playerFig[0][0]));
-        playerFigureHasDied.setTile(new StaticTiledMapTile(playerFig[0][1]));
-        playerFigureHasWon.setTile(new StaticTiledMapTile(playerFig[0][2]));
+//        //Initialize playerFigure States
+//        playerFigure = new TiledMapTileLayer.Cell();
+//        playerFigureHasDied = new TiledMapTileLayer.Cell();
+//        playerFigureHasWon = new TiledMapTileLayer.Cell();
+//
+//        //playerFigure States
+//        playerFigure.setTile(new StaticTiledMapTile(playerFig[0][0]));
+//        playerFigureHasDied.setTile(new StaticTiledMapTile(playerFig[0][1]));
+//        playerFigureHasWon.setTile(new StaticTiledMapTile(playerFig[0][2]));
 
         //Size of camera in relation to map size
         cameraView = new OrthographicCamera();
@@ -85,7 +85,7 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
         cameraView.position.x = 2.5F;
 
         //Define playerLayer coordinate and playerFigure
-        playerLayer.setCell(0,0,playerFigure);
+        playerLayer.setCell(0,0,Player.playerFigure);
         cameraView.update();
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, (float) (1.0/300.0));
@@ -111,11 +111,11 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
         //font.draw(batch, "Hello World", 200, 200);
         //batch.end();
 
-        playerLayer.setCell((int)playerPosition.x, (int)playerPosition.y, playerFigure);
+        playerLayer.setCell((int)Player.playerPosition.x, (int)Player.playerPosition.y, Player.playerFigure);
 
         //Check if player-figure is on a cell that effect the state/visuall of the player, win-state, lose-state and default state.
-        if(isCellFlag(playerPosition)) playerLayer.setCell((int) playerPosition.x, (int) playerPosition.y, playerFigureHasWon);
-        if(isCellHole(playerPosition)) playerLayer.setCell((int) playerPosition.x, (int) playerPosition.y, playerFigureHasDied);
+        if(isCellFlag(Player.playerPosition)) playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigureHasWon);
+        if(isCellHole(Player.playerPosition)) playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigureHasDied);
 
         mapRenderer.setView(cameraView);
         mapRenderer.render();
@@ -133,14 +133,14 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
     @Override
     public boolean keyUp(int keycode){
 
-        playerLayer.setCell((int)playerPosition.x, (int)playerPosition.y, null);
+        playerLayer.setCell((int)Player.playerPosition.x, (int)Player.playerPosition.y, null);
 
-        if (keycode == Input.Keys.LEFT && canMove((int)playerPosition.x, (int)playerPosition.y, Dir.W)) { playerPosition = new Vector2(playerPosition.x - 1, playerPosition.y); }
-        if (keycode == Input.Keys.RIGHT && canMove((int)playerPosition.x, (int)playerPosition.y, Dir.E)) { playerPosition = new Vector2(playerPosition.x + 1, playerPosition.y); }
-        if (keycode == Input.Keys.UP && canMove((int)playerPosition.x, (int)playerPosition.y, Dir.N)) { playerPosition = new Vector2(playerPosition.x, playerPosition.y + 1); }
-        if (keycode == Input.Keys.DOWN && canMove((int)playerPosition.x, (int)playerPosition.y, Dir.S)) { playerPosition = new Vector2(playerPosition.x, playerPosition.y - 1); }
+        if (keycode == Input.Keys.LEFT && canMove((int)Player.playerPosition.x, (int)Player.playerPosition.y, Dir.W)) { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
+        if (keycode == Input.Keys.RIGHT && canMove((int)Player.playerPosition.x, (int)Player.playerPosition.y, Dir.E)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
+        if (keycode == Input.Keys.UP && canMove((int)Player.playerPosition.x, (int)Player.playerPosition.y, Dir.N)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }
+        if (keycode == Input.Keys.DOWN && canMove((int)Player.playerPosition.x, (int)Player.playerPosition.y, Dir.S)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y - 1); }
 
-        playerLayer.setCell((int) playerPosition.x, (int) playerPosition.y, playerFigure);
+        playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigure);
 
         return (keycode == Input.Keys.LEFT || keycode == Input.Keys.RIGHT || keycode == Input.Keys.UP || keycode == Input.Keys.DOWN); //return keycode != 0;
     }
@@ -156,27 +156,26 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
         int cellCurrentlyOn;
         int cellMovingTo;
 
-        if(isCellWall(playerPosition)) { cellCurrentlyOn = walls.getCell(x, y).getTile().getId(); }
+        if(isCellWall(Player.playerPosition)) { cellCurrentlyOn = walls.getCell(x, y).getTile().getId(); }
         else{ cellCurrentlyOn = -1; }
 
         if(direction == Dir.W){
-            if(walls.getCell((int) playerPosition.x-1, (int) playerPosition.y) == null) {cellMovingTo = -1;}
+            if(walls.getCell((int) Player.playerPosition.x-1, (int) Player.playerPosition.y) == null) {cellMovingTo = -1;}
             else {cellMovingTo = walls.getCell(x-1, y).getTile().getId();}
             return cellMovingTo != 16 && cellMovingTo != 8 && cellMovingTo != 23 && cellCurrentlyOn != 32 && cellCurrentlyOn != 30 && cellCurrentlyOn != 24;
         }
         if(direction == Dir.E){
-            if(walls.getCell((int) playerPosition.x+1, (int) playerPosition.y) == null) {cellMovingTo = -1;}
+            if(walls.getCell((int) Player.playerPosition.x+1, (int) Player.playerPosition.y) == null) {cellMovingTo = -1;}
             else {cellMovingTo = walls.getCell(x+1, y).getTile().getId();}
             return cellMovingTo != 32 && cellMovingTo != 30 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 16 && cellCurrentlyOn != 23;
         }
-
         if(direction == Dir.N){
-            if(walls.getCell((int) playerPosition.x, (int) playerPosition.y+1) == null) {cellMovingTo = -1;}
+            if(walls.getCell((int) Player.playerPosition.x, (int) Player.playerPosition.y+1) == null) {cellMovingTo = -1;}
             else {cellMovingTo = walls.getCell(x, y+1).getTile().getId();}
             return cellMovingTo != 32 && cellMovingTo != 29 && cellMovingTo != 8 && cellCurrentlyOn != 31 && cellCurrentlyOn != 16 && cellCurrentlyOn != 24;
         }
         if(direction == Dir.S){
-            if(walls.getCell((int) playerPosition.x, (int) playerPosition.y-1) == null) {cellMovingTo = -1;}
+            if(walls.getCell((int) Player.playerPosition.x, (int) Player.playerPosition.y-1) == null) {cellMovingTo = -1;}
             else {cellMovingTo = walls.getCell(x, y-1).getTile().getId();}
             return cellMovingTo != 31 && cellMovingTo != 16 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 29 && cellCurrentlyOn != 32;
         }
