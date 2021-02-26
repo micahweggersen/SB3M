@@ -39,5 +39,34 @@ public class Player {
         playerFigureHasWon.setTile(new StaticTiledMapTile(playerFig[0][2]));
     }
 
+    public static boolean canMove(int x, int y, Board.Dir direction){
 
+        int cellCurrentlyOn;
+        int cellMovingTo;
+
+        if(Board.isCellWall(Player.playerPosition)) { cellCurrentlyOn = Board.walls.getCell(x, y).getTile().getId(); }
+        else{ cellCurrentlyOn = -1; }
+
+        if(direction == Board.Dir.W){
+            if(Board.walls.getCell((int) Player.playerPosition.x-1, (int) Player.playerPosition.y) == null) {cellMovingTo = -1;}
+            else {cellMovingTo = Board.walls.getCell(x-1, y).getTile().getId();}
+            return cellMovingTo != 16 && cellMovingTo != 8 && cellMovingTo != 23 && cellCurrentlyOn != 32 && cellCurrentlyOn != 30 && cellCurrentlyOn != 24;
+        }
+        if(direction == Board.Dir.E){
+            if(Board.walls.getCell((int) Player.playerPosition.x+1, (int) Player.playerPosition.y) == null) {cellMovingTo = -1;}
+            else {cellMovingTo = Board.walls.getCell(x+1, y).getTile().getId();}
+            return cellMovingTo != 32 && cellMovingTo != 30 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 16 && cellCurrentlyOn != 23;
+        }
+        if(direction == Board.Dir.N){
+            if(Board.walls.getCell((int) Player.playerPosition.x, (int) Player.playerPosition.y+1) == null) {cellMovingTo = -1;}
+            else {cellMovingTo = Board.walls.getCell(x, y+1).getTile().getId();}
+            return cellMovingTo != 32 && cellMovingTo != 29 && cellMovingTo != 8 && cellCurrentlyOn != 31 && cellCurrentlyOn != 16 && cellCurrentlyOn != 24;
+        }
+        if(direction == Board.Dir.S){
+            if(Board.walls.getCell((int) Player.playerPosition.x, (int) Player.playerPosition.y-1) == null) {cellMovingTo = -1;}
+            else {cellMovingTo = Board.walls.getCell(x, y-1).getTile().getId();}
+            return cellMovingTo != 31 && cellMovingTo != 16 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 29 && cellCurrentlyOn != 32;
+        }
+        return true;
+    }
 }
