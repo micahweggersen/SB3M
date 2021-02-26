@@ -36,6 +36,8 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera cameraView;
 
+    private Player player;
+
 //    //Define player states
 //    private TiledMapTileLayer.Cell playerFigure;
 //    private TiledMapTileLayer.Cell playerFigureHasWon;
@@ -47,6 +49,8 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
 
     @Override
     public void create() {
+        Player player = new Player();
+        player.create();
 
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -111,11 +115,15 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
         //font.draw(batch, "Hello World", 200, 200);
         //batch.end();
 
+//        Player player = new Player();
+//        player.create();
+
+
         playerLayer.setCell((int)Player.playerPosition.x, (int)Player.playerPosition.y, Player.playerFigure);
 
         //Check if player-figure is on a cell that effect the state/visuall of the player, win-state, lose-state and default state.
-        if(isCellFlag(Player.playerPosition)) playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigureHasWon);
-        if(isCellHole(Player.playerPosition)) playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigureHasDied);
+        if(isCellFlag(player.playerPosition)) playerLayer.setCell((int) player.playerPosition.x, (int) player.playerPosition.y, player.playerFigureHasWon);
+        if(isCellHole(player.playerPosition)) playerLayer.setCell((int) player.playerPosition.x, (int) player.playerPosition.y, player.playerFigureHasDied);
 
         mapRenderer.setView(cameraView);
         mapRenderer.render();
@@ -130,17 +138,17 @@ public class HelloWorld extends InputAdapter implements ApplicationListener {
     @Override
     public void resume() { }
 
-    @Override
+//    @Override
     public boolean keyUp(int keycode){
 
-        playerLayer.setCell((int)Player.playerPosition.x, (int)Player.playerPosition.y, null);
+        playerLayer.setCell((int)player.playerPosition.x, (int)player.playerPosition.y, null);
 
-        if (keycode == Input.Keys.LEFT && canMove((int)Player.playerPosition.x, (int)Player.playerPosition.y, Dir.W)) { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
-        if (keycode == Input.Keys.RIGHT && canMove((int)Player.playerPosition.x, (int)Player.playerPosition.y, Dir.E)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
-        if (keycode == Input.Keys.UP && canMove((int)Player.playerPosition.x, (int)Player.playerPosition.y, Dir.N)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }
-        if (keycode == Input.Keys.DOWN && canMove((int)Player.playerPosition.x, (int)Player.playerPosition.y, Dir.S)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y - 1); }
+        if (keycode == Input.Keys.LEFT && canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Dir.W)) { player.playerPosition = new Vector2(player.playerPosition.x - 1, player.playerPosition.y); }
+        if (keycode == Input.Keys.RIGHT && canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Dir.E)) { player.playerPosition = new Vector2(player.playerPosition.x + 1, player.playerPosition.y); }
+        if (keycode == Input.Keys.UP && canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Dir.N)) { player.playerPosition = new Vector2(player.playerPosition.x, player.playerPosition.y + 1); }
+        if (keycode == Input.Keys.DOWN && canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Dir.S)) { player.playerPosition = new Vector2(player.playerPosition.x, player.playerPosition.y - 1); }
 
-        playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigure);
+        playerLayer.setCell((int) player.playerPosition.x, (int) player.playerPosition.y, player.playerFigure);
 
         return (keycode == Input.Keys.LEFT || keycode == Input.Keys.RIGHT || keycode == Input.Keys.UP || keycode == Input.Keys.DOWN); //return keycode != 0;
     }
