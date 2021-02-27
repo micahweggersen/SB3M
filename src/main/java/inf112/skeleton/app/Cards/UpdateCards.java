@@ -39,6 +39,17 @@ public abstract class UpdateCards {
         return message;
     }
 
+    public String getId(){
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "UpdateCards{" +
+                "id=" + id + "priorityValue=" + priorityValue +
+                '}';
+    }
+
     /**
      *
      * @return True if card is hidden
