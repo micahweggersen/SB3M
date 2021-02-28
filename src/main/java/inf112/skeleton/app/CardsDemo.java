@@ -1,6 +1,6 @@
 package inf112.skeleton.app;
 
-public class Cards {
+public class CardsDemo {
 
     private String id;
     private int value;
@@ -9,7 +9,7 @@ public class Cards {
 //    private int number_of_cards_of_this_type;
 
 
-    public Cards(String id, int value, int magnitude_of_direction){
+    public CardsDemo(String id, int value, int magnitude_of_direction){
         this.id = id;
         this.value = value;
         this.magnitude_of_direction = magnitude_of_direction;

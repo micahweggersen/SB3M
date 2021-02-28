@@ -2,14 +2,13 @@ package inf112.skeleton.app;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import org.junit.Before;
 
 /**
  * Unit test for simple App.
  */
 public class TestCard {
 
-    Cards card = new Cards("test", 1,2);
+    CardsDemo card = new CardsDemo("test", 1,2);
 
 
     @Test
