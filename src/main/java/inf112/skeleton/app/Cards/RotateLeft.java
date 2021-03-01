@@ -1,8 +1,8 @@
 package inf112.skeleton.app.Cards;
 
-public class RotateLeft extends UpdateCards {
+public class RotateLeft extends Cards {
 
-    RotateLeft(int priorityValue, String id) {
-        super(priorityValue, "Rotate Left");
+    RotateLeft(int priorityValue, String id, int direction, int momentum) {
+        super(priorityValue, "Rotate Left", ROTATE_270, 0);
     }
 }

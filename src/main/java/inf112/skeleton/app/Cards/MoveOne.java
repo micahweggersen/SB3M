@@ -1,8 +1,8 @@
 package inf112.skeleton.app.Cards;
 
-public class MoveOne extends UpdateCards {
+public class MoveOne extends Cards {
 
-    MoveOne(int priorityValue, String id) {
-        super(priorityValue, "Move One");
+    public MoveOne(int priorityValue, String id, int direction, int momentum) {
+        super(priorityValue, "Move One", ROTATE_0, 1);
     }
 }
