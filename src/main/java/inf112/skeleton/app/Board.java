@@ -17,7 +17,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.app.Cards.UpdateCards;
+import inf112.skeleton.app.Cards.Cards;
 
 public class Board extends InputAdapter implements ApplicationListener {
 
@@ -41,7 +41,7 @@ public class Board extends InputAdapter implements ApplicationListener {
 
     @Override
     public void create() {
-        player = new Player();
+        player = new Player(0);
         player.create();
 
         batch = new SpriteBatch();
@@ -92,8 +92,9 @@ public class Board extends InputAdapter implements ApplicationListener {
 
 
         //Check if player-figure is on a cell that effect the state/visuall of the player, win-state, lose-state and default state.
-        if(isCellFlag(player.playerPosition)) playerLayer.setCell((int) player.playerPosition.x, (int) player.playerPosition.y, player.playerFigureHasWon.setRotation(1));
-        if(isCellHole(player.playerPosition)) playerLayer.setCell((int) player.playerPosition.x, (int) player.playerPosition.y, player.playerFigureHasDied);
+        if(isCellFlag(player.playerPosition)) playerLayer.setCell((int) player.playerPosition.x, (int) player.playerPosition.y, player.playerFigureHasWon.setRotation(player.getDirection()));
+        else if(isCellHole(player.playerPosition)) playerLayer.setCell((int) player.playerPosition.x, (int) player.playerPosition.y, player.playerFigureHasDied.setRotation(player.getDirection()));
+        else playerLayer.setCell((int) player.playerPosition.x, (int) player.playerPosition.y, player.playerFigure.setRotation(player.getDirection()));
         mapRenderer.setView(cameraView);
         mapRenderer.render();
 
@@ -115,28 +116,29 @@ public class Board extends InputAdapter implements ApplicationListener {
         playerLayer.setCell((int)player.playerPosition.x, (int)player.playerPosition.y, null);
 
         if (keycode == Input.Keys.NUM_1){
-            player.move(new UpdateCards(0, "Move One"));
+            player.move(new Cards(0, "Move One", 0 , 1) {
+            });
         }
         if (keycode == Input.Keys.NUM_2){
-            player.move(new UpdateCards(0, "Move Two"));
+            player.move(new Cards(0, "Move Two", 0, 2));
         }
         if (keycode == Input.Keys.NUM_3){
-            player.move(new UpdateCards(0, "Move Three"));
+            player.move(new Cards(0, "Move Three", 0, 3));
         }
         if (keycode == Input.Keys.NUM_4){
-            player.move(new UpdateCards(0, "Rotate Left"));
+            player.move(new Cards(0, "Rotate Left",1,0));
         }
         if (keycode == Input.Keys.NUM_5){
-            player.move(new UpdateCards(0, "Rotate Right"));
+            player.move(new Cards(0, "Rotate Right",2,0));
         }
         if (keycode == Input.Keys.NUM_6){
-            player.move(new UpdateCards(0, "U-Turn"));
+            player.move(new Cards(0, "U-Turn",3,0));
         }
 
-//        if (keycode == Input.Keys.LEFT && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Dir.W)) { player.playerPosition = new Vector2(player.playerPosition.x - 1, player.playerPosition.y); }
-//        if (keycode == Input.Keys.RIGHT && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Dir.E)) { player.playerPosition = new Vector2(player.playerPosition.x + 1, player.playerPosition.y); }
-//        if (keycode == Input.Keys.UP && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Dir.N)) { player.playerPosition = new Vector2(player.playerPosition.x, player.playerPosition.y + 1); }
-//        if (keycode == Input.Keys.DOWN && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Dir.S)) { player.playerPosition = new Vector2(player.playerPosition.x, player.playerPosition.y - 1); }
+        if (keycode == Input.Keys.LEFT && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Direction.WEST)) { player.playerPosition = new Vector2(player.playerPosition.x - 1, player.playerPosition.y); }
+        if (keycode == Input.Keys.RIGHT && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Direction.EAST)) { player.playerPosition = new Vector2(player.playerPosition.x + 1, player.playerPosition.y); }
+        if (keycode == Input.Keys.UP && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Direction.NORTH)) { player.playerPosition = new Vector2(player.playerPosition.x, player.playerPosition.y + 1); }
+        if (keycode == Input.Keys.DOWN && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Direction.SOUTH)) { player.playerPosition = new Vector2(player.playerPosition.x, player.playerPosition.y - 1); }
 //
         playerLayer.setCell((int) player.playerPosition.x, (int) player.playerPosition.y, player.playerFigure);
 //

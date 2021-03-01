@@ -2,7 +2,7 @@ package inf112.skeleton.app.Cards;
 
 import java.util.ArrayList;
 
-public abstract class Cards {
+public class Cards {
     private int priorityValue;
     private String id;
     private int momentum;
@@ -18,11 +18,15 @@ public abstract class Cards {
      * @param priorityValue The value that a card has in order to decide priority of the card at start of each round.
      * @param id The id/type of the card
      */
-    Cards(int priorityValue, String id, int direction, int momentum){
+    public Cards(int priorityValue, String id, int direction, int momentum){
+
+        this.momentum = momentum;
+        this.direction = direction;
+
         this.priorityValue = priorityValue;
         this.id = id;
-        this.hiddenStatus = false;
-        this.lockedStatus = false;
+//        this.hiddenStatus = false;
+//        this.lockedStatus = false;
     }
     
     //dem fikse en queue/giveNextcard metode
@@ -40,9 +44,9 @@ public abstract class Cards {
      * Retrieves the message on the card. Tells the console what to print.
      * @return the message on the card
      */
-    public String getMessage(){
-        return message;
-    }
+//    public String getMessage(){
+//        return message;
+//    }
 
     public String getId(){
         return id;

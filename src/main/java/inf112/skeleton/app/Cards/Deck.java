@@ -13,6 +13,9 @@ public class Deck {
         shuffleDeck();
     }
 
+
+    //TODO: momentum og direction er i feil rekkefølge
+
     public void createDeck() {
         cardQueue = new LinkedList<>();
 
