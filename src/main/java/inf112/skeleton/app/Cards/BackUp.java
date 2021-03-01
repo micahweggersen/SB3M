@@ -1,8 +1,8 @@
 package inf112.skeleton.app.Cards;
 
-public class BackUp extends UpdateCards {
+public class BackUp extends Cards {
 
-    BackUp(int priorityValue, String id) {
-        super(priorityValue, "Back Up");
+    public BackUp(int priorityValue, String id, int direction, int momentum) {
+        super(priorityValue, "Back Up", ROTATE_0, -1);
     }
 }

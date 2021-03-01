@@ -2,26 +2,31 @@ package inf112.skeleton.app.Cards;
 
 import java.util.ArrayList;
 
-public abstract class UpdateCards {
+public abstract class Cards {
     private int priorityValue;
     private String id;
-    private String message;
-    private boolean lockedStatus;
-    private boolean hiddenStatus;
-    private ArrayList<String> actionSequence = new ArrayList<>(); //skal sikkert ikke være en String
+    private int momentum;
+    private int direction;
 
+    public static final int ROTATE_0 = 0;
+    public static final int ROTATE_90 = 1;
+    public static final int ROTATE_180 = 2;
+    public static final int ROTATE_270 = 3;
+    
     /**
      * Constructor. Used by sub-classes.
      * @param priorityValue The value that a card has in order to decide priority of the card at start of each round.
      * @param id The id/type of the card
      */
-    UpdateCards(int priorityValue, String id){
+    Cards(int priorityValue, String id, int direction, int momentum){
         this.priorityValue = priorityValue;
         this.id = id;
         this.hiddenStatus = false;
         this.lockedStatus = false;
     }
-
+    
+    //dem fikse en queue/giveNextcard metode
+    //lager en queue med et kort av hver type
     //Getters
     /**
      * Gets the priority value a card has.
@@ -50,45 +55,15 @@ public abstract class UpdateCards {
                 '}';
     }
 
-    /**
-     *
-     * @return True if card is hidden
+    /** Returns the momentum of the given card
+     * @return momentum of gard
      */
-    public boolean isHidden(){
-        return hiddenStatus;
+    public int getMomentum(){
+        return momentum;
     }
 
-    /**
-     *
-     * @return True is card is locked
-     */
-    public boolean isLocked(){
-        return lockedStatus;
+    public int getDirection(){
+        return direction;
     }
 
-    // get icon of card
-
-    /*
-    //get actions associated with card
-    public ArrayList<String> getActionSequence(){
-        ArrayList<String> move = new ArrayList<>();
-            for(String action : actionSequence){
-            }
-            return move;
-    }
-     */
-
-    //Setters
-
-    //set action associated with card
-
-    //set hidden
-    public void setHidden(boolean x){
-        hiddenStatus = x;
-    }
-
-    //set locked
-    public void setLocked(boolean x){
-        lockedStatus = x;
-    }
 }
