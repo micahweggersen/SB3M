@@ -9,10 +9,10 @@ import inf112.skeleton.app.Cards.UpdateCards;
 
 public class Player {
 
-    private int direction;
-    public Player(int direction){
-        this.direction = direction;
-    }
+//    private int direction;
+//    public Player(int direction){
+//        this.direction = direction;
+//    }
 
     public static Vector2 playerPosition;
     //Define player-coordinates
@@ -53,7 +53,6 @@ public class Player {
         int y = 0;
         //int momentum = card.getMomentum();
         //int direction = card.getDirection();
-
         int momentum = 1;
         int direction = 0;
 
@@ -61,7 +60,6 @@ public class Player {
             y = momentum;
         }
         else { x = momentum;}
-
         this.playerPosition = new Vector2(this.playerPosition.x + x, this.playerPosition.y + y);
 
 
