@@ -2,7 +2,7 @@ package inf112.skeleton.app.Cards;
 
 import java.util.ArrayList;
 
-public abstract class UpdateCards {
+public class UpdateCards {
     private int priorityValue;
     private String id;
     private String message;
@@ -15,7 +15,7 @@ public abstract class UpdateCards {
      * @param priorityValue The value that a card has in order to decide priority of the card at start of each round.
      * @param id The id/type of the card
      */
-    UpdateCards(int priorityValue, String id){
+    public UpdateCards(int priorityValue, String id){
         this.priorityValue = priorityValue;
         this.id = id;
         this.hiddenStatus = false;

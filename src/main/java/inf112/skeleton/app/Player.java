@@ -5,8 +5,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.Cards.UpdateCards;
 
 public class Player {
+
+    private int direction;
+    public Player(int direction){
+        this.direction = direction;
+    }
+
     public static Vector2 playerPosition;
     //Define player-coordinates
 //    private Vector2 playerPosition;
@@ -37,6 +44,27 @@ public class Player {
         playerFigure.setTile(new StaticTiledMapTile(playerFig[0][0]));
         playerFigureHasDied.setTile(new StaticTiledMapTile(playerFig[0][1]));
         playerFigureHasWon.setTile(new StaticTiledMapTile(playerFig[0][2]));
+    }
+
+
+    public void move(UpdateCards card){
+
+        int x = 0;
+        int y = 0;
+        //int momentum = card.getMomentum();
+        //int direction = card.getDirection();
+
+        int momentum = 1;
+        int direction = 0;
+
+        if(direction == 0 || direction == 2){
+            y = momentum;
+        }
+        else { x = momentum;}
+
+        this.playerPosition = new Vector2(this.playerPosition.x + x, this.playerPosition.y + y);
+
+
     }
 
     public static boolean canMove(int x, int y, Board.Dir direction){
