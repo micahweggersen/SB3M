@@ -1,85 +1,91 @@
 package inf112.skeleton.app.Cards;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 
 public class Deck {
 
-    private ArrayList<UpdateCards> deck;
+
+    public Queue<Cards> cardQueue;
 
     public Deck() {
         createDeck();
         shuffleDeck();
     }
 
+
+    //TODO: momentum og direction er i feil rekkefølge
+
     public void createDeck() {
-        deck = new ArrayList<>();
+        cardQueue = new LinkedList<>();
 
         // U_TURN Cards
         int priorityValue = 10;
         for (int i = 1; i <= 6; i++) {
-            deck.add(new UTurn(priorityValue, "U-Turn"));
+            cardQueue.add(new UTurn(priorityValue, "U-Turn", 2, 0));
             priorityValue = priorityValue + 10;
         }
         // ROTATE_LEFT Cards
         priorityValue = 70;
         for (int i = 1; i <= 18; i++) {
-            deck.add(new RotateLeft(priorityValue, "Rotate Left"));
+            cardQueue.add(new RotateLeft(priorityValue, "Rotate Left", 3, 0));
             priorityValue = priorityValue + 20;
         }
 
         // ROTATE_RIGHT Cards
         priorityValue = 80;
         for (int i = 1; i <= 18; i++) {
-            deck.add(new RotateRight(priorityValue, "Rotate Right"));
+            cardQueue.add(new RotateRight(priorityValue, "Rotate Right", 1, 0));
             priorityValue = priorityValue + 20;
         }
 
         // BACKUP Cards
         priorityValue = 430;
         for (int i = 1; i <= 6; i++) {
-            deck.add(new BackUp(priorityValue, "Back Up"));
+            cardQueue.add(new BackUp(priorityValue, "Back Up", 0, -1));
             priorityValue = priorityValue + 10;
         }
 
         // MOVE_ONE Cards
         priorityValue = 490;
         for (int i = 1; i <= 18; i++) {
-            deck.add(new MoveOne(priorityValue,"Move One"));
+            cardQueue.add(new MoveOne(priorityValue,"Move One", 0, 1));
             priorityValue = priorityValue + 10;
         }
         // MOVE_TWO Cards
         priorityValue = 670;
         for (int i = 1; i <= 12; i++) {
-            deck.add(new MoveTwo(priorityValue, "Move Two"));
+            cardQueue.add(new MoveTwo(priorityValue, "Move Two", 0, 2));
             priorityValue = priorityValue + 10;
         }
         // MOVE_THREE Cards
         priorityValue = 790;
         for (int i = 1; i <= 6; i++) {
-            deck.add(new MoveThree(priorityValue, "Move Three"));
+            cardQueue.add(new MoveThree(priorityValue, "Move Three", 0,3));
             priorityValue = priorityValue + 10;
         }
 
     }
 
-    public ArrayList<UpdateCards> getCards(int desiredAmount) {
-        ArrayList<UpdateCards> temporaryDeck = new ArrayList<>();
+    public ArrayList<Cards> getCards(int desiredAmount) {
+        ArrayList<Cards> temporaryDeck = new ArrayList<>();
         for (int i = 0; i < desiredAmount; i++) {
-            temporaryDeck.add(deck.get(i));
-            deck.remove(i);
+            temporaryDeck.add(cardQueue.poll());
         }
         return temporaryDeck;
     }
 
-    public void shuffleDeck(){ Collections.shuffle(deck); }
+    public void shuffleDeck(){
+        Collections.shuffle((List<?>) cardQueue);
+    }
 
-    @Override
-    public String toString() { return "Deck{" + "deck=" + deck + '}'; }
 
     public void getId(){
-        for (UpdateCards card : deck) { System.out.println(card.getId() + " " + card.getPriorityValue()); }
+        for (Cards card : cardQueue) { System.out.println(card.getId() + " " + card.getPriorityValue()); }
+    }
+
+    public Cards giveNextCard() {
+        return cardQueue.poll();
     }
 }
 
