@@ -52,6 +52,7 @@ public class Player {
 
 
     public void move(Cards card){
+        // TODO: 02/03/2021 finnes en error her når man flytter seg kan man gå igjennom vegger (se posisjon 0,0 dir = east, card = momentum 3) 
 
         int x = 0;
         int y = 0;
@@ -64,9 +65,32 @@ public class Player {
         if(this.direction == 2) {y = -card.getMomentum(); dir = Direction.SOUTH;}
         if(this.direction == 3) {x = card.getMomentum(); dir = Direction.WEST;}
 
-        if(this.canMove((int)this.playerPosition.x + x, (int)this.playerPosition.y + y, dir)) {this.playerPosition = new Vector2(this.playerPosition.x + x, this.playerPosition.y + y);}
-        //må løse dette med en loop og sjekke kor langt man kan gå før man kræsjer, kan hende at å tegne det med 1/2 sek wait kan se bra ut i tillegg til å la loopen være litt visuelt. canMove sjekker bare for +-1
+        int magnitude;
+        if(dir == Direction.EAST || dir == Direction.SOUTH) {magnitude = -1;} else {magnitude = 1;}
 
+        for(int i = 0; i < card.getMomentum(); i++){
+            
+        }
+
+
+
+
+        for (int i = 0; i < card.getMomentum(); i++){
+            if (x>0) {
+                if(this.canMove((int)this.playerPosition.x, (int)this.playerPosition.y, dir)) {
+                    this.playerPosition = new Vector2(this.playerPosition.x + 1*magnitude, this.playerPosition.y);
+
+                }
+            }
+            if (y>0) {
+                if(this.canMove((int)this.playerPosition.x, (int)this.playerPosition.y, dir)) {
+                    this.playerPosition = new Vector2(this.playerPosition.x, this.playerPosition.y + 1*magnitude);
+                }
+            }
+
+        }
+
+//        if(this.canMove((int)this.playerPosition.x + x, (int)this.playerPosition.y + y, dir)) {this.playerPosition = new Vector2(this.playerPosition.x + x, this.playerPosition.y + y);}
 //        this.playerPosition = new Vector2(this.playerPosition.x + x, this.playerPosition.y + y);
     }
 

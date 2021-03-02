@@ -115,25 +115,12 @@ public class Board extends InputAdapter implements ApplicationListener {
 
         playerLayer.setCell((int)player.playerPosition.x, (int)player.playerPosition.y, null);
 
-        if (keycode == Input.Keys.NUM_1){
-            player.move(new Cards(0, "Move One", 0 , 1) {
-            });
-        }
-        if (keycode == Input.Keys.NUM_2){
-            player.move(new Cards(0, "Move Two", 0, 2));
-        }
-        if (keycode == Input.Keys.NUM_3){
-            player.move(new Cards(0, "Move Three", 0, 3));
-        }
-        if (keycode == Input.Keys.NUM_4){
-            player.move(new Cards(0, "Rotate Left",1,0));
-        }
-        if (keycode == Input.Keys.NUM_5){
-            player.move(new Cards(0, "Rotate Right",2,0));
-        }
-        if (keycode == Input.Keys.NUM_6){
-            player.move(new Cards(0, "U-Turn",3,0));
-        }
+        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
+        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
+        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
+        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",1,0)); }
+        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",2,0)); }
+        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",3,0)); }
 
         if (keycode == Input.Keys.LEFT && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Direction.WEST)) { player.playerPosition = new Vector2(player.playerPosition.x - 1, player.playerPosition.y); }
         if (keycode == Input.Keys.RIGHT && Player.canMove((int)player.playerPosition.x, (int)player.playerPosition.y, Direction.EAST)) { player.playerPosition = new Vector2(player.playerPosition.x + 1, player.playerPosition.y); }
