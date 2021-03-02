@@ -21,8 +21,8 @@ public abstract class Cards {
     Cards(int priorityValue, String id, int direction, int momentum){
         this.priorityValue = priorityValue;
         this.id = id;
-        this.hiddenStatus = false;
-        this.lockedStatus = false;
+        this.direction = direction;
+        this.momentum = momentum;
     }
     
     //dem fikse en queue/giveNextcard metode
@@ -36,14 +36,6 @@ public abstract class Cards {
         return priorityValue;
     }
 
-    /**
-     * Retrieves the message on the card. Tells the console what to print.
-     * @return the message on the card
-     */
-    public String getMessage(){
-        return message;
-    }
-
     public String getId(){
         return id;
     }
@@ -51,7 +43,7 @@ public abstract class Cards {
     @Override
     public String toString() {
         return "UpdateCards{" +
-                "id=" + id + "priorityValue=" + priorityValue +
+                "id=" + id + ", priorityValue=" + priorityValue +
                 '}';
     }
 
