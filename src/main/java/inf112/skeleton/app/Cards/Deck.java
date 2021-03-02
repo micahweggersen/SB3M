@@ -3,7 +3,7 @@ package inf112.skeleton.app.Cards;
 import java.util.*;
 
 
-public class Deck {
+public class Deck{
 
 
     public Queue<Cards> cardQueue;
