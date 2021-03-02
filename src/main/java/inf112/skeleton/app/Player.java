@@ -52,8 +52,6 @@ public class Player {
 
 
     public void move(Cards card){
-        // TODO: 02/03/2021 finnes en error her når man flytter seg kan man gå igjennom vegger (se posisjon 0,0 dir = east, card = momentum 3) 
-
         int x = 0;
         int y = 0;
 
@@ -61,37 +59,19 @@ public class Player {
         this.direction = (this.direction + card.getDirection())%4;
 
         if(this.direction == 0) {y = card.getMomentum();  dir = Direction.NORTH;}
-        if(this.direction == 1) {x = -card.getMomentum(); dir = Direction.EAST;}
+        if(this.direction == 1) {x = card.getMomentum(); dir = Direction.WEST;}
         if(this.direction == 2) {y = -card.getMomentum(); dir = Direction.SOUTH;}
-        if(this.direction == 3) {x = card.getMomentum(); dir = Direction.WEST;}
+        if(this.direction == 3) {x = -card.getMomentum(); dir = Direction.EAST;}
+
+        if (dir == null) throw new IllegalArgumentException("The direction can't be null");
 
         int magnitude;
-        if(dir == Direction.EAST || dir == Direction.SOUTH) {magnitude = -1;} else {magnitude = 1;}
+        if(dir == Direction.WEST || dir == Direction.SOUTH) {magnitude = -1;} else {magnitude = 1;}
 
         for(int i = 0; i < card.getMomentum(); i++){
-            
+                if(x!=0 && this.canMove((int)this.playerPosition.x, (int)this.playerPosition.y, dir)) {this.playerPosition = new Vector2(this.playerPosition.x + 1*magnitude, this.playerPosition.y);}
+                if(y!=0 && this.canMove((int)this.playerPosition.x, (int)this.playerPosition.y, dir)) {this.playerPosition = new Vector2(this.playerPosition.x, this.playerPosition.y + 1*magnitude);}
         }
-
-
-
-
-        for (int i = 0; i < card.getMomentum(); i++){
-            if (x>0) {
-                if(this.canMove((int)this.playerPosition.x, (int)this.playerPosition.y, dir)) {
-                    this.playerPosition = new Vector2(this.playerPosition.x + 1*magnitude, this.playerPosition.y);
-
-                }
-            }
-            if (y>0) {
-                if(this.canMove((int)this.playerPosition.x, (int)this.playerPosition.y, dir)) {
-                    this.playerPosition = new Vector2(this.playerPosition.x, this.playerPosition.y + 1*magnitude);
-                }
-            }
-
-        }
-
-//        if(this.canMove((int)this.playerPosition.x + x, (int)this.playerPosition.y + y, dir)) {this.playerPosition = new Vector2(this.playerPosition.x + x, this.playerPosition.y + y);}
-//        this.playerPosition = new Vector2(this.playerPosition.x + x, this.playerPosition.y + y);
     }
 
     public static boolean canMove(int x, int y, Direction direction){
