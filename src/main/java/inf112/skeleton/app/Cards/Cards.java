@@ -66,4 +66,12 @@ public abstract class Cards {
         return direction;
     }
 
+    public void setMomentum(int newMomentum) {
+        this.momentum = newMomentum;
+    }
+
+    public void setDirection(int newDirection){
+        this.direction = newDirection;
+    }
+
 }
