@@ -36,7 +36,9 @@ public class Board extends InputAdapter implements ApplicationListener {
     public static TiledMapTileLayer walls;
     boolean chooseCardsNow = false;
     ArrayList<Cards> dealtCards;
-    Queue<Cards> chosenCards;
+    Queue<Cards> chosenCards = new LinkedList<>();
+    boolean dealCardMode = false;
+    Deck deck;
 
     //Define view states
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -113,17 +115,18 @@ public class Board extends InputAdapter implements ApplicationListener {
     @Override
     public void resume() { }
 
-    public void dealCards() {
-        Deck deck = new Deck();
-        dealtCards = deck.dealCards(9);
-        chosenCards = new LinkedList<>();
-        chooseCardsNow = true;
-        System.out.println("choose cards now! you can choose from these cards" + dealtCards);
+
+    public void checkCardStatus() {
         if (chosenCards.size() >= 5) {
             chooseCardsNow = false;
-            for(Cards card : chosenCards) {
-                player.move(card);
-            }
+            System.out.println("enough choosing!");
+            movePlayerBySelectedCards();
+        }
+    }
+
+    private void movePlayerBySelectedCards() {
+        for (Cards card : chosenCards) {
+            player.move(card);
         }
     }
 
@@ -132,9 +135,11 @@ public class Board extends InputAdapter implements ApplicationListener {
 
         playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, null);
         if (chooseCardsNow) {
-            if(keycode==Input.Keys.NUM_1){
+            if (keycode == Input.Keys.NUM_1) {
+                System.out.println("test1");
                 chosenCards.add(dealtCards.get(0));
-                dealtCards.set(0,null); //sånn at man ikke kan velge det samme to ganger
+                checkCardStatus();
+
             }
             if(keycode==Input.Keys.NUM_2){
                 chosenCards.add(dealtCards.get(1));
@@ -164,18 +169,40 @@ public class Board extends InputAdapter implements ApplicationListener {
                 chosenCards.add(dealtCards.get(7));
                 dealtCards.set(7,null);
             }
-            if(keycode==Input.Keys.NUM_9){
+            if (keycode == Input.Keys.NUM_5) {
+                System.out.println("test5");
+                chosenCards.add(dealtCards.get(4));
+                checkCardStatus();
+            }
+            if (keycode == Input.Keys.NUM_6) {
+                System.out.println("test6");
+                chosenCards.add(dealtCards.get(5));
+                checkCardStatus();
+            }
+            if (keycode == Input.Keys.NUM_7) {
+                System.out.println("test7");
+                chosenCards.add(dealtCards.get(6));
+                checkCardStatus();
+            }
+            if (keycode == Input.Keys.NUM_8) {
+                System.out.println("test8");
+                chosenCards.add(dealtCards.get(7));
+                checkCardStatus();
+            }
+            if (keycode == Input.Keys.NUM_9) {
+                System.out.println("test9");
                 chosenCards.add(dealtCards.get(8));
-                dealtCards.set(8,null);
+                checkCardStatus();
             }
         }
-        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
+
+        /*if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
         if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
         if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
         if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",1,0)); }
         if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",2,0)); }
         if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",3,0)); }
-
+*/
         if (keycode == Input.Keys.LEFT && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.WEST)) { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.RIGHT && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.EAST)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.UP && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.NORTH)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }

@@ -21,11 +21,8 @@ public class Deck {
         for (int i = 0; i <= amount; i++){
             dealtCards.add(cardQueue.poll());
         }
+        System.out.println("choose cards now! you can choose from these cards" + dealtCards.toString());
         return dealtCards;
-    }
-
-    public Queue<Cards> chosenCards() {
-        return chosenCards;
     }
 
     public boolean keyUp(int keycode){
