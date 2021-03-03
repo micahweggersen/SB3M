@@ -15,6 +15,11 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.Cards;
+import inf112.skeleton.app.Cards.Deck;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Board extends InputAdapter implements ApplicationListener {
 
@@ -29,6 +34,9 @@ public class Board extends InputAdapter implements ApplicationListener {
     private TiledMapTileLayer flagLayer;
     private TiledMapTileLayer holeLayer;
     public static TiledMapTileLayer walls;
+    boolean chooseCardsNow = false;
+    ArrayList<Cards> dealtCards;
+    Queue<Cards> chosenCards;
 
     //Define view states
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -107,11 +115,62 @@ public class Board extends InputAdapter implements ApplicationListener {
     @Override
     public void resume() { }
 
+    public void dealCards() {
+        Deck deck = new Deck();
+        dealtCards = deck.dealCards(9);
+        chosenCards = new LinkedList<>();
+        chooseCardsNow = true;
+        System.out.println("choose cards now! you can choose from these cards" + dealtCards);
+        if (chosenCards.size() >= 5) {
+            chooseCardsNow = false;
+            for(Cards card : chosenCards) {
+                player.move(card);
+            }
+        }
+    }
+
     @Override
     public boolean keyUp(int keycode){
 
         playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, null);
-
+        if (chooseCardsNow) {
+            if(keycode==Input.Keys.NUM_1){
+                chosenCards.add(dealtCards.get(0));
+                dealtCards.set(0,null); //sånn at man ikke kan velge det samme to ganger
+            }
+            if(keycode==Input.Keys.NUM_2){
+                chosenCards.add(dealtCards.get(1));
+                dealtCards.set(1,null);
+            }
+            if(keycode==Input.Keys.NUM_3){
+                chosenCards.add(dealtCards.get(2));
+                dealtCards.set(2,null);
+            }
+            if(keycode==Input.Keys.NUM_4){
+                chosenCards.add(dealtCards.get(3));
+                dealtCards.set(3,null);
+            }
+            if(keycode==Input.Keys.NUM_5){
+                chosenCards.add(dealtCards.get(4));
+                dealtCards.set(4,null);
+            }
+            if(keycode==Input.Keys.NUM_6){
+                chosenCards.add(dealtCards.get(5));
+                dealtCards.set(5,null);
+            }
+            if(keycode==Input.Keys.NUM_7){
+                chosenCards.add(dealtCards.get(6));
+                dealtCards.set(6,null);
+            }
+            if(keycode==Input.Keys.NUM_8){
+                chosenCards.add(dealtCards.get(7));
+                dealtCards.set(7,null);
+            }
+            if(keycode==Input.Keys.NUM_9){
+                chosenCards.add(dealtCards.get(8));
+                dealtCards.set(8,null);
+            }
+        }
         if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
         if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
         if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
