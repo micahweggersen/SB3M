@@ -18,20 +18,17 @@ public class Player {
         return this.direction;
     }
 
-    public static Vector2 playerPosition;
     //Define player-coordinates
-//    private Vector2 playerPosition;
+    public static Vector2 playerPosition;
 
+
+    //Define player states
     public static TiledMapTileLayer.Cell playerFigure;
     public static TiledMapTileLayer.Cell playerFigureHasWon;
     public static TiledMapTileLayer.Cell playerFigureHasDied;
-    //Define player states
-//    private TiledMapTileLayer.Cell playerFigure;
-//    private TiledMapTileLayer.Cell playerFigureHasWon;
-//    private TiledMapTileLayer.Cell playerFigureHasDied;
-
 
     public void create(){
+
         // Set grid coordinate for playerFigure
         playerPosition = new Vector2(0, 0);
 
@@ -52,10 +49,12 @@ public class Player {
 
 
     public void move(Cards card){
+
         int x = 0;
         int y = 0;
 
         Direction dir = null;
+
         this.direction = (this.direction + card.getDirection())%4;
 
         if(this.direction == 0) {y = card.getMomentum();  dir = Direction.NORTH;}
@@ -66,39 +65,41 @@ public class Player {
         if (dir == null) throw new IllegalArgumentException("The direction can't be null");
 
         int magnitude;
-        if(dir == Direction.WEST || dir == Direction.SOUTH) {magnitude = -1;} else {magnitude = 1;}
+
+        if(dir == Direction.WEST || dir == Direction.SOUTH) {magnitude = -1;} else {magnitude = 1;} //skriv denne om til kort versjon
 
         for(int i = 0; i < card.getMomentum(); i++){
-                if(x!=0 && this.canMove((int)this.playerPosition.x, (int)this.playerPosition.y, dir)) {this.playerPosition = new Vector2(this.playerPosition.x + 1*magnitude, this.playerPosition.y);}
-                if(y!=0 && this.canMove((int)this.playerPosition.x, (int)this.playerPosition.y, dir)) {this.playerPosition = new Vector2(this.playerPosition.x, this.playerPosition.y + 1*magnitude);}
+                if(x!=0 && canMove((int) playerPosition.x, (int) playerPosition.y, dir)) {playerPosition = new Vector2(playerPosition.x + magnitude, playerPosition.y);}
+                if(y!=0 && canMove((int) playerPosition.x, (int) playerPosition.y, dir)) {playerPosition = new Vector2( playerPosition.x, playerPosition.y + magnitude);}
         }
     }
 
     public static boolean canMove(int x, int y, Direction direction){
+        //se om man kan skrive denne uten x og y
+        //se om man kan forenkle koden
 
         int cellCurrentlyOn;
         int cellMovingTo;
 
-        if(Board.isCellWall(Player.playerPosition)) { cellCurrentlyOn = Board.walls.getCell(x, y).getTile().getId(); }
-        else{ cellCurrentlyOn = -1; }
+        if(Board.isCellWall(Player.playerPosition)) { cellCurrentlyOn = Board.walls.getCell(x, y).getTile().getId(); } else{ cellCurrentlyOn = -1; }
 
         if(direction == Direction.WEST){
-            if(Board.walls.getCell((int) Player.playerPosition.x-1, (int) Player.playerPosition.y) == null) {cellMovingTo = -1;}
+            if(Board.walls.getCell((int) playerPosition.x-1, (int) playerPosition.y) == null) {cellMovingTo = -1;}
             else {cellMovingTo = Board.walls.getCell(x-1, y).getTile().getId();}
             return cellMovingTo != 16 && cellMovingTo != 8 && cellMovingTo != 23 && cellCurrentlyOn != 32 && cellCurrentlyOn != 30 && cellCurrentlyOn != 24;
         }
         if(direction == Direction.EAST){
-            if(Board.walls.getCell((int) Player.playerPosition.x+1, (int) Player.playerPosition.y) == null) {cellMovingTo = -1;}
+            if(Board.walls.getCell((int) playerPosition.x+1, (int) playerPosition.y) == null) {cellMovingTo = -1;}
             else {cellMovingTo = Board.walls.getCell(x+1, y).getTile().getId();}
             return cellMovingTo != 32 && cellMovingTo != 30 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 16 && cellCurrentlyOn != 23;
         }
         if(direction == Direction.NORTH){
-            if(Board.walls.getCell((int) Player.playerPosition.x, (int) Player.playerPosition.y+1) == null) {cellMovingTo = -1;}
+            if(Board.walls.getCell((int) playerPosition.x, (int) playerPosition.y+1) == null) {cellMovingTo = -1;}
             else {cellMovingTo = Board.walls.getCell(x, y+1).getTile().getId();}
             return cellMovingTo != 32 && cellMovingTo != 29 && cellMovingTo != 8 && cellCurrentlyOn != 31 && cellCurrentlyOn != 16 && cellCurrentlyOn != 24;
         }
         if(direction == Direction.SOUTH){
-            if(Board.walls.getCell((int) Player.playerPosition.x, (int) Player.playerPosition.y-1) == null) {cellMovingTo = -1;}
+            if(Board.walls.getCell((int) playerPosition.x, (int) playerPosition.y-1) == null) {cellMovingTo = -1;}
             else {cellMovingTo = Board.walls.getCell(x, y-1).getTile().getId();}
             return cellMovingTo != 31 && cellMovingTo != 16 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 29 && cellCurrentlyOn != 32;
         }
