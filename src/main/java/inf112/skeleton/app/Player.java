@@ -14,9 +14,7 @@ public class Player {
         this.direction = direction; //bytt til enum
     }
 
-    public int getDirection(){
-        return this.direction;
-    }
+    public int getDirection(){ return this.direction; }
 
     //Define player-coordinates
     public static Vector2 playerPosition;
@@ -48,7 +46,7 @@ public class Player {
     }
 
 
-    public void move(Cards card){
+    public void move(Cards card) {
 
         int x = 0;
         int y = 0;

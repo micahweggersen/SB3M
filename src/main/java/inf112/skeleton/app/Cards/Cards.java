@@ -42,9 +42,9 @@ public class Cards {
 
     @Override
     public String toString() {
-        return "UpdateCards{" +
-                "id=" + id + "priorityValue=" + priorityValue +
-                '}';
+        return "Cards{" +
+                " id: " + id + " priorityValue: " + priorityValue + " direction: " + direction + " momentum: " + momentum
+                + '}';
     }
 
     /** Returns the momentum of the given card
