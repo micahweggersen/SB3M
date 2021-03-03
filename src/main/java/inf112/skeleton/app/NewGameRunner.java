@@ -5,7 +5,7 @@ import inf112.skeleton.app.Cards.Cards;
 
 import java.util.ArrayList;
 
-public class GameRunner {
+public class NewGameRunner {
 
     private static Deck deck = new Deck();
     private static ArrayList<Cards> programmedCards = new ArrayList<>();
@@ -24,7 +24,7 @@ public class GameRunner {
         System.out.println(programmedCards.get(4).toString());
     }
 
-    public GameRunner() { }
+    public NewGameRunner() { }
 
     public static void dealCards(){
         programmedCards = deck.getCards(9);
