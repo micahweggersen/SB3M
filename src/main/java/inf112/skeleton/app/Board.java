@@ -134,40 +134,32 @@ public class Board extends InputAdapter implements ApplicationListener {
     public boolean keyUp(int keycode){
 
         playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, null);
+        if (keycode == Input.Keys.D) {
+            deck = new Deck();
+            chooseCardsNow = true;
+            dealtCards = deck.dealCards(9);
+        }
+
         if (chooseCardsNow) {
             if (keycode == Input.Keys.NUM_1) {
                 System.out.println("test1");
                 chosenCards.add(dealtCards.get(0));
-                checkCardStatus();
+                checkCardStatus();}
 
-            }
-            if(keycode==Input.Keys.NUM_2){
+            if (keycode == Input.Keys.NUM_2) {
+                System.out.println("test2");
                 chosenCards.add(dealtCards.get(1));
-                dealtCards.set(1,null);
+                checkCardStatus();
             }
-            if(keycode==Input.Keys.NUM_3){
+            if (keycode == Input.Keys.NUM_3) {
+                System.out.println("test3");
                 chosenCards.add(dealtCards.get(2));
-                dealtCards.set(2,null);
+                checkCardStatus();
             }
-            if(keycode==Input.Keys.NUM_4){
+            if (keycode == Input.Keys.NUM_4) {
+                System.out.println("test4");
                 chosenCards.add(dealtCards.get(3));
-                dealtCards.set(3,null);
-            }
-            if(keycode==Input.Keys.NUM_5){
-                chosenCards.add(dealtCards.get(4));
-                dealtCards.set(4,null);
-            }
-            if(keycode==Input.Keys.NUM_6){
-                chosenCards.add(dealtCards.get(5));
-                dealtCards.set(5,null);
-            }
-            if(keycode==Input.Keys.NUM_7){
-                chosenCards.add(dealtCards.get(6));
-                dealtCards.set(6,null);
-            }
-            if(keycode==Input.Keys.NUM_8){
-                chosenCards.add(dealtCards.get(7));
-                dealtCards.set(7,null);
+                checkCardStatus();
             }
             if (keycode == Input.Keys.NUM_5) {
                 System.out.println("test5");
@@ -195,6 +187,7 @@ public class Board extends InputAdapter implements ApplicationListener {
                 checkCardStatus();
             }
         }
+
 
         /*if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
         if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
