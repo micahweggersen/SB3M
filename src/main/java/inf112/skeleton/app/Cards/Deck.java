@@ -1,5 +1,7 @@
 package inf112.skeleton.app.Cards;
 
+import com.badlogic.gdx.Input;
+
 import java.util.*;
 
 
@@ -7,15 +9,65 @@ public class Deck {
 
 
     public Queue<Cards> cardQueue;
+    ArrayList<Cards> dealtCards = new ArrayList<>();
+    Queue<Cards> chosenCards = new LinkedList<>();
 
     public Deck() {
         createDeck();
         shuffleDeck();
     }
 
+    public ArrayList<Cards> dealCards(int amount){
+        for (int i = 0; i <= amount; i++){
+            dealtCards.add(cardQueue.poll());
+        }
+        return dealtCards;
+    }
 
-    //TODO: momentum og direction er i feil rekkefølge
+    public Queue<Cards> chosenCards() {
+        return chosenCards;
+    }
 
+    public boolean keyUp(int keycode){
+
+        if(keycode==Input.Keys.NUM_1){
+            chosenCards.add(dealtCards.get(0));
+            dealtCards.set(0,null); //sånn at man ikke kan velge det samme to ganger
+        }
+        if(keycode==Input.Keys.NUM_2){
+            chosenCards.add(dealtCards.get(1));
+            dealtCards.set(1,null);
+        }
+        if(keycode==Input.Keys.NUM_3){
+            chosenCards.add(dealtCards.get(2));
+            dealtCards.set(2,null);
+        }
+        if(keycode==Input.Keys.NUM_4){
+            chosenCards.add(dealtCards.get(3));
+            dealtCards.set(3,null);
+        }
+        if(keycode==Input.Keys.NUM_5){
+            chosenCards.add(dealtCards.get(4));
+            dealtCards.set(4,null);
+        }
+        if(keycode==Input.Keys.NUM_6){
+            chosenCards.add(dealtCards.get(5));
+            dealtCards.set(5,null);
+        }
+        if(keycode==Input.Keys.NUM_7){
+            chosenCards.add(dealtCards.get(6));
+            dealtCards.set(6,null);
+        }
+        if(keycode==Input.Keys.NUM_8){
+            chosenCards.add(dealtCards.get(7));
+            dealtCards.set(7,null);
+        }
+        if(keycode==Input.Keys.NUM_9){
+            chosenCards.add(dealtCards.get(8));
+            dealtCards.set(8,null);
+        }
+        return keycode != 0;
+    }
     public void createDeck() {
         cardQueue = new LinkedList<>();
 
