@@ -28,7 +28,7 @@ public class Deck {
         return chosenCards;
     }
 
-    public void keyUp(int keycode){
+    public boolean keyUp(int keycode){
 
         if(keycode==Input.Keys.NUM_1){
             chosenCards.add(dealtCards.get(0));
@@ -65,8 +65,8 @@ public class Deck {
         if(keycode==Input.Keys.NUM_9){
             chosenCards.add(dealtCards.get(8));
             dealtCards.set(8,null);
-
         }
+        return keycode != 0;
     }
     public void createDeck() {
         cardQueue = new LinkedList<>();
