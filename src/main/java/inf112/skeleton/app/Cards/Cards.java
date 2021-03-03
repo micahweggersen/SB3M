@@ -22,7 +22,7 @@ public class Cards {
 
         this.momentum = momentum;
         this.direction = direction;
-    //test
+
         this.priorityValue = priorityValue;
         this.id = id;
 //        this.hiddenStatus = false;

@@ -1,5 +1,7 @@
 package inf112.skeleton.app.Cards;
 
+import com.badlogic.gdx.Input;
+
 import java.util.*;
 
 
@@ -7,15 +9,57 @@ public class Deck {
 
 
     public Queue<Cards> cardQueue;
+    ArrayList<Cards> dealtCards = new ArrayList<>();
+    Queue<Cards> chosenCards = new LinkedList<>();
 
     public Deck() {
         createDeck();
         shuffleDeck();
     }
 
+    public ArrayList<Cards> dealCards(int amount){
+        for (int i = 0; i <= amount; i++){
+            dealtCards.add(cardQueue.poll());
+        }
+        return dealtCards;
+    }
 
-    //TODO: momentum og direction er i feil rekkefølge
+    public Queue<Cards> chosenCards() {
 
+        return chosenCards;
+    }
+
+    public void keyUp(int keycode){
+
+        if(keycode==Input.Keys.NUM_1){
+            chosenCards.add(dealtCards.get(0));
+        }
+        if(keycode==Input.Keys.NUM_2){
+            chosenCards.add(dealtCards.get(1));
+        }
+        if(keycode==Input.Keys.NUM_3){
+            chosenCards.add(dealtCards.get(2));
+        }
+        if(keycode==Input.Keys.NUM_4){
+            chosenCards.add(dealtCards.get(3));
+        }
+        if(keycode==Input.Keys.NUM_5){
+            chosenCards.add(dealtCards.get(4));
+        }
+        if(keycode==Input.Keys.NUM_6){
+            chosenCards.add(dealtCards.get(5));
+        }
+        if(keycode==Input.Keys.NUM_7){
+            chosenCards.add(dealtCards.get(6));
+        }
+        if(keycode==Input.Keys.NUM_8){
+            chosenCards.add(dealtCards.get(7));
+        }
+        if(keycode==Input.Keys.NUM_9){
+            chosenCards.add(dealtCards.get(8));
+
+        }
+    }
     public void createDeck() {
         cardQueue = new LinkedList<>();
 
