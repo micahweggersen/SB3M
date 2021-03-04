@@ -98,7 +98,7 @@ public class Board extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-        playerLayer.setCell((int)Player.playerPosition.x, (int)Player.playerPosition.y, Player.playerFigure);
+//        playerLayer.setCell((int)Player.playerPosition.x, (int)Player.playerPosition.y, Player.playerFigure);
 
         //playerLayer.setCell( player.move(), (int)Player.playerPosition.y, Player.playerFigure);
 
@@ -120,16 +120,16 @@ public class Board extends InputAdapter implements ApplicationListener {
 
 
     // flytt til deck
-    public void checkCardStatus() throws InterruptedException {
-        if (chosenCards.size() >= 5) {
-            chooseCardsNow = false;
-            System.out.println("enough choosing!");
-//            movePlayerBySelectedCards();
-            for (Cards card : chosenCards) {
-                player.move(card, playerLayer);
-            }
-        }
-    }
+//    public void checkCardStatus(){
+//        if (chosenCards.size() >= 5) {
+//            chooseCardsNow = false;
+//            System.out.println("enough choosing!");
+////            movePlayerBySelectedCards();
+//            for (Cards card : chosenCards) {
+//                player.move(card, playerLayer);
+//            }
+//        }
+//    }
 
     @Override
     public boolean keyUp(int keycode){
@@ -143,18 +143,32 @@ public class Board extends InputAdapter implements ApplicationListener {
             dealtCards = deck.dealCards(8);
         }
 
-        if(chooseCardsNow && legalValue(keycode)){
-            chosenCards.add(dealtCards.get(keycode-8));
+//        if(chooseCardsNow && legalValue(keycode)){
+//            chosenCards.add(dealtCards.get(keycode-8));
+//            checkCardStatus();
+//        }
+
+        if (keycode == Input.Keys.NUM_1){
             try {
-                checkCardStatus();
+                player.move(new Cards(0, "Move One", 0 , 1), playerLayer);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
-        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1), playerLayer); }
-        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2), playerLayer); }
-        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3), playerLayer); }
+        if (keycode == Input.Keys.NUM_2){
+            try {
+                player.move(new Cards(0, "Move Two", 0, 2), playerLayer);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (keycode == Input.Keys.NUM_3){
+            try {
+                player.move(new Cards(0, "Move Three", 0, 3), playerLayer);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 //        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0), playerLayer); }
 //        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0), playerLayer); }
 //        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0), playerLayer); }

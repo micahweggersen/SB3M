@@ -54,7 +54,7 @@ public class Player {
 
     }
 
-    public void move(Cards card, TiledMapTileLayer playerLayer) {
+    public void move(Cards card, TiledMapTileLayer playerLayer) throws InterruptedException {
 
         int x = 0;
         int y = 0;
@@ -79,7 +79,7 @@ public class Player {
                 if(x!=0 && canMove((int) playerPosition.x, (int) playerPosition.y, dir)) {playerPosition = new Vector2(playerPosition.x + magnitude, playerPosition.y);}
                 if(y!=0 && canMove((int) playerPosition.x, (int) playerPosition.y, dir)) {playerPosition = new Vector2( playerPosition.x, playerPosition.y + magnitude);}
                 playerLayer.setCell((int)Player.playerPosition.x, (int)Player.playerPosition.y, Player.playerFigure);
-//                wait(500);
+                sleep(200);
         }
     }
 
