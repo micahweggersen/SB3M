@@ -19,10 +19,14 @@ import inf112.skeleton.app.Cards.Deck;
 import inf112.skeleton.app.Cards.MoveTwo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.stream.LongStream;
 
 public class Board extends InputAdapter implements ApplicationListener {
+
+    private int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
 
     private SpriteBatch batch;
     private BitmapFont font;
@@ -49,6 +53,8 @@ public class Board extends InputAdapter implements ApplicationListener {
 
     @Override
     public void create() {
+
+
         player = new Player(0);
         player.create();
 
@@ -117,6 +123,7 @@ public class Board extends InputAdapter implements ApplicationListener {
     public void resume() { }
 
 
+    // flytt til deck
     public void checkCardStatus() {
         if (chosenCards.size() >= 5) {
             chooseCardsNow = false;
@@ -125,6 +132,7 @@ public class Board extends InputAdapter implements ApplicationListener {
         }
     }
 
+    //flytt til player
     private void movePlayerBySelectedCards() {
         for (Cards card : chosenCards) {
             player.move(card);
@@ -141,62 +149,21 @@ public class Board extends InputAdapter implements ApplicationListener {
             dealtCards = deck.dealCards(8);
         }
 
-        if (chooseCardsNow) {
-            if (keycode == Input.Keys.NUM_1) {
-                System.out.println("test1");
-                chosenCards.add(dealtCards.get(0));
-                checkCardStatus();}
-
-            if (keycode == Input.Keys.NUM_2) {
-                System.out.println("test2");
-                chosenCards.add(dealtCards.get(1));
-                checkCardStatus();
-            }
-            if (keycode == Input.Keys.NUM_3) {
-                System.out.println("test3");
-                chosenCards.add(dealtCards.get(2));
-                checkCardStatus();
-            }
-            if (keycode == Input.Keys.NUM_4) {
-                System.out.println("test4");
-                chosenCards.add(dealtCards.get(3));
-                checkCardStatus();
-            }
-            if (keycode == Input.Keys.NUM_5) {
-                System.out.println("test5");
-                chosenCards.add(dealtCards.get(4));
-                checkCardStatus();
-            }
-            if (keycode == Input.Keys.NUM_6) {
-                System.out.println("test6");
-                chosenCards.add(dealtCards.get(5));
-                checkCardStatus();
-            }
-            if (keycode == Input.Keys.NUM_7) {
-                System.out.println("test7");
-                chosenCards.add(dealtCards.get(6));
-                checkCardStatus();
-            }
-            if (keycode == Input.Keys.NUM_8) {
-                System.out.println("test8");
-                chosenCards.add(dealtCards.get(7));
-                checkCardStatus();
-            }
-            if (keycode == Input.Keys.NUM_9) {
-                System.out.println("test9");
-                chosenCards.add(dealtCards.get(8));
-                checkCardStatus();
-            }
+        if(chooseCardsNow && legalValue(keycode)){
+            chosenCards.add(dealtCards.get(keycode-8));
+            checkCardStatus();
         }
 
-/*
-        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
-        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
-        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
-        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
-        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
-        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
-        */
+        playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, null);
+
+
+//        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
+//        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
+//        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
+//        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
+//        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
+//        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
+
         if (keycode == Input.Keys.LEFT && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.WEST)) { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.RIGHT && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.EAST)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.UP && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.NORTH)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }
@@ -207,6 +174,7 @@ public class Board extends InputAdapter implements ApplicationListener {
         return (keycode == Input.Keys.LEFT || keycode == Input.Keys.RIGHT || keycode == Input.Keys.UP || keycode == Input.Keys.DOWN); //return keycode != 0;  //må se på denne
     }
 
+    private boolean legalValue(int keycode) { return Arrays.stream(numberKeyValues).anyMatch(i -> i == keycode); }
     private boolean isCellFlag(Vector2 playerPosition) { return flagLayer.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
     private boolean isCellHole(Vector2 playerPosition) { return holeLayer.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
     public static boolean isCellWall(Vector2 playerPosition) { return walls.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
