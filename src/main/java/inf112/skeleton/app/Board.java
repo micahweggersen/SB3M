@@ -36,8 +36,8 @@ public class Board extends InputAdapter implements ApplicationListener {
     //Define board-layers for board, player, flag and hole
     private TiledMapTileLayer boardLayer;
     private TiledMapTileLayer playerLayer;
-    private TiledMapTileLayer flagLayer;
-    private TiledMapTileLayer holeLayer;
+    private static TiledMapTileLayer flagLayer;
+    private static TiledMapTileLayer holeLayer;
     public static TiledMapTileLayer walls;
     boolean chooseCardsNow = false;
     ArrayList<Cards> dealtCards;
@@ -104,10 +104,7 @@ public class Board extends InputAdapter implements ApplicationListener {
 
 
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
-        //dette kan skrives som en metode i player
-        if(isCellFlag(Player.playerPosition)) playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigureHasWon.setRotation(player.getDirection()));
-        else if(isCellHole(Player.playerPosition)) playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigureHasDied.setRotation(player.getDirection()));
-        else playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigure.setRotation(player.getDirection()));
+        Player.setPlayerFigure(playerLayer);
         mapRenderer.setView(cameraView);
         mapRenderer.render();
     }
@@ -127,14 +124,10 @@ public class Board extends InputAdapter implements ApplicationListener {
         if (chosenCards.size() >= 5) {
             chooseCardsNow = false;
             System.out.println("enough choosing!");
-            movePlayerBySelectedCards();
-        }
-    }
-
-    //flytt til player
-    private void movePlayerBySelectedCards() {
-        for (Cards card : chosenCards) {
-            player.move(card);
+//            movePlayerBySelectedCards();
+            for (Cards card : chosenCards) {
+                player.move(card);
+            }
         }
     }
 
@@ -161,9 +154,11 @@ public class Board extends InputAdapter implements ApplicationListener {
 //        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
 //        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
 //        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
-        if (keycode == Input.Keys.LEFT && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.WEST)) { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
+
+        //kan skrives om ved å bruke tall verdier
+        if (keycode == Input.Keys.LEFT && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.WEST))  { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.RIGHT && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.EAST)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
-        if (keycode == Input.Keys.UP && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.NORTH)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }
+        if (keycode == Input.Keys.UP && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.NORTH))   { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }
         if (keycode == Input.Keys.DOWN && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.SOUTH)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y - 1); }
 
         playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigure);
@@ -172,7 +167,7 @@ public class Board extends InputAdapter implements ApplicationListener {
     }
 
     private boolean legalValue(int keycode) { return Arrays.stream(numberKeyValues).anyMatch(i -> i == keycode); }
-    private boolean isCellFlag(Vector2 playerPosition) { return flagLayer.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
-    private boolean isCellHole(Vector2 playerPosition) { return holeLayer.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
+    public static boolean isCellFlag(Vector2 playerPosition) { return flagLayer.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
+    public static boolean isCellHole(Vector2 playerPosition) { return holeLayer.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
     public static boolean isCellWall(Vector2 playerPosition) { return walls.getCell((int) playerPosition.x, (int) playerPosition.y) != null; }
 }

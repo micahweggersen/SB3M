@@ -9,16 +9,16 @@ import inf112.skeleton.app.Cards.Cards;
 
 public class Player {
 
-    private int direction;
+    private static int direction;
+//    private int direction;
     public Player(int direction){
         this.direction = direction; //bytt til enum
     }
 
-    public int getDirection(){ return this.direction; }
+    public static int getDirection(){ return direction; }
 
     //Define player-coordinates
     public static Vector2 playerPosition;
-
 
     //Define player states
     public static TiledMapTileLayer.Cell playerFigure;
@@ -45,6 +45,12 @@ public class Player {
         playerFigureHasWon.setTile(new StaticTiledMapTile(playerFig[0][2]));
     }
 
+    public static void setPlayerFigure(TiledMapTileLayer playerLayer) {
+        if(Board.isCellFlag(Player.playerPosition)) playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigureHasWon.setRotation(Player.getDirection()));
+        else if(Board.isCellHole(Player.playerPosition)) playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigureHasDied.setRotation(Player.getDirection()));
+        else playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigure.setRotation(Player.getDirection()));
+
+    }
 
     public void move(Cards card) {
 
@@ -55,6 +61,7 @@ public class Player {
 
         this.direction = (this.direction + card.getDirection())%4;
 
+        //skrive til en switch case
         if(this.direction == 0) {y = card.getMomentum();  dir = Direction.NORTH;}
         if(this.direction == 1) {x = card.getMomentum(); dir = Direction.WEST;}
         if(this.direction == 2) {y = -card.getMomentum(); dir = Direction.SOUTH;}
