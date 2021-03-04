@@ -7,6 +7,8 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.Cards;
 
+import static java.lang.Thread.sleep;
+
 public class Player {
 
     private static int direction;
@@ -52,20 +54,20 @@ public class Player {
 
     }
 
-    public void move(Cards card) {
+    public void move(Cards card, TiledMapTileLayer playerLayer) {
 
         int x = 0;
         int y = 0;
 
         Direction dir = null;
 
-        this.direction = (this.direction + card.getDirection())%4;
+        direction = (direction + card.getDirection())%4;
 
         //skrive til en switch case
-        if(this.direction == 0) {y = card.getMomentum();  dir = Direction.NORTH;}
-        if(this.direction == 1) {x = card.getMomentum(); dir = Direction.WEST;}
-        if(this.direction == 2) {y = -card.getMomentum(); dir = Direction.SOUTH;}
-        if(this.direction == 3) {x = -card.getMomentum(); dir = Direction.EAST;}
+        if(direction == 0) {y = card.getMomentum();  dir = Direction.NORTH;}
+        if(direction == 1) {x = card.getMomentum(); dir = Direction.WEST;}
+        if(direction == 2) {y = -card.getMomentum(); dir = Direction.SOUTH;}
+        if(direction == 3) {x = -card.getMomentum(); dir = Direction.EAST;}
 
         if (dir == null) throw new IllegalArgumentException("The direction can't be null");
 
@@ -76,6 +78,8 @@ public class Player {
         for(int i = 0; i < card.getMomentum(); i++){
                 if(x!=0 && canMove((int) playerPosition.x, (int) playerPosition.y, dir)) {playerPosition = new Vector2(playerPosition.x + magnitude, playerPosition.y);}
                 if(y!=0 && canMove((int) playerPosition.x, (int) playerPosition.y, dir)) {playerPosition = new Vector2( playerPosition.x, playerPosition.y + magnitude);}
+                playerLayer.setCell((int)Player.playerPosition.x, (int)Player.playerPosition.y, Player.playerFigure);
+//                wait(500);
         }
     }
 
