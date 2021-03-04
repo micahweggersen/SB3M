@@ -137,7 +137,7 @@ public class Board extends InputAdapter implements ApplicationListener {
         if (keycode == Input.Keys.D) {
             deck = new Deck();
             chooseCardsNow = true;
-            dealtCards = deck.dealCards(9);
+            dealtCards = deck.dealCards(8);
         }
 
         if (chooseCardsNow) {
