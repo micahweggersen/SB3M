@@ -143,47 +143,47 @@ public class Board extends InputAdapter implements ApplicationListener {
 
         if (chooseCardsNow) {
             if (keycode == Input.Keys.NUM_1) {
-                System.out.println("test1");
+                System.out.println("Card one chosen");
                 chosenCards.add(dealtCards.get(0));
                 checkCardStatus();}
 
             if (keycode == Input.Keys.NUM_2) {
-                System.out.println("test2");
+                System.out.println("Card two chosen");
                 chosenCards.add(dealtCards.get(1));
                 checkCardStatus();
             }
             if (keycode == Input.Keys.NUM_3) {
-                System.out.println("test3");
+                System.out.println("Card three chosen");
                 chosenCards.add(dealtCards.get(2));
                 checkCardStatus();
             }
             if (keycode == Input.Keys.NUM_4) {
-                System.out.println("test4");
+                System.out.println("Card 4 chosen");
                 chosenCards.add(dealtCards.get(3));
                 checkCardStatus();
             }
             if (keycode == Input.Keys.NUM_5) {
-                System.out.println("test5");
+                System.out.println("Card 5 chosen");
                 chosenCards.add(dealtCards.get(4));
                 checkCardStatus();
             }
             if (keycode == Input.Keys.NUM_6) {
-                System.out.println("test6");
+                System.out.println("Card 6 chosen");
                 chosenCards.add(dealtCards.get(5));
                 checkCardStatus();
             }
             if (keycode == Input.Keys.NUM_7) {
-                System.out.println("test7");
+                System.out.println("Card 7 chosen");
                 chosenCards.add(dealtCards.get(6));
                 checkCardStatus();
             }
             if (keycode == Input.Keys.NUM_8) {
-                System.out.println("test8");
+                System.out.println("Card 8 chosen");
                 chosenCards.add(dealtCards.get(7));
                 checkCardStatus();
             }
             if (keycode == Input.Keys.NUM_9) {
-                System.out.println("test9");
+                System.out.println("Card 9 chosen");
                 chosenCards.add(dealtCards.get(8));
                 checkCardStatus();
             }
