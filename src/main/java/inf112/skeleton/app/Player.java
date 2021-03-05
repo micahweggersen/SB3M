@@ -83,12 +83,9 @@ public class Player {
         if (dir == null) throw new IllegalArgumentException("The direction can't be null");
 
         int magnitude = (dir == Direction.WEST || dir == Direction.SOUTH) ? -1 : 1;
-        System.out.println(magnitude);
-
         if(card.getMomentum() == -1){
 //
             magnitude = (dir == Direction.WEST || dir == Direction.SOUTH) ? 1 : -1;
-            System.out.println(magnitude);
             if(direction == 0) {y =  -card.getMomentum();  dir = Direction.SOUTH;}
             if(direction == 1) {x =  -card.getMomentum(); dir = Direction.EAST;}
             if(direction == 2) {y = card.getMomentum(); dir = Direction.NORTH;}

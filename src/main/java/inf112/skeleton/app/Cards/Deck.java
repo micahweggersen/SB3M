@@ -8,8 +8,11 @@ import java.util.*;
 
 public class Deck {
 
+    public static boolean chooseCardNow;
     public Queue<Cards> cardQueue;
-    ArrayList<Cards> dealtCards = new ArrayList<>();
+    public static ArrayList<Cards> dealtCards;
+    public static Queue<Cards> chosenCards;
+//    private static boolean dealCardMode = false;
 
     /**
      * Creates and shuffles deck
@@ -44,6 +47,8 @@ public class Deck {
      * @return a list of cards
      */
     public ArrayList<Cards> dealCards(int amount){
+        chosenCards = new LinkedList<Cards>();
+        dealtCards = new ArrayList<>();
         for (int i = 0; i <= amount; i++){
             dealtCards.add(cardQueue.poll());
         }

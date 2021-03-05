@@ -28,17 +28,11 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
 
     private int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
 
-    //TODO se om dekke kan flyttes ut
-    boolean chooseCardsNow = false;
-    ArrayList<Cards> dealtCards;
-    Queue<Cards> chosenCards = new LinkedList<>();
-    boolean dealCardMode = false;
-    Deck deck;
-
     //Define view states
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera cameraView;
     private Player player;
+    private Deck deck;
 
     @Override
     public void create() {
@@ -113,24 +107,23 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
         //skriv dette til en metode
         if (keycode == Input.Keys.D) {
             deck = new Deck();
-            chooseCardsNow = true;
-            dealtCards = deck.dealCards(8);
+            Deck.chooseCardNow = true; //(true); //chooseCardsNow(true); // = true;
+            Deck.dealtCards = deck.dealCards(8);
         }
 
-        if(chooseCardsNow && isNumberKey(keycode)){
-            chosenCards.add(dealtCards.get(keycode-8));
-            chooseCardsNow = Deck.checkCardStatus(chosenCards, player, chooseCardsNow);
-
+        if(Deck.chooseCardNow && isNumberKey(keycode)){
+            Deck.chosenCards.add(Deck.dealtCards.get(keycode-8));
+            Deck.chooseCardNow = Deck.checkCardStatus(Deck.chosenCards, player, Deck.chooseCardNow);
         }
 
 //        For testing av kort, wall, og player
-        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
-        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
-        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
-        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
-        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
-        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
-        if (keycode == Input.Keys.NUM_7){ player.move(new Cards(0, "Back Up",0,-1)); }
+//        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
+//        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
+//        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
+//        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
+//        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
+//        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
+//        if (keycode == Input.Keys.NUM_7){ player.move(new Cards(0, "Back Up",0,-1)); }
         if (keycode == Input.Keys.LEFT && Player.canMove(Direction.WEST))  { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.RIGHT && Player.canMove(Direction.EAST)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.UP && Player.canMove(Direction.NORTH))   { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }
