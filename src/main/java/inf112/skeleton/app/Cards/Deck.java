@@ -1,6 +1,8 @@
 package inf112.skeleton.app.Cards;
 
 
+import inf112.skeleton.app.Player;
+
 import java.util.*;
 
 
@@ -13,6 +15,17 @@ public class Deck {
     public Deck() {
         createDeck();
         shuffleDeck();
+    }
+
+    public static Boolean checkCardStatus(Queue<Cards> chosenCards, Player player, Boolean chooseCardsNow) {
+        if (chosenCards.size() >= 5) {
+            chooseCardsNow = false;
+            System.out.println("enough choosing!");
+            for (Cards card : chosenCards) {
+                player.move(card);
+            }
+        }
+        return chooseCardsNow;
     }
 
     public ArrayList<Cards> dealCards(int amount){

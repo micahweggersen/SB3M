@@ -104,18 +104,6 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
     public void resume() { }
 
 
-    // flytt til deck
-    public void checkCardStatus() {
-        if (chosenCards.size() >= 5) {
-            chooseCardsNow = false;
-            System.out.println("enough choosing!");
-//            movePlayerBySelectedCards();
-            for (Cards card : chosenCards) {
-                player.move(card);
-            }
-        }
-    }
-
     public boolean isNumberKey(int keycode) { return Arrays.stream(numberKeyValues).anyMatch(i -> i == keycode); }
 
     @Override
@@ -132,7 +120,8 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
 
         if(chooseCardsNow && isNumberKey(keycode)){
             chosenCards.add(dealtCards.get(keycode-8));
-            checkCardStatus();
+            chooseCardsNow = Deck.checkCardStatus(chosenCards, player, chooseCardsNow);
+
         }
 
 //        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
