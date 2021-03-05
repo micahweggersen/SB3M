@@ -38,7 +38,6 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
     //Define view states
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera cameraView;
-
     private Player player;
 
     @Override
@@ -135,21 +134,25 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
             checkCardStatus();
         }
 
-//        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
-//        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
-//        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
-//        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
-//        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
-//        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
+//        For testing av kort, wall, og player
+        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
+        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
+        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
+        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
+        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
+        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
 
         //kan skrives om ved å bruke tall verdier
-        if (keycode == Input.Keys.LEFT && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.WEST))  { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
-        if (keycode == Input.Keys.RIGHT && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.EAST)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
-        if (keycode == Input.Keys.UP && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.NORTH))   { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }
-        if (keycode == Input.Keys.DOWN && Player.canMove((int) Player.playerPosition.x, (int) Player.playerPosition.y, Direction.SOUTH)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y - 1); }
+        if (keycode == Input.Keys.LEFT && Player.canMove(Direction.WEST))  { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
+        if (keycode == Input.Keys.RIGHT && Player.canMove(Direction.EAST)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
+        if (keycode == Input.Keys.UP && Player.canMove(Direction.NORTH))   { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }
+        if (keycode == Input.Keys.DOWN && Player.canMove(Direction.SOUTH)) { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y - 1); }
 
         Board.playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, Player.playerFigure);
 
         return true; //(keycode == Input.Keys.LEFT || keycode == Input.Keys.RIGHT || keycode == Input.Keys.UP || keycode == Input.Keys.DOWN); //return keycode != 0;  //må se på denne
     }
 }
+
+
+
