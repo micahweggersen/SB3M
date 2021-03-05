@@ -23,43 +23,43 @@ Noen nye forbedringspunkter vi har satt oss er at vi kan bli bedre på å lage t
 ### Brukerhistorier i prioritert rekkefølge
 1. Som spiller ønsker jeg at spillet deler ut riktig mengde kort til meg, slik at jeg kan spille etter spillereglene for kort
  * Akseptansekriterier:
-  * Gitt at det er starten på en ny runde, skal kortene deles ut og bli synlige for spillerne.
-  * Gitt at jeg har en skade, skal antall kort utdelt til meg være mindre enn om jeg ikke har en skade (ikke implementert enda)
-  * Gitt at jeg har x antall skader, skal jeg få tildelt x antall færre kort enn ni kort. (ikke implementert enda)
+  	* Gitt at det er starten på en ny runde, skal kortene deles ut og bli synlige for spillerne.
+  	* Gitt at jeg har en skade, skal antall kort utdelt til meg være mindre enn om jeg ikke har en skade (ikke implementert enda)
+  	* Gitt at jeg har x antall skader, skal jeg få tildelt x antall færre kort enn ni kort. (ikke implementert enda)
  * Arbeidsoppgaver:
-  * GUI for kort ***
-  * Antallslogikk for utdeling
-  * Utdelingslogikk
+  	* GUI for kort ***
+  	* Antallslogikk for utdeling
+  	* Utdelingslogikk
  
 2. Som spiller ønsker jeg at jeg kan velge og bestemme rekkefølge på kortene som jeg vil, for å lage best mulig strategi for å vinne
  * Akseptansekriterier:
-  * Gitt at jeg skal til å velge kort, må jeg velge antall lovlige kort. (ikke implementert enda)
-  * Gitt at jeg har fem kort så skal jeg velge rekkefølgen de har. 
+  	* Gitt at jeg skal til å velge kort, må jeg velge antall lovlige kort. (ikke implementert enda)
+  	* Gitt at jeg har fem kort så skal jeg velge rekkefølgen de har. 
  * Arbeidsoppgaver
-  * Skadelogikk 
-  * Velge riktig kort
-  * GUI for kort***
+  	* Skadelogikk 
+  	* Velge riktig kort
+  	* GUI for kort***
  
 3. Som spiller ønsker jeg at roboten skal bevege seg etter bevegelsen beskrevet på kortet, og etter rekkefølgen jeg som spiller valgte ut fra utdelte kort, for å bevege roboten nærmest mulig ønsket posisjon og unngå hinder på brettet. 
  * Akseptansekriterier:
-  * Gitt at jeg har valgt et kort, skal roboten bevege seg ut i fra informasjonen på kortet.
+  	* Gitt at jeg har valgt et kort, skal roboten bevege seg ut i fra informasjonen på kortet.
  * Arbeidsoppgaver:
-  * Bevegelses validering
-  * Retningsverdi
-  * Rekkefølge valg
+  	* Bevegelses validering
+  	* Retningsverdi
+ 	 * Rekkefølge valg
 
 4. Som spiller ønsker jeg et hinder som gjør at jeg bare kan gå i et bestemt område slik at det er bevegelsesrestriksjoner.
  * Akseptansekriterier:
-  * Gitt at jeg beveger meg mot en vegg så skal jeg ikke bevege roboten lengre enn til veggen.
+  	* Gitt at jeg beveger meg mot en vegg så skal jeg ikke bevege roboten lengre enn til veggen.
  * Arbeidsoppgaver
-  * Bevegelses validering
+  	* Bevegelses validering
  
 5. Som spiller ønsker jeg å kunne spille mot andre på ulike maskiner, slik at det er konkurranse og jeg ikke spiller mot meg selv (ikke implementert enda)
  * Akseptansekriterier:
-  * Gitt at jeg spiller mot noen andre, skal de kunne spille på en annen maskin enn meg
+  	* Gitt at jeg spiller mot noen andre, skal de kunne spille på en annen maskin enn meg
  * Arbeidsoppgaver:
-  * Server
-	  * Kommentar til server - Denne ble jobbet endel med men vi møtte på noen utfordringer som ikke lot seg løses før leveringsfristen og er derfor ikke en del av implementasjonen.
+ 	 * Server
+	  	* Kommentar til server - Denne ble jobbet endel med men vi møtte på noen utfordringer som ikke lot seg løses før leveringsfristen og er derfor ikke en del av implementasjonen.
 
 ### Arbeidsfordeling
 Vi fordelte oss i grupper og begynte med de oppgavene vi mente var viktigst å bli ferdig med først, og jobbet oss nedover listen. Vi prioriterte oppgavene i en rekkefølge slik at vi får best mulig arbeidsflyt. Både for at det skal gå an å dele ut kort, og bevege spilleren ut ifra kortene, er det nødvendig å ha de forskjellige kort-klassene opprettet og velfungerende. Derfor implementerte vi dem først slik at vi skulle slippe å stoppe midt i en annen oppgave og gå tilbake til det.
