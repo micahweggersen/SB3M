@@ -17,7 +17,7 @@
 *   After this you will be able to 
     run the program every time by right-clicking the main-class and pressing "Run Main.main()"
 
-##Playing the game
+##Playing the game 
 After running main, you can use the arrow keys to move around, but to get 9 cards to choose from, press D. You see the cards listed in the terminal. Press
 number keys 1-9 to choose, when the fifth card is chosen, the player moves by itself. 
     
