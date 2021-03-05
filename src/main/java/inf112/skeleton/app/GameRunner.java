@@ -130,8 +130,7 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
         if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
         if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
         if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
-
-        //kan skrives om ved å bruke tall verdier
+        if (keycode == Input.Keys.NUM_7){ player.move(new Cards(0, "Back Up",0,-1)); }
         if (keycode == Input.Keys.LEFT && Player.canMove(Direction.WEST))  { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.RIGHT && Player.canMove(Direction.EAST)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.UP && Player.canMove(Direction.NORTH))   { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }

@@ -75,19 +75,28 @@ public class Player {
 
         direction = (direction + card.getDirection())%4;
 
-        //skrive til en switch case
-        if(direction == 0) {y = card.getMomentum();  dir = Direction.NORTH;}
-        if(direction == 1) {x = card.getMomentum(); dir = Direction.WEST;}
+        if(direction == 0) {y =  card.getMomentum();  dir = Direction.NORTH;}
+        if(direction == 1) {x =  card.getMomentum(); dir = Direction.WEST;}
         if(direction == 2) {y = -card.getMomentum(); dir = Direction.SOUTH;}
         if(direction == 3) {x = -card.getMomentum(); dir = Direction.EAST;}
 
         if (dir == null) throw new IllegalArgumentException("The direction can't be null");
 
-        int magnitude;
+        int magnitude = (dir == Direction.WEST || dir == Direction.SOUTH) ? -1 : 1;
+        System.out.println(magnitude);
 
-        if(dir == Direction.WEST || dir == Direction.SOUTH) {magnitude = -1;} else {magnitude = 1;} //skriv denne om til kort versjon
+        if(card.getMomentum() == -1){
+//
+            magnitude = (dir == Direction.WEST || dir == Direction.SOUTH) ? 1 : -1;
+            System.out.println(magnitude);
+            if(direction == 0) {y =  -card.getMomentum();  dir = Direction.SOUTH;}
+            if(direction == 1) {x =  -card.getMomentum(); dir = Direction.EAST;}
+            if(direction == 2) {y = card.getMomentum(); dir = Direction.NORTH;}
+            if(direction == 3) {x = card.getMomentum(); dir = Direction.WEST;}
+        }
 
-        for(int i = 0; i < card.getMomentum(); i++){
+
+        for(int i = 0; i < Math.abs(card.getMomentum()); i++){
             if(x!=0 && canMove(dir)) {playerPosition = new Vector2(playerPosition.x + magnitude, playerPosition.y);}
             if(y!=0 && canMove(dir)) {playerPosition = new Vector2( playerPosition.x, playerPosition.y + magnitude);}
         }
@@ -100,7 +109,6 @@ public class Player {
      */
     public static boolean canMove(Direction direction){
 
-
         int x = (int)playerPosition.x;
         int y = (int)playerPosition.y;
 
@@ -112,14 +120,16 @@ public class Player {
         if(direction == Direction.WEST) {x_change =  -1;}
         if(direction == Direction.EAST) {x_change =   1;}
         if(direction == Direction.NORTH) {y_change = 1;}
-        if(direction == Direction.SOUTH) {x_change = -1;}
+        if(direction == Direction.SOUTH) {y_change = -1;}
+
 
         int cellMovingTo = (Board.walls.getCell(x+x_change, y+y_change) == null) ? -1 : Board.walls.getCell(x+x_change, y+y_change).getTile().getId();
 
-        if(direction == Direction.WEST){ return cellMovingTo != 16 && cellMovingTo != 8 && cellMovingTo != 23 && cellCurrentlyOn != 32 && cellCurrentlyOn != 30 && cellCurrentlyOn != 24; }
-        if(direction == Direction.EAST){ return cellMovingTo != 32 && cellMovingTo != 30 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 16 && cellCurrentlyOn != 23; }
+        if(direction == Direction.WEST){ return cellMovingTo  != 16 && cellMovingTo != 8 && cellMovingTo != 23 && cellCurrentlyOn != 32 && cellCurrentlyOn != 30 && cellCurrentlyOn != 24; }
+        if(direction == Direction.EAST){ return cellMovingTo  != 32 && cellMovingTo != 30 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 16 && cellCurrentlyOn != 23; }
         if(direction == Direction.NORTH){ return cellMovingTo != 32 && cellMovingTo != 29 && cellMovingTo != 8 && cellCurrentlyOn != 31 && cellCurrentlyOn != 16 && cellCurrentlyOn != 24; }
         if(direction == Direction.SOUTH){ return cellMovingTo != 31 && cellMovingTo != 16 && cellMovingTo != 24 && cellCurrentlyOn != 8 && cellCurrentlyOn != 29 && cellCurrentlyOn != 32; }
+
         return true;
     }
 }
