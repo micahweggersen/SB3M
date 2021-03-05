@@ -122,6 +122,7 @@ public class Player {
         if(direction == Direction.NORTH) {y_change = 1;}
         if(direction == Direction.SOUTH) {y_change = -1;}
 
+
         int cellMovingTo = (Board.walls.getCell(x+x_change, y+y_change) == null) ? -1 : Board.walls.getCell(x+x_change, y+y_change).getTile().getId();
 
         if(direction == Direction.WEST){ return cellMovingTo  != 16 && cellMovingTo != 8 && cellMovingTo != 23 && cellCurrentlyOn != 32 && cellCurrentlyOn != 30 && cellCurrentlyOn != 24; }
