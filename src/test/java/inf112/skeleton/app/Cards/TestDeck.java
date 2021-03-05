@@ -26,7 +26,7 @@ public class TestDeck {
     public void testPriorityValueOfRotateLeftWithinRange(){
         for (Cards card : deck.cardQueue) {
             if(card.getId().equals("Rotate Left")) {
-                assertTrue(card.getPriorityValue() >= 70 && card.getPriorityValue() <= 430 );
+                assertTrue(card.getPriorityValue() >= 70 && card.getPriorityValue() <= 410 );
             }
         }
     }
@@ -35,7 +35,7 @@ public class TestDeck {
     public void testPriorityValueOfRotateRightWithinRange(){
         for (Cards card : deck.cardQueue) {
             if(card.getId().equals("Rotate Right")) {
-                assertTrue(card.getPriorityValue() >= 80 && card.getPriorityValue() <= 440 );
+                assertTrue(card.getPriorityValue() >= 80 && card.getPriorityValue() <= 420 );
             }
         }
     }
@@ -44,7 +44,7 @@ public class TestDeck {
     public void testPriorityValueOfBackUpWithinRange(){
         for (Cards card : deck.cardQueue) {
             if(card.getId().equals("Back Up")) {
-                assertTrue(card.getPriorityValue() >= 430 && card.getPriorityValue() <= 490 );
+                assertTrue(card.getPriorityValue() >= 430 && card.getPriorityValue() <= 480 );
             }
         }
     }
@@ -53,10 +53,30 @@ public class TestDeck {
     public void testPriorityValueOfMoveOneWithinRange(){
         for (Cards card : deck.cardQueue) {
             if(card.getId().equals("Move One")) {
-                assertTrue(card.getPriorityValue() >= 490 && card.getPriorityValue() <= 670 );
+                assertTrue(card.getPriorityValue() >= 490 && card.getPriorityValue() <= 660 );
             }
         }
     }
+
+    @Test
+    public void testPriorityValueOfMoveTwoWithinRange(){
+        for (Cards card : deck.cardQueue) {
+            if(card.getId().equals("Move Two")) {
+                assertTrue(card.getPriorityValue() >= 670 && card.getPriorityValue() <= 780 );
+            }
+        }
+    }
+
+    @Test
+    public void testPriorityValueOfMoveThreeWithinRange(){
+        for (Cards card : deck.cardQueue) {
+            if(card.getId().equals("Move Three")) {
+                assertTrue(card.getPriorityValue() >= 790 && card.getPriorityValue() <= 840 );
+            }
+        }
+    }
+
+
 
     @Test
     public void testShuffledDeckIsNotTheSame() {
@@ -123,6 +143,13 @@ public class TestDeck {
     public void testDealtCardsIsRightAmount(){
         ArrayList<Cards> dealtCards = deck.dealCards(8);
         assertEquals(9, dealtCards.size());
+    }
+
+    @Test
+    public void testCardQueueIsSmallerAfterCardsAreDealt() {
+        int queueSizeBefore = deck.cardQueue.size();
+        ArrayList<Cards> dealtCards = deck.dealCards(8);
+        assertEquals(queueSizeBefore-9, deck.cardQueue.size());
     }
 
 
