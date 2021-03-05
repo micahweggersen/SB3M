@@ -99,12 +99,17 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
 
     public boolean isNumberKey(int keycode) { return Arrays.stream(numberKeyValues).anyMatch(i -> i == keycode); }
 
+    /**
+     * @param keycode Keyboard input
+     * @return Movement for player according to card or arrow keys
+     */
+    //TODO Skriv if statements om til en
     @Override
     public boolean keyUp(int keycode){
 
         Board.playerLayer.setCell((int) Player.playerPosition.x, (int) Player.playerPosition.y, null);
 
-        //skriv dette til en metode
+        //TODO skriv dette til en metode
         if (keycode == Input.Keys.D) {
             deck = new Deck();
             Deck.chooseCardNow = true; //(true); //chooseCardsNow(true); // = true;

@@ -15,7 +15,7 @@ public class Player {
 
     private static int direction;
     public Player(int direction){
-        this.direction = direction; //bytt til enum
+        this.direction = direction; //TODO bytt til enum
     }
 
     public static int getDirection(){ return direction; }
@@ -81,10 +81,10 @@ public class Player {
         if(direction == 3) {x = -card.getMomentum(); dir = Direction.EAST;}
 
         if (dir == null) throw new IllegalArgumentException("The direction can't be null");
-
+        //Handling of backward movement
         int magnitude = (dir == Direction.WEST || dir == Direction.SOUTH) ? -1 : 1;
         if(card.getMomentum() == -1){
-//
+
             magnitude = (dir == Direction.WEST || dir == Direction.SOUTH) ? 1 : -1;
             if(direction == 0) {y =  -card.getMomentum();  dir = Direction.SOUTH;}
             if(direction == 1) {x =  -card.getMomentum(); dir = Direction.EAST;}
@@ -92,7 +92,7 @@ public class Player {
             if(direction == 3) {x = card.getMomentum(); dir = Direction.WEST;}
         }
 
-
+        //Movement handling
         for(int i = 0; i < Math.abs(card.getMomentum()); i++){
             if(x!=0 && canMove(dir)) {playerPosition = new Vector2(playerPosition.x + magnitude, playerPosition.y);}
             if(y!=0 && canMove(dir)) {playerPosition = new Vector2( playerPosition.x, playerPosition.y + magnitude);}
@@ -118,7 +118,7 @@ public class Player {
         if(direction == Direction.EAST) {x_change =   1;}
         if(direction == Direction.NORTH) {y_change = 1;}
         if(direction == Direction.SOUTH) {y_change = -1;}
-
+        //TODO Skriv om til en funksjon som tar for seg de forskjellige veridene
 
         int cellMovingTo = (Board.walls.getCell(x+x_change, y+y_change) == null) ? -1 : Board.walls.getCell(x+x_change, y+y_change).getTile().getId();
 

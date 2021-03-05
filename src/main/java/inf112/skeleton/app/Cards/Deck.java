@@ -2,7 +2,6 @@ package inf112.skeleton.app.Cards;
 
 
 import inf112.skeleton.app.Player;
-
 import java.util.*;
 
 
