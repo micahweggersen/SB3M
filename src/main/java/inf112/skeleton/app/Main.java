@@ -9,6 +9,6 @@ public class Main {
         cfg.setTitle("SB3M DEMO");
         cfg.setWindowedMode(500, 500);
 
-        new Lwjgl3Application(new Board(), cfg); //Need to find better name for HalloWorld
+        new Lwjgl3Application(new GameRunner(), cfg); //Need to find better name for HalloWorld
     }
 }
