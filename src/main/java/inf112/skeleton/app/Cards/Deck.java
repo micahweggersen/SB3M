@@ -8,15 +8,24 @@ import java.util.*;
 
 public class Deck {
 
-
     public Queue<Cards> cardQueue;
     ArrayList<Cards> dealtCards = new ArrayList<>();
 
+    /**
+     * Creates and shuffles deck
+     */
     public Deck() {
         createDeck();
         shuffleDeck();
     }
 
+    /**
+     * checks if the stack of cards the player has chosen is full, if it is, it makes the player move
+     * @param chosenCards - queue of cards chosen by player
+     * @param player - player of the came
+     * @param chooseCardsNow - true if it is time to choose cards
+     * @return chooseCardsNow
+     */
     public static Boolean checkCardStatus(Queue<Cards> chosenCards, Player player, Boolean chooseCardsNow) {
         if (chosenCards.size() >= 5) {
             chooseCardsNow = false;
@@ -28,6 +37,12 @@ public class Deck {
         return chooseCardsNow;
     }
 
+    /**
+     * deals the given amount of cards and removes them from the cardQueue,
+     * and tells the player that they can start choosing cards
+     * @param amount of cards wanted
+     * @return a list of cards
+     */
     public ArrayList<Cards> dealCards(int amount){
         for (int i = 0; i <= amount; i++){
             dealtCards.add(cardQueue.poll());
@@ -36,6 +51,10 @@ public class Deck {
         return dealtCards;
     }
 
+    /**
+     * print-method for a neat display of the cards to choose from, prompted by dealCards
+     * @return print statement of cards to choose from
+     */
     public String dealtCardsList() {
         int count = 1;
         String cardList = "";
@@ -46,6 +65,9 @@ public class Deck {
         return cardList;
     }
 
+    /**
+     * creates the deck and adds all the different cards with the right amount of priorityValue.
+     */
     public void createDeck() {
         cardQueue = new LinkedList<>();
 
@@ -94,9 +116,13 @@ public class Deck {
             cardQueue.add(new MoveThree(priorityValue, "Move Three", 0,3));
             priorityValue = priorityValue + 10;
         }
-
     }
 
+    /**
+     * used mainly for tests, gives the desired amount of cards and removes them from cardQueue
+     * @param desiredAmount of cards
+     * @return a list of cards
+     */
     public ArrayList<Cards> getCards(int desiredAmount) {
         ArrayList<Cards> temporaryDeck = new ArrayList<>();
         for (int i = 0; i < desiredAmount; i++) {
@@ -105,17 +131,11 @@ public class Deck {
         return temporaryDeck;
     }
 
+    /**
+     * shuffles the deck
+     */
     public void shuffleDeck(){
         Collections.shuffle((List<?>) cardQueue);
-    }
-
-
-    public void getId(){
-        for (Cards card : cardQueue) { System.out.println(card.getId() + " " + card.getPriorityValue()); }
-    }
-
-    public Cards giveNextCard() {
-        return cardQueue.poll();
     }
 }
 

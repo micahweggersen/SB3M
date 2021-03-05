@@ -24,10 +24,7 @@ public class Cards {
         this.priorityValue = priorityValue;
         this.id = id;
     }
-    
-    //dem fikse en queue/giveNextcard metode
-    //lager en queue med et kort av hver type
-    //Getters
+
     /**
      * Gets the priority value a card has.
      * @return the priority value
@@ -36,6 +33,10 @@ public class Cards {
         return priorityValue;
     }
 
+    /**
+     * Gets the id of a card
+     * @return the id
+     */
     public String getId(){
         return id;
     }
@@ -52,6 +53,10 @@ public class Cards {
         return momentum;
     }
 
+    /**
+     * Returns the direction of the given card
+     * @return the direction of a card
+     */
     public int getDirection(){
         return direction;
     }
