@@ -31,7 +31,7 @@ public class Player {
     public void create(){
 
         // Set grid coordinate for playerFigure
-        playerPosition = new Vector2(0, 0);
+        playerPosition = new Vector2(5, 5);
 
         //Load player figure and set size
         Texture texture = new Texture("src/assets/player.png");

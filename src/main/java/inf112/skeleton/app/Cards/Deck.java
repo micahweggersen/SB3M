@@ -34,6 +34,7 @@ public class Deck {
             System.out.println("enough choosing!");
             for (Cards card : chosenCards) {
                 player.move(card);
+                System.out.println(card);
             }
         }
         return chooseCardsNow;

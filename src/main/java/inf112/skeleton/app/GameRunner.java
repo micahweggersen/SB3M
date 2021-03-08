@@ -59,10 +59,10 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
         cameraView.position.x = 2.5F;
 
         //Define playerLayer coordinate and playerFigure
-        Board.playerLayer.setCell(0,0,Player.playerFigure);
+        Board.playerLayer.setCell((int) player.playerPosition.x,(int) player.playerPosition.y,Player.playerFigure);
         cameraView.update();
 
-        mapRenderer = new OrthogonalTiledMapRenderer(Board.map, (float) (1.0/300.0));
+        mapRenderer = new OrthogonalTiledMapRenderer(Board.map, (float) (1.0/600.0));
 
         Gdx.input.setInputProcessor(this);
     }
@@ -122,13 +122,13 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
         }
 
 //        For testing av kort, wall, og player
-//        if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
-//        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
-//        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
-//        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
-//        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
-//        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
-//        if (keycode == Input.Keys.NUM_7){ player.move(new Cards(0, "Back Up",0,-1)); }
+ /*       if (keycode == Input.Keys.NUM_1){ player.move(new Cards(0, "Move One", 0 , 1)); }
+        if (keycode == Input.Keys.NUM_2){ player.move(new Cards(0, "Move Two", 0, 2)); }
+        if (keycode == Input.Keys.NUM_3){ player.move(new Cards(0, "Move Three", 0, 3)); }
+        if (keycode == Input.Keys.NUM_4){ player.move(new Cards(0, "Rotate Left",3,0)); }
+        if (keycode == Input.Keys.NUM_5){ player.move(new Cards(0, "Rotate Right",1,0)); }
+        if (keycode == Input.Keys.NUM_6){ player.move(new Cards(0, "U-Turn",2,0)); }
+        if (keycode == Input.Keys.NUM_7){ player.move(new Cards(0, "Back Up",0,-1)); }*/
         if (keycode == Input.Keys.LEFT && Player.canMove(Direction.WEST))  { Player.playerPosition = new Vector2(Player.playerPosition.x - 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.RIGHT && Player.canMove(Direction.EAST)) { Player.playerPosition = new Vector2(Player.playerPosition.x + 1, Player.playerPosition.y); }
         if (keycode == Input.Keys.UP && Player.canMove(Direction.NORTH))   { Player.playerPosition = new Vector2(Player.playerPosition.x, Player.playerPosition.y + 1); }
