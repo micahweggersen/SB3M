@@ -1,6 +1,6 @@
 package inf112.skeleton.app.Cards;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
 
 public class Cards {
     private int priorityValue;
@@ -12,13 +12,14 @@ public class Cards {
     public static final int ROTATE_90 = 1;
     public static final int ROTATE_180 = 2;
     public static final int ROTATE_270 = 3;
-    
+
     /**
      * Constructor. Used by sub-classes.
+     *
      * @param priorityValue The value that a card has in order to decide priority of the card at start of each round.
-     * @param id The id/type of the card
+     * @param id            The id/type of the card
      */
-    public Cards(int priorityValue, String id, int direction, int momentum){
+    public Cards(int priorityValue, String id, int direction, int momentum) {
         this.momentum = momentum;
         this.direction = direction;
         this.priorityValue = priorityValue;
@@ -27,6 +28,7 @@ public class Cards {
 
     /**
      * Gets the priority value a card has.
+     *
      * @return the priority value
      */
     public int getPriorityValue() {
@@ -35,9 +37,10 @@ public class Cards {
 
     /**
      * Gets the id of a card
+     *
      * @return the id
      */
-    public String getId(){
+    public String getId() {
         return id;
     }
 
@@ -46,19 +49,41 @@ public class Cards {
         return id + ", priorityValue: " + priorityValue + '}';
     }
 
-    /** Returns the momentum of the given card
+    /**
+     * Returns the momentum of the given card
+     *
      * @return momentum of gard
      */
-    public int getMomentum(){
+    public int getMomentum() {
         return momentum;
     }
 
     /**
      * Returns the direction of the given card
+     *
      * @return the direction of a card
      */
-    public int getDirection(){
+    public int getDirection() {
         return direction;
     }
 
+    public static Cards fromJson(JSONObject json) {
+        return new Cards(
+                json.getInt("priorityValue"),
+                json.getString("id"),
+                json.getInt("direction"),
+                json.getInt("momentum")
+        );
+    }
+
+    public JSONObject toJson() {
+        JSONObject obj = new JSONObject();
+
+        obj.put("priorityValue", priorityValue);
+        obj.put("id", id);
+        obj.put("direction", direction);
+        obj.put("momentum", momentum);
+
+        return obj;
+    }
 }

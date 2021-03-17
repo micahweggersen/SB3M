@@ -47,7 +47,7 @@ public class Deck {
      * @return a list of cards
      */
     public ArrayList<Cards> dealCards(int amount){
-        chosenCards = new LinkedList<Cards>();
+        chosenCards = new LinkedList<>();
         dealtCards = new ArrayList<>();
         for (int i = 0; i <= amount; i++){
             dealtCards.add(cardQueue.poll());
