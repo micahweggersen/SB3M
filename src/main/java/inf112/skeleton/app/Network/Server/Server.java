@@ -4,21 +4,16 @@ import inf112.skeleton.app.Player;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Server extends Thread {
 
     private ServerSocket serverSocket;
     private final int serverPort;
-    private final List<Player> playerList;
-    private final List<Socket> connectedSockets;
+    private final ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<>();
 
-    public Server(int serverPort, List<Player> playerList) {
+    public Server(int serverPort) {
         this.serverPort = serverPort;
-        this.playerList = playerList;
-        this.connectedSockets = new ArrayList<>();
     }
 
     @Override
@@ -31,9 +26,7 @@ public class Server extends Thread {
 
         while (true) {
             try {
-                Socket socket = serverSocket.accept();
-                connectedSockets.add(socket);
-                new ClientHandler(socket, playerList, connectedSockets).start();
+                new ClientHandler(serverSocket.accept(), players).start();
             } catch (IOException e) {
                 e.printStackTrace();
             }

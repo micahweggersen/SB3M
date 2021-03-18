@@ -1,9 +1,6 @@
 package inf112.skeleton.app;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.Cards;
 
@@ -12,11 +9,15 @@ public class Player {
 //    private static int[][] a = {{16,8,23,32,24},{32,30,24,8,16,23},{32,29,8,31,16,24},{31,16,24,8,29,32}};
 
     private int direction;
-    private final String name;
+    private String name;
 
     public Player(int direction, String name) {
         this.direction = direction; //TODO bytt til enum
         this.name = name;
+    }
+
+    public String setName(String name) {
+        return this.name = name;
     }
 
     public String getName() {
@@ -32,40 +33,14 @@ public class Player {
 
     //Define player states
     public TiledMapTileLayer.Cell playerFigure;
-    public TextureRegion[][] playerFig;
 
     public void create(int px, int py, TiledMapTileLayer playerLayer) {
 
         // Set grid coordinate for playerFigure
         playerPosition = new Vector2(px, py);
 
-        //Load player figure and set size
-        Texture texture = new Texture("src/assets/player.png");
-        playerFig = TextureRegion.split(texture, 300, 300);
-
         //Initialize playerFigure States
         playerFigure = new TiledMapTileLayer.Cell();
-        playerFigure.setTile(new StaticTiledMapTile(playerFig[0][0]));
-    }
-
-    /**
-     * Decides player image according to legal placement on board
-     *
-     * @param playerLayer Image of player character
-     */
-    public void setPlayerFigure(TiledMapTileLayer playerLayer) {
-        int x = (int) playerPosition.x;
-        int y = (int) playerPosition.y;
-
-        if (Board.isCellFlag(this)) {
-            playerFigure.setTile(new StaticTiledMapTile(playerFig[0][2]));
-        } else if (Board.isCellHole(this)) {
-            playerFigure.setTile(new StaticTiledMapTile(playerFig[0][1]));
-        } else {
-            playerFigure.setTile(new StaticTiledMapTile(playerFig[0][0]));
-        }
-
-        playerLayer.setCell(x, y, playerFigure.setRotation(direction));
     }
 
 
@@ -144,7 +119,7 @@ public class Player {
         int x = (int) playerPosition.x;
         int y = (int) playerPosition.y;
 
-        int cellCurrentlyOn = Board.isCellWall(this) ? Board.walls.getCell(x, y).getTile().getId() : -1;
+        int cellCurrentlyOn = Board.isCellWall(x, y) ? Board.walls.getCell(x, y).getTile().getId() : -1;
 
         int x_change = 0;
         int y_change = 0;

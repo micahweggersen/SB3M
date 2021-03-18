@@ -14,15 +14,23 @@ public class Board {
     public static TiledMapTileLayer holeLayer;
     public static TiledMapTileLayer walls;
 
-    public static boolean isCellFlag(Player player) {
-        return Board.flagLayer.getCell((int) player.playerPosition.x, (int) player.playerPosition.y) != null;
+    public static boolean isCellFlag(int x, int y) {
+        return Board.flagLayer.getCell(x, y) != null;
     }
 
-    public static boolean isCellHole(Player player) {
-        return Board.holeLayer.getCell((int) player.playerPosition.x, (int) player.playerPosition.y) != null;
+    public static boolean isCellHole(int x, int y) {
+        return Board.holeLayer.getCell(x, y) != null;
     }
 
-    public static boolean isCellWall(Player player) {
-        return Board.walls.getCell((int) player.playerPosition.x, (int) player.playerPosition.y) != null;
+    public static boolean isCellWall(int x, int y) {
+        return Board.walls.getCell(x, y) != null;
+    }
+
+    public static void clear(TiledMapTileLayer layer) {
+        for (int x = 0; x < layer.getWidth(); x++) {
+            for (int y = 0; y < layer.getHeight(); y++) {
+                layer.setCell(x, y, null);
+            }
+        }
     }
 }
