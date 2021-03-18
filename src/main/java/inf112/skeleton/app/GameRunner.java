@@ -3,6 +3,7 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
@@ -15,17 +16,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import inf112.skeleton.app.Cards.Cards;
 import inf112.skeleton.app.Cards.Deck;
 import inf112.skeleton.app.Network.Client.*;
-import inf112.skeleton.app.Network.Data.MoveData;
-import inf112.skeleton.app.Network.Data.Payload;
-import inf112.skeleton.app.Network.Data.PayloadAction;
-import inf112.skeleton.app.Network.Data.PlayerData;
+import inf112.skeleton.app.Network.Data.*;
 import inf112.skeleton.app.Network.Server.Server;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class GameRunner extends InputAdapter implements ApplicationListener {
 
@@ -43,6 +40,9 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
 
     private HashMap<String, TiledMapTileLayer.Cell> playerTileCache = new HashMap<>();
     private List<PlayerData> playerData;
+    private List<Cards> dealtCards;
+    private Queue<Cards> chosenCards;
+    private boolean inputKey = false;
 
     private boolean isClientOnly;
     private Client client;
@@ -180,6 +180,25 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
         return Arrays.stream(numberKeyValues).anyMatch(i -> i == keycode);
     }
 
+    public void createPlayerDeck (){
+        Deck deck = new Deck();
+        dealtCards = deck.dealCards(8);
+        chosenCards = new LinkedList<>();
+    }
+
+    private void choosingCards(int keycode) {
+        if (isNumberKey(keycode)) {
+            if(!chosenCards.contains(dealtCards.get(keycode - 8))) {
+                chosenCards.add(dealtCards.get(keycode - 8));
+                System.out.println("Added Card");
+            }
+            System.out.println("Choose another card!");
+            if (!Deck.checkEnoughCardStatus(chosenCards)) {
+                client.sendPayload(Payload.create(PayloadAction.CARD, MoveCardData.create(playerName, chosenCards.poll())));
+            }
+        }
+    }
+
     /**
      * @param keycode Keyboard input
      * @return Movement for player according to card or arrow keys
@@ -187,24 +206,23 @@ public class GameRunner extends InputAdapter implements ApplicationListener {
     //TODO Skriv if statements om til en
     @Override
     public boolean keyUp(int keycode) {
-        // Board.playerLayer.setCell((int) currentPlayer.playerPosition.x, (int) currentPlayer.playerPosition.y, null);
 
-        //TODO skriv dette til en metode
-        /*if (keycode == Input.Keys.D) {
-            deck = new Deck();
-            Deck.chooseCardNow = true; //(true); //chooseCardsNow(true); // = true;
-            Deck.dealtCards = deck.dealCards(8);
+
+        if (keycode == Input.Keys.D) {
+            inputKey = true;
+            createPlayerDeck();
+        }
+        if (inputKey) {
+            choosingCards(keycode);
         }
 
-        if (Deck.chooseCardNow && isNumberKey(keycode)) {
-            Deck.chosenCards.add(Deck.dealtCards.get(keycode - 8));
-            Deck.chooseCardNow = Deck.checkCardStatus(Deck.chosenCards, currentPlayer, Deck.chooseCardNow);
-        }*/
-
-        client.sendPayload(Payload.create(PayloadAction.MOVE, MoveData.create(keycode, playerName)));
-
-        return true; //(keycode == Input.Keys.LEFT || keycode == Input.Keys.RIGHT || keycode == Input.Keys.UP || keycode == Input.Keys.DOWN); //return keycode != 0;  //må se på denne
+        if (!inputKey) {
+            client.sendPayload(Payload.create(PayloadAction.MOVE, MoveData.create(keycode, playerName)));
+        }
+        return true;
     }
+
+
 }
 
 

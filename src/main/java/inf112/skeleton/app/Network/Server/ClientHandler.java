@@ -57,7 +57,23 @@ class ClientHandler extends Thread {
                         out.writeObject(Payload.create(PayloadAction.QUIT));
                         break loop;
                     case CARD:
+                        MoveCardData dataCard = (MoveCardData) payload.data;
+                        String cardID = dataCard.cardID;
+                        int cardDir = dataCard.cardDir;
+                        int cardMom = dataCard.cardMom;
+                        int cardPV = dataCard.cardPV;
+                        String playerNameCard = dataCard.playerName;
+
+                        Player playerCard = findPlayer(playerNameCard);
+                        if (playerCard == null) {
+                            continue;
+                        }
+                        playerCard.move(new Cards(cardPV, cardID, cardDir, cardMom));
+
+                        out.writeObject(Payload.create(PayloadAction.SUCCESS));
+
                         break;
+
                     case MOVE:
                         MoveData data = (MoveData) payload.data;
                         int keycode = data.keyCode;

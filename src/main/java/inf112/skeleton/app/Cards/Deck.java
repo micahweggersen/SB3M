@@ -24,20 +24,14 @@ public class Deck {
     /**
      * checks if the stack of cards the player has chosen is full, if it is, it makes the player move
      * @param chosenCards - queue of cards chosen by player
-     * @param player - player of the came
-     * @param chooseCardsNow - true if it is time to choose cards
      * @return chooseCardsNow
      */
-    public static Boolean checkCardStatus(Queue<Cards> chosenCards, Player player, Boolean chooseCardsNow) {
+    public static Boolean checkEnoughCardStatus(Queue<Cards> chosenCards) {
         if (chosenCards.size() >= 5) {
-            chooseCardsNow = false;
             System.out.println("enough choosing!");
-            for (Cards card : chosenCards) {
-                player.move(card);
-                System.out.println(card);
-            }
+            return false;
         }
-        return chooseCardsNow;
+        return true;
     }
 
     /**

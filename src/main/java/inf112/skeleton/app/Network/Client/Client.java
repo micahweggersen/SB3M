@@ -1,5 +1,7 @@
 package inf112.skeleton.app.Network.Client;
 
+import inf112.skeleton.app.Cards.Cards;
+import inf112.skeleton.app.Cards.Deck;
 import inf112.skeleton.app.Network.Data.Payload;
 import inf112.skeleton.app.Network.Data.PayloadAction;
 import inf112.skeleton.app.Network.Data.PlayerData;
@@ -10,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+import java.util.Queue;
 
 
 public class Client extends Thread {
@@ -21,12 +24,19 @@ public class Client extends Thread {
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
+    private List<Cards> dealtCards;
+    private Queue<Cards> chosenCards;
+
     public Client(String ip, int port, UpdateListener listener) {
         this.ip = ip;
         this.port = port;
         this.listener = listener;
     }
 
+    /**
+     * @param payload data package sending from client to server
+     * @return data package output to server
+     */
     public Payload sendPayload(Payload payload) {
         try {
             out.writeObject(payload);
@@ -82,7 +92,7 @@ public class Client extends Thread {
                 }
 
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -66,24 +66,4 @@ public class Cards {
     public int getDirection() {
         return direction;
     }
-
-    public static Cards fromJson(JSONObject json) {
-        return new Cards(
-                json.getInt("priorityValue"),
-                json.getString("id"),
-                json.getInt("direction"),
-                json.getInt("momentum")
-        );
-    }
-
-    public JSONObject toJson() {
-        JSONObject obj = new JSONObject();
-
-        obj.put("priorityValue", priorityValue);
-        obj.put("id", id);
-        obj.put("direction", direction);
-        obj.put("momentum", momentum);
-
-        return obj;
-    }
 }

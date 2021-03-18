@@ -6,8 +6,6 @@ import inf112.skeleton.app.Cards.Cards;
 
 public class Player {
 
-//    private static int[][] a = {{16,8,23,32,24},{32,30,24,8,16,23},{32,29,8,31,16,24},{31,16,24,8,29,32}};
-
     private int direction;
     private String name;
 
