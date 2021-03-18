@@ -1,7 +1,5 @@
 package inf112.skeleton.app.Cards;
 
-import org.json.JSONObject;
-
 public class Cards {
     private int priorityValue;
     private String id;

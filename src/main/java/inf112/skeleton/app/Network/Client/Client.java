@@ -1,7 +1,6 @@
 package inf112.skeleton.app.Network.Client;
 
 import inf112.skeleton.app.Cards.Cards;
-import inf112.skeleton.app.Cards.Deck;
 import inf112.skeleton.app.Network.Data.Payload;
 import inf112.skeleton.app.Network.Data.PayloadAction;
 import inf112.skeleton.app.Network.Data.PlayerData;
