@@ -50,6 +50,11 @@
             <version>5.8.0-M1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>REALISE</version>
+        </dependency>
     </dependencies>
 
     <build>
