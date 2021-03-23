@@ -2,6 +2,7 @@ package RoboRallySB3M.Cards;
 
 import static org.junit.Assert.*;
 
+import RoboRallySB3M.Direction;
 import org.junit.Test;
 
 
@@ -10,13 +11,13 @@ import org.junit.Test;
  */
 public class TestCards {
 
-    Cards moveTwoCard = new MoveTwo(270, "Move Two", Cards.ROTATE_0, 2);
-    Cards rotateRightCard = new RotateRight(80, "Rotate Right", Cards.ROTATE_90, 0);
-    Cards moveOneCard = new MoveOne(270, "Move One", Cards.ROTATE_0, 1);
-    Cards moveThreeCard = new MoveThree(270, "Move Three", Cards.ROTATE_0, 3);
-    Cards backUpCard = new BackUp(180, "Back Up", Cards.ROTATE_0, -1);
-    Cards rotateLeftCard = new RotateLeft(180, "Rotate Left", Cards.ROTATE_270, 0);
-    Cards uTurnCard = new UTurn(270, "U-Turn", Cards.ROTATE_180, 0);
+    Cards moveTwoCard = new MoveTwo(270, "Move Two", Direction.NORTH, 2);
+    Cards rotateRightCard = new RotateRight(80, "Rotate Right", Direction.WEST, 0);
+    Cards moveOneCard = new MoveOne(270, "Move One", Direction.NORTH, 1);
+    Cards moveThreeCard = new MoveThree(270, "Move Three", Direction.NORTH, 3);
+    Cards backUpCard = new BackUp(180, "Back Up", Direction.NORTH, -1);
+    Cards rotateLeftCard = new RotateLeft(180, "Rotate Left", Direction.EAST, 0);
+    Cards uTurnCard = new UTurn(270, "U-Turn", Direction.SOUTH, 0);
 
     @Test
     public void testGetValueOfMoveTwoCard(){
@@ -32,8 +33,8 @@ public class TestCards {
 
     @Test
     public void testGetDirectionOfMoveTwoCard(){
-        int direction = moveTwoCard.getDirection();
-        assertEquals(Cards.ROTATE_0, direction);
+        Direction direction = moveTwoCard.getDirection();
+        assertEquals(Direction.NORTH, direction);
     }
 
     @Test
@@ -56,8 +57,8 @@ public class TestCards {
 
     @Test
     public void testGetDirectionOfRotateRightCard(){
-        int direction = rotateRightCard.getDirection();
-        assertEquals(Cards.ROTATE_90, direction);
+        Direction direction = rotateRightCard.getDirection();
+        assertEquals(Direction.WEST, direction);
     }
 
     @Test

@@ -2,6 +2,7 @@ package RoboRallySB3M.Cards;
 
 import static org.junit.Assert.*;
 
+import RoboRallySB3M.Direction;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -125,7 +126,7 @@ public class TestDeck {
     public void testDirectionMoveOneCards(){
         for (Cards card : deck.cardQueue) {
             if (card.getId().equals("Move One"))
-                assertEquals(0, card.getDirection());
+                assertEquals(Direction.NORTH, card.getDirection());
         }
     }
 
@@ -133,7 +134,7 @@ public class TestDeck {
     public void testDirectionUTurnCards(){
         for (Cards card : deck.cardQueue) {
             if (card.getId().equals("U-Turn"))
-                assertEquals(2, card.getDirection());
+                assertEquals(Direction.SOUTH, card.getDirection());
         }
     }
 

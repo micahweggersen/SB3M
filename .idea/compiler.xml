@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="mvn-app" />
+        <module name="Roborally" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="mvn-app" target="9" />
+      <module name="Roborally" target="9" />
     </bytecodeTargetLevel>
   </component>
 </project>
