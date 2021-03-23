@@ -263,6 +263,3 @@ public class Play implements Screen, InputProcessor {
 
 
 }
-
-
-
