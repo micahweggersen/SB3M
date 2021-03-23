@@ -1,9 +1,10 @@
 package RoboRallySB3M.Cards;
 
-import static org.junit.Assert.*;
 
 import RoboRallySB3M.Direction;
 import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
