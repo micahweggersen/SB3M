@@ -26,13 +26,12 @@ public class Play implements Screen, InputProcessor {
     private SpriteBatch batch;
     private BitmapFont font;
 
-    private int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
+    private final int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
 
     //Define view states
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera cameraView;
     private String playerName;
-    private Deck deck;
 
     private HashMap<String, ClientPlayer> playerTileCache = new HashMap<>();
     private List<PlayerData> playerData;
@@ -88,7 +87,6 @@ public class Play implements Screen, InputProcessor {
         cameraView.update();
 
         //Load player figure and set size
-        Texture texture = new Texture("src/assets/player.png");
 
         renderer = new OrthogonalTiledMapRenderer(Board.map, (float) (1.0 / 600.0));
 
@@ -213,12 +211,15 @@ public class Play implements Screen, InputProcessor {
      * @param keycode Keyboard input
      * @return Movement for player according to card or arrow keys
      */
-    //TODO Skriv if statements om til en
+    //TODO Skive if statements om til en
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.D) {
             inputKey = true;
             createPlayerDeck();
+        }
+        if (keycode == Input.Keys.F) {
+            inputKey = false;
         }
         if (inputKey) {
             choosingCards(keycode);

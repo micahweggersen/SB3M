@@ -32,7 +32,6 @@ public class PlayerServer {
      *             Moves the player to new location
      */
     public void move(Cards card) {
-        System.out.println(position + "start");
         if (card.getDirection() != null) {
             direction = Direction.toDirection((direction.value + card.getDirection().value) % 4);
         }
@@ -47,16 +46,13 @@ public class PlayerServer {
 
         for (int i = 0; i < abs(card.getMomentum()); i++) {
             if (!canMove(direction, (int) position.x, (int) position.y)) {
-                System.out.println(position + "can not move");
                 break;
             }
             if (canMove(direction, (int) position.x, (int) position.y)) {
                 if (direction == Direction.SOUTH || direction == Direction.NORTH) position.y += (momentum);
                 if (direction == Direction.WEST || direction == Direction.EAST) position.x += (momentum);
-                System.out.println(position + "can move");
             }
         }
-        System.out.println(position + "end");
 
         position = new Vector2(position.x + 0.00001F, position.y + 0.00001F);
     }
