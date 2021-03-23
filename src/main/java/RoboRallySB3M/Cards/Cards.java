@@ -1,15 +1,12 @@
 package RoboRallySB3M.Cards;
 
+import RoboRallySB3M.Direction;
+
 public class Cards {
     private int priorityValue;
     private String id;
     private int momentum;
-    private int direction;
-
-    public static final int ROTATE_0 = 0;
-    public static final int ROTATE_90 = 1;
-    public static final int ROTATE_180 = 2;
-    public static final int ROTATE_270 = 3;
+    private Direction direction;
 
     /**
      * Constructor. Used by sub-classes.
@@ -17,7 +14,7 @@ public class Cards {
      * @param priorityValue The value that a card has in order to decide priority of the card at start of each round.
      * @param id            The id/type of the card
      */
-    public Cards(int priorityValue, String id, int direction, int momentum) {
+    public Cards(int priorityValue, String id, Direction direction, int momentum) {
         this.momentum = momentum;
         this.direction = direction;
         this.priorityValue = priorityValue;
@@ -61,7 +58,7 @@ public class Cards {
      *
      * @return the direction of a card
      */
-    public int getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 }

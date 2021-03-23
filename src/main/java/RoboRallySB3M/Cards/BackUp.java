@@ -1,14 +1,18 @@
 package RoboRallySB3M.Cards;
 
+import RoboRallySB3M.Direction;
+
 public class BackUp extends Cards {
 
-    /** See Card class
+    /**
+     * See Card class
+     *
      * @param priorityValue int
-     * @param id String
-     * @param direction direction
-     * @param momentum int
+     * @param id            String
+     * @param direction     direction
+     * @param momentum      int
      */
-    public BackUp(int priorityValue, String id, int direction, int momentum) {
-        super(priorityValue, "Back Up", ROTATE_0, -1);
+    public BackUp(int priorityValue, String id, Direction direction, int momentum) {
+        super(priorityValue, "Back Up", Direction.NORTH, -1);
     }
 }

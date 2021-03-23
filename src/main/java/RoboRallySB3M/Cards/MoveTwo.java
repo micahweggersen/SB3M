@@ -1,5 +1,7 @@
 package RoboRallySB3M.Cards;
 
+import RoboRallySB3M.Direction;
+
 public class MoveTwo extends Cards {
 
     /** See Card class
@@ -9,7 +11,7 @@ public class MoveTwo extends Cards {
      * @param momentum int
      */
 
-    public MoveTwo(int priorityValue, String id, int direction, int momentum) {
-        super(priorityValue, "Move Two", ROTATE_0, 2);
+    public MoveTwo(int priorityValue, String id, Direction direction, int momentum) {
+        super(priorityValue, "Move Two", Direction.NORTH, 2);
     }
 }

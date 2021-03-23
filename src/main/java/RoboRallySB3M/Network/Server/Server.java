@@ -1,6 +1,6 @@
 package RoboRallySB3M.Network.Server;
 
-import RoboRallySB3M.Player;
+import RoboRallySB3M.PlayerServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,7 +10,7 @@ public class Server extends Thread {
 
     private ServerSocket serverSocket;
     private final int serverPort;
-    private final ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, PlayerServer> players = new ConcurrentHashMap<>();
 
     public Server(int serverPort) {
         this.serverPort = serverPort;

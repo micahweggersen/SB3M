@@ -1,6 +1,8 @@
 package RoboRallySB3M.Cards;
 
 
+import RoboRallySB3M.Direction;
+
 import java.util.*;
 
 
@@ -72,46 +74,46 @@ public class Deck {
         // U_TURN Cards
         int priorityValue = 10;
         for (int i = 1; i <= 6; i++) {
-            cardQueue.add(new UTurn(priorityValue, "U-Turn", 2, 0));
+            cardQueue.add(new UTurn(priorityValue, "U-Turn", Direction.SOUTH, 0));
             priorityValue = priorityValue + 10;
         }
         // ROTATE_LEFT Cards
         priorityValue = 70;
         for (int i = 1; i <= 18; i++) {
-            cardQueue.add(new RotateLeft(priorityValue, "Rotate Left", 3, 0));
+            cardQueue.add(new RotateLeft(priorityValue, "Rotate Left", Direction.EAST, 0));
             priorityValue = priorityValue + 20;
         }
 
         // ROTATE_RIGHT Cards
         priorityValue = 80;
         for (int i = 1; i <= 18; i++) {
-            cardQueue.add(new RotateRight(priorityValue, "Rotate Right", 1, 0));
+            cardQueue.add(new RotateRight(priorityValue, "Rotate Right", Direction.WEST, 0));
             priorityValue = priorityValue + 20;
         }
 
         // BACKUP Cards
         priorityValue = 430;
         for (int i = 1; i <= 6; i++) {
-            cardQueue.add(new BackUp(priorityValue, "Back Up", 0, -1));
+            cardQueue.add(new BackUp(priorityValue, "Back Up", Direction.NORTH, -1));
             priorityValue = priorityValue + 10;
         }
 
         // MOVE_ONE Cards
         priorityValue = 490;
         for (int i = 1; i <= 18; i++) {
-            cardQueue.add(new MoveOne(priorityValue,"Move One", 0, 1));
+            cardQueue.add(new MoveOne(priorityValue,"Move One", Direction.NORTH, 1));
             priorityValue = priorityValue + 10;
         }
         // MOVE_TWO Cards
         priorityValue = 670;
         for (int i = 1; i <= 12; i++) {
-            cardQueue.add(new MoveTwo(priorityValue, "Move Two", 0, 2));
+            cardQueue.add(new MoveTwo(priorityValue, "Move Two", Direction.NORTH, 2));
             priorityValue = priorityValue + 10;
         }
         // MOVE_THREE Cards
         priorityValue = 790;
         for (int i = 1; i <= 6; i++) {
-            cardQueue.add(new MoveThree(priorityValue, "Move Three", 0,3));
+            cardQueue.add(new MoveThree(priorityValue, "Move Three", Direction.NORTH,3));
             priorityValue = priorityValue + 10;
         }
     }

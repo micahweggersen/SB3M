@@ -1,11 +1,12 @@
 package RoboRallySB3M.Network.Data;
 
 import RoboRallySB3M.Cards.Cards;
+import RoboRallySB3M.Direction;
 
 public class MoveCardData implements PayloadData {
     public int cardPV;
     public int cardMom;
-    public int cardDir;
+    public Direction cardDir;
     public String cardID;
     public String playerName;
 
