@@ -1,5 +1,6 @@
 package RoboRallySB3M.Screens;
 
+import RoboRallySB3M.GameRunner;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,30 +15,32 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen implements Screen {
 
-    private MainClass parent; //a field to store orchestrator
+    private GameRunner parent; //a field to store orchestrator
     private Stage stage;
 
-    public MenuScreen(MainClass mainClass){
-        parent = mainClass;
+    public MenuScreen(GameRunner gameRunner){
+        parent = gameRunner;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-
     }
+    //
+    //https://www.gamedevelopment.blog/full-libgdx-game-tutorial-menu-control/
 
     @Override
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
-            table.setDebug(true);
-            stage.addActor(table);
+        table.setDebug(true);
+        stage.addActor(table);
 
-            Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("src/assets/quantum-horizon/skin/quantum-horizon-ui.json"));
 
-            TextButton newGame = new TextButton("New Game", skin);
-            TextButton preferences = new TextButton("Preferences", skin);
-            TextButton exit = new TextButton("Exit", skin);
+        TextButton singlePlayer = new TextButton("Single Player", skin);
+        //TextButton multiPlayer = new TextButton("Multi Player", skin);
+        TextButton preferences = new TextButton("Preferences", skin);
+        TextButton exit = new TextButton("Exit", skin);
 
-            table.add(newGame).fillX().uniformX();
+        table.add(singlePlayer).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(preferences).fillX().uniformX();
         table.row();
@@ -51,17 +54,17 @@ public class MenuScreen implements Screen {
             }
         });
 
-        newGame.addListener(new ChangeListener() {
+        singlePlayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(MainClass.APPLICATION);
+                parent.changeScreen(GameRunner.APPLICATION);
             }
         });
 
         preferences.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(MainClass.PREFERENCES);
+                parent.changeScreen(GameRunner.PREFERENCES);
             }
         });
 
