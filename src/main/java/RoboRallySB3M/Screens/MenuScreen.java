@@ -35,13 +35,15 @@ public class MenuScreen implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("src/assets/quantum-horizon/skin/quantum-horizon-ui.json"));
 
-        TextButton singlePlayer = new TextButton("Single Player", skin);
-        //TextButton multiPlayer = new TextButton("Multi Player", skin);
+        TextButton newGame = new TextButton("New Game", skin);
+        TextButton joinGame = new TextButton("Join Game", skin);
         TextButton preferences = new TextButton("Preferences", skin);
         TextButton exit = new TextButton("Exit", skin);
 
-        table.add(singlePlayer).fillX().uniformX();
+        table.add(newGame).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
+        table.add(joinGame).fillX().uniformX();
+        table.row();
         table.add(preferences).fillX().uniformX();
         table.row();
         table.add(exit).fillX().uniformX();
@@ -54,10 +56,17 @@ public class MenuScreen implements Screen {
             }
         });
 
-        singlePlayer.addListener(new ChangeListener() {
+        newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 parent.changeScreen(GameRunner.APPLICATION);
+            }
+        });
+
+        joinGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                parent.changeScreen(GameRunner.JOINAPPLICATION);
             }
         });
 

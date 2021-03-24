@@ -16,7 +16,8 @@ public class GameRunner extends Game {
     public final static int MENU = 0;
     public final static int PREFERENCES = 1;
     public final static int APPLICATION = 2;
-    public final static int ENDGAME = 3;
+    public final static int JOINAPPLICATION = 3;
+    public final static int ENDGAME = 4;
 
     public GameRunner(boolean isClientOnly) {
         this.isClientOnly = isClientOnly;
@@ -68,7 +69,11 @@ public class GameRunner extends Game {
                 this.setScreen(preferencesScreen);
                 break;
             case APPLICATION:
-                if(play == null) play = new Play(isClientOnly);
+                if(play == null) play = new Play(isClientOnly = true);
+                this.setScreen(play);
+                break;
+            case JOINAPPLICATION:
+                if(play == null) play = new Play(isClientOnly = false);
                 this.setScreen(play);
                 break;
             case ENDGAME:
