@@ -19,14 +19,12 @@ public class GameRunner extends Game {
     public final static int JOINAPPLICATION = 3;
     public final static int ENDGAME = 4;
 
-    public GameRunner(boolean isClientOnly) {
-        this.isClientOnly = isClientOnly;
+    public GameRunner() {
     }
 
     @Override
     public void create() {
         Gdx.app.log("RoboRally", "create");
-        //setScreen(new Play(isClientOnly));
         loadingScreen = new LoadingScreen(this);
         setScreen(loadingScreen);
     }
@@ -69,11 +67,13 @@ public class GameRunner extends Game {
                 this.setScreen(preferencesScreen);
                 break;
             case APPLICATION:
-                if(play == null) play = new Play(isClientOnly = true);
+                isClientOnly = false;
+                if(play == null) play = new Play(isClientOnly);
                 this.setScreen(play);
                 break;
             case JOINAPPLICATION:
-                if(play == null) play = new Play(isClientOnly = false);
+                isClientOnly = true;
+                if(play == null) play = new Play(isClientOnly);
                 this.setScreen(play);
                 break;
             case ENDGAME:
