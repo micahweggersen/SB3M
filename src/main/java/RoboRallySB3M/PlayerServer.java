@@ -62,7 +62,7 @@ public class PlayerServer {
      * @param direction player pointing direction
      * @return true if can move false if cannot move
      */
-    public boolean canMove(Direction direction, int oldX, int oldY) {
+    public static boolean canMove(Direction direction, int oldX, int oldY) {
 
         //skriv om
         int x_change = 0;

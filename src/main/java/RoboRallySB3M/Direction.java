@@ -12,8 +12,8 @@ public enum Direction {
         this.value = value;
     }
 
-    public static Direction toDirection(int dir) {
-        switch (dir) {
+    public static Direction toDirection(int direction) {
+        switch (direction) {
             case 0:
                 return NORTH;
             case 1:
@@ -27,8 +27,8 @@ public enum Direction {
     }
 
 
-    public static Direction oppositeDirection(Direction dir) {
-        switch (dir) {
+    public static Direction oppositeDirection(Direction direction) {
+        switch (direction) {
             case SOUTH:
                 return NORTH;
             case EAST:
@@ -39,6 +39,45 @@ public enum Direction {
                 return EAST;
         }
         return null;
+    }
+
+    public static Direction stringToDirection (String direction) {
+        switch (direction) {
+            case "SOUTH":
+                return SOUTH;
+            case "EAST":
+                return EAST;
+            case "NORTH":
+                return NORTH;
+            case "WEST":
+                return WEST;
+        }
+        return null;
+    }
+
+    public static int changeInXdir(Direction direction) {
+        switch (direction) {
+            case SOUTH:
+            case NORTH:
+                return 0;
+            case EAST:
+                return 1;
+            case WEST:
+                return -1;
+        }
+        return 0;
+    }
+    public static int changeInYdir(Direction direction) {
+        switch (direction) {
+            case SOUTH:
+                return -1;
+            case NORTH:
+                return 1;
+            case EAST:
+            case WEST:
+                return 0;
+        }
+        return 0;
     }
 
 }

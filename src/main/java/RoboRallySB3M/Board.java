@@ -13,6 +13,8 @@ public class Board {
     public static TiledMapTileLayer flagLayer;
     public static TiledMapTileLayer holeLayer;
     public static TiledMapTileLayer walls;
+    public static TiledMapTileLayer laserVertical;
+    public static TiledMapTileLayer laserHorizontal;
 
     public static boolean isCellFlag(int x, int y) {
         return Board.flagLayer.getCell(x, y) != null;

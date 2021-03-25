@@ -5,6 +5,7 @@ import RoboRallySB3M.Board;
 import RoboRallySB3M.Cards.Cards;
 import RoboRallySB3M.Cards.Deck;
 import RoboRallySB3M.ClientPlayer;
+import RoboRallySB3M.Laser;
 import RoboRallySB3M.Network.Client.Client;
 import RoboRallySB3M.Network.Data.*;
 import RoboRallySB3M.Network.Server.Server;
@@ -65,6 +66,12 @@ public class Play implements Screen, InputProcessor {
         Board.holeLayer = (TiledMapTileLayer) Board.map.getLayers().get("Hole");
         Board.playerLayer = (TiledMapTileLayer) Board.map.getLayers().get("Player");
         Board.walls = (TiledMapTileLayer) Board.map.getLayers().get("Walls");
+        Board.laserVertical = (TiledMapTileLayer) Board.map.getLayers().get("LaserVertical");
+        Board.laserHorizontal = (TiledMapTileLayer) Board.map.getLayers().get("LaserHorizontal");
+
+        Laser.createLaser();
+        Board.laserHorizontal.setVisible(true);
+        Board.laserVertical.setVisible(true);
 
         //Size of camera in relation to map size
         cameraView = new OrthographicCamera();
@@ -103,6 +110,8 @@ public class Play implements Screen, InputProcessor {
             client.start();
         }
 
+
+
     }
 
     /**
@@ -117,6 +126,7 @@ public class Play implements Screen, InputProcessor {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
+
         if (playerData != null) {
             Board.clear(Board.playerLayer);
 
@@ -135,6 +145,7 @@ public class Play implements Screen, InputProcessor {
             }
             renderer.getBatch().end();
         }
+        Laser.drawLaser();
 
         renderer.setView(cameraView);
         renderer.render();
