@@ -20,12 +20,12 @@ import static java.lang.Math.abs;
 public class Player extends Sprite implements InputProcessor {
 
     //Define player states
-    public static TiledMapTileLayer.Cell playerFigure;
-    public static TiledMapTileLayer.Cell playerFigureHasWon;
-    public static TiledMapTileLayer.Cell playerFigureHasDied;
+    public TiledMapTileLayer.Cell playerFigure;
+    public TiledMapTileLayer.Cell playerFigureHasWon;
+    public TiledMapTileLayer.Cell playerFigureHasDied;
 
     public static Vector2 playerPosition = new Vector2(0,0);
-    private static int direction;
+    private int direction;
     public Vector2 newPlayerPosition = null;
     private float alpha = 0;
     float newY;
@@ -122,6 +122,7 @@ public class Player extends Sprite implements InputProcessor {
            for( Cards c : q){
                //kan lage en vektor for hvertkort å bruke lerp mellom hver av dem
                move(c);
+
                //               update(0);
            }
 
@@ -200,7 +201,7 @@ public class Player extends Sprite implements InputProcessor {
      * @param direction player pointing direction
      * @return true if can move false if cannot move
      */
-    public boolean canMove(Direction direction, int oldX, int oldY) {
+    public static boolean canMove(Direction direction, int oldX, int oldY) {
 
         //skriv om
         int x_change = 0;

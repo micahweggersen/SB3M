@@ -10,9 +10,11 @@ public class Board {
     //Define board-layers for board, player, flag and hole
     public static TiledMapTileLayer boardLayer;
     public static TiledMapTileLayer playerLayer;
-    public static  TiledMapTileLayer flagLayer;
+    public static TiledMapTileLayer flagLayer;
     public static TiledMapTileLayer holeLayer;
     public static TiledMapTileLayer walls;
+    public static TiledMapTileLayer laserHoro;
+    public static TiledMapTileLayer laserVert;
 
     public static void clear(TiledMapTileLayer layer) {
         for (int x = 0; x < layer.getWidth(); x++) {

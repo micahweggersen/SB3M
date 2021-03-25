@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.graphics.GL30;
 import inf112.skeleton.app.Board;
+import inf112.skeleton.app.Laser;
 import inf112.skeleton.app.Player;
 
 
@@ -29,12 +30,17 @@ public class Play implements Screen {
         Board.holeLayer = (TiledMapTileLayer) Board.map.getLayers().get("Hole");
         Board.playerLayer = (TiledMapTileLayer) Board.map.getLayers().get("Player");
         Board.walls = (TiledMapTileLayer) Board.map.getLayers().get("Walls");
+        Board.laserHoro = (TiledMapTileLayer) Board.map.getLayers().get("LaserH");
+        Board.laserVert = (TiledMapTileLayer) Board.map.getLayers().get("LaserV");
 
         camera = new OrthographicCamera();
         renderer = new OrthogonalTiledMapRenderer(Board.map, (float) (1.0/300.0));
 
         player = new Player(new Sprite(new Texture("src/assets/player.png")));
         player.create();
+        Laser.createLaser();
+        Board.laserHoro.setVisible(true);
+        Board.laserVert.setVisible(true);
 
         Gdx.input.setInputProcessor(player); //tar imot input
     }
@@ -45,7 +51,10 @@ public class Play implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
+
+
         renderer.getBatch().begin();
+        Laser.drawLaser();
         player.draw(renderer.getBatch());
         renderer.getBatch().end();
 
