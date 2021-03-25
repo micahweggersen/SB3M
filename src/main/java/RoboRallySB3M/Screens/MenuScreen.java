@@ -12,6 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * This is the main screen class for managing of the menu bar, the code is derived from
+ * https://www.gamedevelopment.blog/full-libgdx-game-tutorial-project-setup/
+ */
 
 public class MenuScreen implements Screen {
 
@@ -47,6 +51,7 @@ public class MenuScreen implements Screen {
         table.add(preferences).fillX().uniformX();
         table.row();
         table.add(exit).fillX().uniformX();
+
 
         //create button listeners
         exit.addListener(new ChangeListener() {
