@@ -5,6 +5,16 @@
 *   Clone project from git in IntelliJ or another IDE.
 *   If you are using Windows, you can simply press run main in editor, 
     which you do by right clicking on the main-class in the project, and pressing "Run dMain.main()"
+*   After running main, a menu bar will show up and you will have the options of playing a new game (starting a server),
+    or joining a game (provided that a server game already has been started). 
+*   To test the "join game"-function on just one computer you have to have two run configurations:
+    *   Open the "Edit Run/Debug Configurations" (to the right of the hammer on the top of the screen)
+    *   Press "Edit Configurations..."
+    *   Click on main in Application, and then click on the icon above that is called "copy configuration", shaped 
+        like two paper sheets.
+*   Start a new game, maybe move your player around a bit if you want
+*   Change your main configuration to your second one, run the application, and click join game.
+*   You will now have to screens with the game, both showing what happens in the game.
 
 
 ### macOS:
@@ -17,13 +27,24 @@
         5. then in "VM Options" paste -XstartOnFirstThread.
 *   After this you will be able to 
     run the program every time by right-clicking the main-class and pressing "Run Main.main()"
+*   To test the "join game"-function on just one computer you have to have two run configurations:
+    *   Open the "Edit Run/Debug Configurations" (to the right of the hammer on the top of the screen)
+    *   Press "Edit Configurations..."
+    *   Click on main in Application, and then click on the icon above that is called "copy configuration", shaped
+        like two paper sheets.
+*   Start a new game, maybe move your player around a bit if you want
+*   Change your main configuration to your second one, run the application, and click join game.
+*   You will now have to screens with the game, both showing what happens in the game.
+
 
 
 ## Playing the game 
-After running main, a menu bar will show up and you will have the options of playing a new game (starting a server),
-or joining a game (provided that a server game already has been started). Once you have started a game, you can use 
-the arrow keys to move around, but to get 9 cards to choose from, press D. You see the cards listed in the terminal. 
-Press number keys 1-9 to choose, when the fifth card is chosen, the player moves by itself. 
+
+
+Once you have started a game, you can use the arrow keys to move around, but to get 9 cards to choose from, press D. 
+You see the cards listed in the terminal. Press number keys 1-9 to choose, when the fifth card is chosen, you press S 
+to get the player to move according to each card. If you want to move around with the arrow keys again, press F. This will
+also make you able to test the different card functions, as they correspond with the number keys when you are not in "choose card mode".
     
 ## Known bugs
 None
