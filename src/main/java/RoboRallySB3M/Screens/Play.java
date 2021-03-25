@@ -145,7 +145,7 @@ public class Play implements Screen, InputProcessor {
             }
             renderer.getBatch().end();
         }
-        Laser.drawLaser();
+        Laser.drawLaser(playerData);
 
         renderer.setView(cameraView);
         renderer.render();

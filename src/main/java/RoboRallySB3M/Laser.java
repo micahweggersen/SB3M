@@ -1,5 +1,6 @@
 package RoboRallySB3M;
 
+import RoboRallySB3M.Network.Data.PlayerData;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -42,7 +43,7 @@ public class Laser {
         }
     }
 
-    public static void drawLaser(){
+    public static void drawLaser(List<PlayerData> playerData){
 
         for (LaserData v : laserLocation) {
 
@@ -55,27 +56,48 @@ public class Laser {
             int x = v.x;
             int y = v.y;
 
+            TiledMapTileLayer.Cell placeholder = laserH;
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("H")) {
                 Board.laserHorizontal.setCell(x, y, laserH);
                 while (PlayerServer.canMove(dir, x, y)) {
                     if(x > Board.boardLayer.getWidth() || x < 0) break;
                     Board.laserHorizontal.setCell(x+x_change, y, laserH);
                     x += x_change;
-                    String key = String.valueOf(x) + String.valueOf(y);
-                    laserLocationDraw.put(key, LaserData.newLaser("laserH", x, y));
                 }
             }
+            placeholder = laserV;
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("V")) {
                 Board.laserVertical.setCell(x, y, laserV);
-                while (PlayerServer.canMove(dir, x , y)) {
-                    if(y > Board.boardLayer.getHeight() || y < 0) break;
-                    Board.laserVertical.setCell(x, y+y_change, laserV);
-                    y += y_change;
+                while (PlayerServer.canMove(dir, x, y)) {
+                    if (playerWall(x , y, playerData)) {
+                        placeholder = null;
+                    }
+                    Board.laserVertical.setCell(x, y + y_change, placeholder);
+
                     String key = String.valueOf(x) + String.valueOf(y);
                     laserLocationDraw.put(key, LaserData.newLaser("laserV", x, y));
+
+                    if (y > Board.boardLayer.getHeight() || y < 0) break;
+                    y += y_change;
+
                 }
             }
         }
+    }
+
+    private static boolean playerWall(int x, int y, List<PlayerData> playerList) {
+
+        if(playerList == null || laserLocationDraw.size() <= 0) {
+            return false;
+        }
+
+        for (PlayerData player : playerList) {
+            String key = String.valueOf(x) + String.valueOf(y);
+            if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
