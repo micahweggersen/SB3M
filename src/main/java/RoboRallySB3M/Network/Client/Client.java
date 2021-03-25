@@ -79,6 +79,9 @@ public class Client extends Thread {
                 out.writeObject(Payload.create(PayloadAction.UPDATE));
 
                 Payload payload = (Payload) in.readObject();
+                if(payload.action == PayloadAction.ERROR) {
+                    System.out.println("Error");
+                }
                 if (payload.action == PayloadAction.UPDATE) {
                     UpdateData data = (UpdateData) payload.data;
 

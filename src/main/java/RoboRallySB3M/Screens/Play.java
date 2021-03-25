@@ -38,21 +38,14 @@ public class Play implements Screen, InputProcessor {
     private List<Cards> dealtCards;
     private Queue<Cards> chosenCards;
     private boolean inputKey = false;
+    private boolean newCards = true;
 
     private boolean isClientOnly;
     private Client client;
 
     public Play(boolean isClientOnly) {
         this.isClientOnly = isClientOnly;
-
-        System.out.println(isClientOnly);
     }
-
-    // Server notices that there's a new connection. Asks the new connection about a preferred name.
-    // Check if name already taken – make sure player name is unique
-    // Server creates the player, based on client input.
-    // Server returns the player id!
-
 
     /**
      * Called when this screen becomes the current screen for a {@link Game}.
@@ -109,6 +102,7 @@ public class Play implements Screen, InputProcessor {
             System.out.println("Joined successful!");
             client.start();
         }
+
     }
 
     /**
@@ -178,6 +172,7 @@ public class Play implements Screen, InputProcessor {
     }
 
     public void createPlayerDeck() {
+        newCards = false;
         Deck deck = new Deck();
         dealtCards = deck.dealCards(8);
         chosenCards = new LinkedList<>();
@@ -191,7 +186,7 @@ public class Play implements Screen, InputProcessor {
             }
             System.out.println("Choose another card!");
             if (!Deck.checkEnoughCardStatus(chosenCards)) {
-                client.sendPayload(Payload.create(PayloadAction.CARD, MoveCardData.create(playerName, chosenCards.poll())));
+                System.out.println("Full hand");
             }
         }
     }
@@ -211,18 +206,27 @@ public class Play implements Screen, InputProcessor {
      * @param keycode Keyboard input
      * @return Movement for player according to card or arrow keys
      */
-    //TODO Skive if statements om til en
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.D) {
             inputKey = true;
-            createPlayerDeck();
+            if(newCards) {
+                createPlayerDeck();
+            }
         }
         if (keycode == Input.Keys.F) {
             inputKey = false;
         }
         if (inputKey) {
             choosingCards(keycode);
+        }
+        if(keycode == Input.Keys.S) {
+            if(!chosenCards.isEmpty()) {
+                client.sendPayload(Payload.create(PayloadAction.CARD, MoveCardData.create(playerName, chosenCards.poll())));
+            } else {
+                System.out.println("Hand is empty!");
+                newCards = true;
+            }
         }
 
         if (!inputKey) {
