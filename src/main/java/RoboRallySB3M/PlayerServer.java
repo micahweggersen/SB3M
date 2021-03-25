@@ -38,8 +38,7 @@ public class PlayerServer {
 
         int momentum = (direction == Direction.WEST || direction == Direction.SOUTH) ? -1 : 1;
         if (card.getMomentum() < 0) {
-            momentum *= -1; //slå denne sammen med den oppe
-            direction = Direction.oppositeDirection(direction);
+            momentum *= -1;
         }
 
         if (direction == null) throw new IllegalArgumentException("The direction can't be null");
