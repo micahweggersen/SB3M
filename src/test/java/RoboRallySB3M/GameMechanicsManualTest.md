@@ -152,5 +152,19 @@ Fem formål som er aktuelle for Move One, Move Two, Move Three og Back Up:
   * Kjør spillet, beveg spiller til (0,2) med piltastene.
   * Tast 7, og kontroller at spiller beveger seg til (0,1).
 
+### Testing av en server client og en client 
+* Formål:
+  * Sjekke at spiller blir sett på begge instansene av spillet
+* Utførelse:
+  * Kjør programmet og trykk New Game for å starte en server med client, (player starter på posisjon (0,0).
+  * Kjør en ny instanse av programmet og trykk join Game Server Client(0,0).
+  * Du skal se to spille figurer på skjermen Client(0,1)
+  * Om du har markert den første instansen som ble oppretet og trykker pil tast opp så skal ServerClient gå fra(0,0)
+  * -> til (1,0) og begge skjermene skal se denne endringen
+  * Om du har markert den andre instansen som ble oppretet og trykker pil tast opp så skal Client gå fra(0,1)
+  * -> til (1,1) og begge skjermene skal se denne endringen
+  
+
+
 
 
