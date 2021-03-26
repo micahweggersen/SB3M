@@ -64,13 +64,8 @@ public class PlayerServer {
      */
     public static boolean canMove(Direction direction, int oldX, int oldY) {
 
-        //skriv om
-        int x_change = 0;
-        int y_change = 0;
-        if (direction == Direction.WEST) x_change = -1;
-        if (direction == Direction.EAST) x_change = 1;
-        if (direction == Direction.NORTH) y_change = 1;
-        if (direction == Direction.SOUTH) y_change = -1;
+        int x_change = Direction.changeInXdir(direction);
+        int y_change = Direction.changeInYdir(direction);
 
         if (Board.walls.getCell(oldX, oldY) != null) {
             if (Board.walls.getCell(oldX, oldY).getTile().getProperties().containsKey(direction.toString()))

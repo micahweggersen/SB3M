@@ -16,8 +16,7 @@ public class Laser {
     public static TiledMapTileLayer.Cell laserVH;
     private static List<LaserData> laserLocation;
     private static HashMap<String, LaserData> laserLocationDraw;
-    private static ArrayList<Vector2> coor_xy;
-    private static Direction dir;
+
 
     public static void createLaser() {
 
@@ -60,8 +59,14 @@ public class Laser {
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("H")) {
                 Board.laserHorizontal.setCell(x, y, laserH);
                 while (PlayerServer.canMove(dir, x, y)) {
-                    if(x > Board.boardLayer.getWidth() || x < 0) break;
-                    Board.laserHorizontal.setCell(x+x_change, y, laserH);
+                    if (playerWall(x , y, playerData)) {
+                        placeholder = null;
+                    }
+                    Board.laserHorizontal.setCell(x+x_change, y, placeholder);
+
+                    String key = String.valueOf(x) + String.valueOf(y);
+                    laserLocationDraw.put(key, LaserData.newLaser("laserH", x, y));
+                    if(x > Board.boardLayer.getWidth() || x < 0 ) break;
                     x += x_change;
                 }
             }
