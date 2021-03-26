@@ -52,11 +52,13 @@
  <tile id="36">
   <properties>
    <property name="Laser" value="V"/>
+   <property name="SOUTH" value=""/>
    <property name="direction" value="SOUTH"/>
   </properties>
  </tile>
  <tile id="37">
   <properties>
+   <property name="EAST" value=""/>
    <property name="Laser" value="H"/>
    <property name="direction" value="WEST"/>
   </properties>
@@ -64,11 +66,13 @@
  <tile id="44">
   <properties>
    <property name="Laser" value="V"/>
+   <property name="NORTH" value=""/>
    <property name="direction" value="NORTH"/>
   </properties>
  </tile>
  <tile id="45">
   <properties>
+   <property name="EAST" value=""/>
    <property name="Laser" value="H"/>
    <property name="direction" value="EAST"/>
   </properties>
