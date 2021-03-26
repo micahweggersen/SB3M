@@ -1,10 +1,9 @@
 package RoboRallySB3M.Network.Server;
 
-import RoboRallySB3M.Board;
+import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.Cards.Cards;
 import RoboRallySB3M.Direction;
 import RoboRallySB3M.Network.Data.*;
-import RoboRallySB3M.PlayerServer;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 

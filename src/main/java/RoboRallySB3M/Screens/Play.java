@@ -1,11 +1,11 @@
 package RoboRallySB3M.Screens;
 
 
-import RoboRallySB3M.Board;
+import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.Cards.Cards;
 import RoboRallySB3M.Cards.Deck;
-import RoboRallySB3M.ClientPlayer;
-import RoboRallySB3M.Laser;
+import RoboRallySB3M.Network.Client.ClientPlayer;
+import RoboRallySB3M.GameObjects.Laser;
 import RoboRallySB3M.Network.Client.Client;
 import RoboRallySB3M.Network.Data.*;
 import RoboRallySB3M.Network.Server.Server;
@@ -13,7 +13,6 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;

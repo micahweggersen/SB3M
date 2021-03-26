@@ -1,13 +1,12 @@
 package RoboRallySB3M.Screens;
 
-import RoboRallySB3M.GameRunner;
 import com.badlogic.gdx.Screen;
 
 
 public class LoadingScreen implements Screen {
-    private GameRunner parent; //a field to store orchestrator
+    private ParentScreen parent; //a field to store orchestrator
 
-    public LoadingScreen(GameRunner gameRunner){
+    public LoadingScreen(ParentScreen gameRunner){
         parent = gameRunner;
     }
     @Override
@@ -17,7 +16,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float v) {
-        parent.changeScreen(GameRunner.MENU);
+        parent.changeScreen(ParentScreen.MENU);
     }
 
     @Override

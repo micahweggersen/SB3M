@@ -1,4 +1,4 @@
-package RoboRallySB3M;
+package RoboRallySB3M.GameObjects.Data;
 
 import java.util.Objects;
 

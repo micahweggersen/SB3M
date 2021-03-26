@@ -1,6 +1,5 @@
 package RoboRallySB3M.Screens;
 
-import RoboRallySB3M.GameRunner;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,10 +18,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen implements Screen {
 
-    private GameRunner parent; //a field to store orchestrator
+    private ParentScreen parent; //a field to store orchestrator
     private Stage stage;
 
-    public MenuScreen(GameRunner gameRunner){
+    public MenuScreen(ParentScreen gameRunner){
         parent = gameRunner;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -64,21 +63,21 @@ public class MenuScreen implements Screen {
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(GameRunner.APPLICATION);
+                parent.changeScreen(ParentScreen.APPLICATION);
             }
         });
 
         joinGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                parent.changeScreen(GameRunner.JOINAPPLICATION);
+                parent.changeScreen(ParentScreen.JOINAPPLICATION);
             }
         });
 
         preferences.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(GameRunner.PREFERENCES);
+                parent.changeScreen(ParentScreen.PREFERENCES);
             }
         });
 

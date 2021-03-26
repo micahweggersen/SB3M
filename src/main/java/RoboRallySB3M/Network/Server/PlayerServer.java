@@ -1,6 +1,8 @@
-package RoboRallySB3M;
+package RoboRallySB3M.Network.Server;
 
 import RoboRallySB3M.Cards.Cards;
+import RoboRallySB3M.Direction;
+import RoboRallySB3M.GameObjects.Board;
 import com.badlogic.gdx.math.Vector2;
 
 import static java.lang.Math.abs;

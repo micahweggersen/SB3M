@@ -1,11 +1,10 @@
 package RoboRallySB3M.Screens;
-import RoboRallySB3M.GameRunner;
 import com.badlogic.gdx.Screen;
 
 public class PreferencesScreen implements Screen {
-    private GameRunner parent; //a field to store orchestrator
+    private ParentScreen parent; //a field to store orchestrator
 
-    public PreferencesScreen(GameRunner gameRunner){
+    public PreferencesScreen(ParentScreen gameRunner){
         parent = gameRunner;
     }
     @Override

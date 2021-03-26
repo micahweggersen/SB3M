@@ -1,4 +1,4 @@
-package RoboRallySB3M;
+package RoboRallySB3M.GameObjects;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;

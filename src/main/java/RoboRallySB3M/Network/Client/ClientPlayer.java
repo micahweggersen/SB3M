@@ -1,5 +1,6 @@
-package RoboRallySB3M;
+package RoboRallySB3M.Network.Client;
 
+import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.Network.Data.PlayerData;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -35,8 +36,6 @@ public class ClientPlayer extends Sprite {
     }
 
     public boolean updatePosition(PlayerData player) {
-        Vector2 playerPosition = position;
-        Vector2 newPlayerPosition = player.position;
 
         if (player.position == null) {
             return false;

@@ -1,10 +1,10 @@
-package RoboRallySB3M;
+package RoboRallySB3M.Screens;
 
 import RoboRallySB3M.Screens.*;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
-public class GameRunner extends Game {
+public class ParentScreen extends Game {
 
     private boolean isClientOnly;
     private LoadingScreen loadingScreen;
@@ -19,7 +19,7 @@ public class GameRunner extends Game {
     public final static int JOINAPPLICATION = 3;
     public final static int ENDGAME = 4;
 
-    public GameRunner() {
+    public ParentScreen() {
     }
 
     @Override

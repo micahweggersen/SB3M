@@ -1,11 +1,13 @@
-package RoboRallySB3M;
+package RoboRallySB3M.GameObjects;
 
+import RoboRallySB3M.Direction;
+import RoboRallySB3M.GameObjects.Data.LaserData;
 import RoboRallySB3M.Network.Data.PlayerData;
+import RoboRallySB3M.Network.Server.PlayerServer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Vector2;
 
 import java.util.*;
 

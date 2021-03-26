@@ -1,5 +1,6 @@
 package RoboRallySB3M;
 
+import RoboRallySB3M.Screens.ParentScreen;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
@@ -10,6 +11,6 @@ public class Main {
         cfg.setTitle("SB3M DEMO");
         cfg.setWindowedMode(1000, 1000);
 
-        new Lwjgl3Application(new GameRunner(), cfg); //Need to find better name for HalloWorld
+        new Lwjgl3Application(new ParentScreen(), cfg); //Need to find better name for HalloWorld
     }
 }
