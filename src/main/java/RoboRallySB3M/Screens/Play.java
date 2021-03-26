@@ -126,6 +126,15 @@ public class Play implements Screen, InputProcessor {
 
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
 
+        playerRender();
+
+        Laser.drawLaser(playerData);
+
+        renderer.setView(cameraView);
+        renderer.render();
+    }
+
+    private void playerRender() {
         if (playerData != null) {
             Board.clear(Board.playerLayer);
 
@@ -144,10 +153,6 @@ public class Play implements Screen, InputProcessor {
             }
             renderer.getBatch().end();
         }
-        Laser.drawLaser(playerData);
-
-        renderer.setView(cameraView);
-        renderer.render();
     }
 
     @Override
@@ -231,8 +236,10 @@ public class Play implements Screen, InputProcessor {
             choosingCards(keycode);
         }
         if(keycode == Input.Keys.S) {
-            if(!chosenCards.isEmpty()) {
-                client.sendPayload(Payload.create(PayloadAction.CARD, MoveCardData.create(playerName, chosenCards.poll())));
+            if(chosenCards != null) {
+                if(!chosenCards.isEmpty()) {
+                    client.sendPayload(Payload.create(PayloadAction.CARD, MoveCardData.create(playerName, chosenCards.poll())));
+                }
             } else {
                 System.out.println("Hand is empty!");
                 newCards = true;
