@@ -47,4 +47,6 @@ to get the player to move according to each card. If you want to move around wit
 also make you able to test the different card functions, as they correspond with the number keys when you are not in "choose card mode".
     
 ## Known bugs
-None
+* Det er ikke lagt til innstillinger for spillet ennå, så når man trykker “preferences” på menyen, skjer det ingenting. 
+* Serveren kan dessverre fort krasje. Vi tror det er fordi programmet får for mye å gjøre. Vi har erfart at om man trykker på de forskjellige tastene langsomt så skal det gå fint.
+
