@@ -16,8 +16,7 @@ public class Laser {
     public static TiledMapTileLayer.Cell laserVH;
     private static List<LaserData> laserLocation;
     private static HashMap<String, LaserData> laserLocationDraw;
-    private static ArrayList<Vector2> coor_xy;
-    private static Direction dir;
+
 
     public static void createLaser() {
 
