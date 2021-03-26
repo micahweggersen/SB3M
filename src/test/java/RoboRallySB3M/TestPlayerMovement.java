@@ -12,7 +12,6 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 import org.junit.Before;
 
-
 public class TestPlayerMovement {
 
     private PlayerServer player;
