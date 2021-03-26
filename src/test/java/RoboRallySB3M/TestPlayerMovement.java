@@ -1,24 +1,16 @@
 package RoboRallySB3M;
 
 import RoboRallySB3M.Cards.Cards;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
-import org.junit.Assert;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-
 import org.junit.Test;
 import org.junit.Before;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.mockito.Mockito;
-import com.badlogic.gdx.ApplicationListener;
 
 
 public class TestPlayerMovement {
@@ -28,17 +20,15 @@ public class TestPlayerMovement {
 
     @Before
     public void setUp() {
-        player = new PlayerServer(Direction.NORTH, "PlayerTest");
-        player.position = new Vector2(0,0);
-
         Gdx.gl = mock(GL20.class);
         new HeadlessApplication(new EmptyApplication());
-        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/testPlayerMovementMap.tmx");
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
-        Board.flagLayer = (TiledMapTileLayer) Board.map.getLayers().get("Flag");
-        Board.holeLayer = (TiledMapTileLayer) Board.map.getLayers().get("Hole");
         Board.playerLayer = (TiledMapTileLayer) Board.map.getLayers().get("Player");
-        Board.walls = (TiledMapTileLayer) Board.map.getLayers().get("Walls");
+        Board.walls = (TiledMapTileLayer) Board.map.getLayers().get("Wall");
+
+        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player.position = new Vector2(0,0);
     }
 
     @Test
@@ -58,7 +48,6 @@ public class TestPlayerMovement {
         assertEquals(0, (int)player.position.x);
         assertEquals(2, (int)player.position.y);
     }
-
 
     @Test
     public void playerMovesThreeUpTest(){
@@ -100,5 +89,54 @@ public class TestPlayerMovement {
         assertEquals(0, (int)player.position.x);
         assertEquals(0, (int)player.position.y);
     }
+
+    @Test
+    public void playerMovementFromFreeCellToCellWithWallOnSameSide_shouldBlock(){
+        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player.position = new Vector2(2,1);
+
+        card = new Cards(180, "Move One", Direction.NORTH , 1);
+        player.move(card);
+
+        assertEquals(2, (int)player.position.x);
+        assertEquals(1, (int)player.position.y);
+    }
+
+    @Test
+    public void playerMovementFromFreeCellToCellWithWallOnDifferentSide_noBlock(){
+        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player.position = new Vector2(2,3);
+
+        card = new Cards(180, "Back up", Direction.NORTH , -1);
+        player.move(card);
+
+        assertEquals(2, (int)player.position.x);
+        assertEquals(2, (int)player.position.y);
+    }
+
+    @Test
+    public void playerMovementFromCellWithWallToFreeCell_noBlock(){
+        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player.position = new Vector2(2,2);
+
+        card = new Cards(180, "Move One", Direction.NORTH , 1);
+        player.move(card);
+
+        assertEquals(2, (int)player.position.x);
+        assertEquals(3, (int)player.position.y);
+    }
+
+    @Test
+    public void playerMovementFromCellWithWallToFreeCell_shouldBlock(){
+        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player.position = new Vector2(2,2);
+
+        card = new Cards(180, "Back Up", Direction.NORTH , -1);
+        player.move(card);
+
+        assertEquals(2, (int)player.position.x);
+        assertEquals(1, (int)player.position.y);
+    }
+
 }
 
