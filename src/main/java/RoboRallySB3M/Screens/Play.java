@@ -87,7 +87,6 @@ public class Play implements Screen, InputProcessor {
         cameraView.update();
 
         //Load player figure and set size
-
         renderer = new OrthogonalTiledMapRenderer(Board.map, (float) (1.0 / 600.0));
 
 
