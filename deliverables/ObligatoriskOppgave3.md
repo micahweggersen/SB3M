@@ -58,7 +58,7 @@ Siden vi ikke har rukket å komme oss gjennom mvp, prioriterer vi oppgaver som o
     * Implementere GUI for disse spillelementene
  
 ### Testing
-Vi har startet å skrive de manuelle testene fra forrige innlevering om til automatiske tester. Vi har også endret på example.tmx, så koordinatene i de manuelle testene fra sist vil ikke lenger være korrekte. De manuelle testene fra sist heter nå GameMechanicsManualTest.md. Vi har ikke rukket å skrive om alle testene enda, så vi har valgt å la md-filen bli selv om denne ikke er korrekt.
+Vi har startet å skrive de manuelle testene fra forrige innlevering om til automatiske tester. Vi har også endret på example.tmx, så koordinatene i de manuelle testene fra sist vil ikke lenger være korrekte. De manuelle testene fra sist heter nå GameMechanicsManualTest.md. Vi har ikke rukket å skrive om alle testene enda, så vi har valgt å la md-filen bli selv om denne ikke er korrekt. Server har ingen direkte tester laget for seg men måten serveren er konstruert på så vil de manuelle testene viser at serveren fungerer som den skal. Dette er fordi serveren vi håndtere bevegelse av spiller og oppdatere de verdiene. Siden det spilleren ser er tegnet på client siden så vil da det bevise at serveren har gjort oppdateringer til spiller. Dette ønsker vi å utvide til å bli bedre dekket til neste gang.
  
 ### Kjente bugs
 Det er ikke lagt til innstillinger for spillet ennå, så når man trykker “preferences” på menyen, skjer det ingenting. 
