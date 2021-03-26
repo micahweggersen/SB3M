@@ -14,6 +14,9 @@ public class Server extends Thread {
         this.serverPort = serverPort;
     }
 
+    /**
+     * Runs the server and ads new clients as a new thread - ClientHandler.
+     */
     @Override
     public void run() {
         try {

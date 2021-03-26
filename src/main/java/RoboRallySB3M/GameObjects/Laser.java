@@ -20,6 +20,10 @@ public class Laser {
     private static HashMap<String, LaserData> laserLocationDraw;
 
 
+    /**
+     * Creating laser from tileset and initializing list for storing laser locations.
+     * Finds laser walls on the board and stores there location.
+     */
     public static void createLaser() {
 
         laserH = new TiledMapTileLayer.Cell();
@@ -34,7 +38,7 @@ public class Laser {
         laserLocation = new ArrayList<>();
         laserLocationDraw = new HashMap<>();
 
-
+        //Finds laser walls on the board
         for (int x = 0; x < Board.boardLayer.getHeight(); x++) {
             for (int y = 0; y < Board.boardLayer.getWidth(); y++) {
                 if (Board.walls.getCell(x, y) != null && Board.walls.getCell(x, y).getTile().getProperties().containsKey("Laser")) {
@@ -44,6 +48,9 @@ public class Laser {
         }
     }
 
+    /**
+     * @param playerData List of all current player positions
+     */
     public static void drawLaser(List<PlayerData> playerData){
 
         for (LaserData v : laserLocation) {
@@ -56,31 +63,35 @@ public class Laser {
 
             int x = v.x;
             int y = v.y;
-
+            //Draws lasers Horizontal
             TiledMapTileLayer.Cell placeholder = laserH;
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("H")) {
                 Board.laserHorizontal.setCell(x, y, laserH);
                 while (PlayerServer.canMove(dir, x, y)) {
+                    //If laser hits a player, set the laser draw value to null
                     if (playerWall(x , y, playerData)) {
                         placeholder = null;
                     }
                     Board.laserHorizontal.setCell(x+x_change, y, placeholder);
 
+                    //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
                     String key = String.valueOf(x) + String.valueOf(y);
                     laserLocationDraw.put(key, LaserData.newLaser("laserH", x, y));
                     if(x > Board.boardLayer.getWidth() || x < 0 ) break;
                     x += x_change;
                 }
             }
+            //Draws lasers Vertical
             placeholder = laserV;
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("V")) {
                 Board.laserVertical.setCell(x, y, laserV);
                 while (PlayerServer.canMove(dir, x, y)) {
+                    //If laser hits a player, set the laser draw value to null
                     if (playerWall(x , y, playerData)) {
                         placeholder = null;
                     }
                     Board.laserVertical.setCell(x, y + y_change, placeholder);
-
+                    //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
                     String key = String.valueOf(x) + String.valueOf(y);
                     laserLocationDraw.put(key, LaserData.newLaser("laserV", x, y));
 
@@ -92,6 +103,12 @@ public class Laser {
         }
     }
 
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @param playerList list of current players
+     * @return if player location is the same as drawn laser location then return true - this stops the laser form being drawn
+     */
     private static boolean playerWall(int x, int y, List<PlayerData> playerList) {
 
         if(playerList == null || laserLocationDraw.size() <= 0) {

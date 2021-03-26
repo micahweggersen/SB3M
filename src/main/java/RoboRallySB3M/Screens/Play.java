@@ -26,17 +26,18 @@ public class Play implements Screen, InputProcessor {
     private SpriteBatch batch;
     private BitmapFont font;
 
-    private final int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
-
-    //Define view states
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera cameraView;
-    private String playerName;
 
+    private String playerName;
     private HashMap<String, ClientPlayer> playerTileCache = new HashMap<>();
     private List<PlayerData> playerData;
+
+    private final int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
+
     private List<Cards> dealtCards;
     private Queue<Cards> chosenCards;
+
     private boolean inputKey = false;
     private boolean newCards = true;
 
@@ -77,39 +78,17 @@ public class Play implements Screen, InputProcessor {
         cameraView.setToOrtho(false, 5, 5);
         cameraView.position.x = 2.5F;
 
-        if (!isClientOnly) {
-            Server server = new Server(8818);
-            server.start();
-        }
-
         //Define playerLayer coordinate and playerFigure
         cameraView.update();
+
+        startServer();
 
         //Load player figure and set size
         renderer = new OrthogonalTiledMapRenderer(Board.map, (float) (1.0 / 600.0));
 
-
         Gdx.input.setInputProcessor(this);
 
-        client = new Client("127.0.0.1", 8818, data -> playerData = data);
-
-        if (!client.startConnection()) {
-            System.err.println("Connect failed!");
-            return;
-        }
-
-        System.out.println("Connect successful!");
-
-        playerName = "Player" + System.currentTimeMillis();
-        Payload success = client.sendPayload(Payload.create(PayloadAction.JOIN, PlayerData.newPlayer(playerName)));
-
-        if (success.action == PayloadAction.SUCCESS) {
-            System.out.println("Joined successful!");
-            client.start();
-        }
-
-
-
+        clientConnectToServer();
     }
 
     /**
@@ -125,33 +104,18 @@ public class Play implements Screen, InputProcessor {
 
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
 
-        playerRender();
+        if (playerData != null) {
+            Board.clear(Board.playerLayer);
+
+            renderer.getBatch().begin();
+            playerRender();
+            renderer.getBatch().end();
+        }
 
         Laser.drawLaser(playerData);
 
         renderer.setView(cameraView);
         renderer.render();
-    }
-
-    private void playerRender() {
-        if (playerData != null) {
-            Board.clear(Board.playerLayer);
-
-            renderer.getBatch().begin();
-            for (PlayerData player : playerData) {
-                String name = player.playerName;
-
-                if (!playerTileCache.containsKey(name)) {
-                    playerTileCache.put(name, new ClientPlayer(name, player.position));
-                }
-
-                ClientPlayer cp = playerTileCache.get(name);
-                if (cp.updatePosition(player)) {
-                    cp.draw(renderer.getBatch());
-                }
-            }
-            renderer.getBatch().end();
-        }
     }
 
     @Override
@@ -180,11 +144,67 @@ public class Play implements Screen, InputProcessor {
         font.dispose();
     }
 
+    /**
+     * Starts the server
+     */
+    private void startServer() {
+        if (!isClientOnly) {
+            Server server = new Server(8818);
+            server.start();
+        }
+    }
 
+    /**
+     * Connects a new client to server
+     */
+    private void clientConnectToServer() {
+        client = new Client("127.0.0.1", 8818, data -> playerData = data);
+
+        if (!client.startConnection()) {
+            System.err.println("Connect failed!");
+            return;
+        }
+
+        System.out.println("Connect successful!");
+
+        playerName = "Player" + System.currentTimeMillis();
+        Payload success = client.sendPayload(Payload.create(PayloadAction.JOIN, PlayerData.newPlayer(playerName)));
+
+        if (success.action == PayloadAction.SUCCESS) {
+            System.out.println("Joined successful!");
+            client.start();
+        }
+    }
+
+    /**
+     * Renders the player figure with some animation
+     */
+    private void playerRender() {
+        for (PlayerData player : playerData) {
+            String name = player.playerName;
+
+            if (!playerTileCache.containsKey(name)) {
+                playerTileCache.put(name, new ClientPlayer(name, player.position));
+            }
+
+            ClientPlayer cp = playerTileCache.get(name);
+            if (cp.updatePosition(player)) {
+                cp.draw(renderer.getBatch());
+            }
+        }
+    }
+
+    /**
+     * @param keycode input key
+     * @return if key is a match to numberKeyValues list
+     */
     public boolean isNumberKey(int keycode) {
         return Arrays.stream(numberKeyValues).anyMatch(i -> i == keycode);
     }
 
+    /**
+     * Creates the possible cards to choose from
+     */
     public void createPlayerDeck() {
         newCards = false;
         Deck deck = new Deck();
@@ -192,6 +212,9 @@ public class Play implements Screen, InputProcessor {
         chosenCards = new LinkedList<>();
     }
 
+    /**
+     * @param keycode chooses cards between numbers 1 to 9
+     */
     private void choosingCards(int keycode) {
         if (isNumberKey(keycode)) {
             if (!chosenCards.contains(dealtCards.get(keycode - 8))) {
@@ -222,29 +245,34 @@ public class Play implements Screen, InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
+        //get a deck and lockout other functions
         if (keycode == Input.Keys.D) {
             inputKey = true;
             if(newCards) {
                 createPlayerDeck();
             }
         }
+        //opens other functions
         if (keycode == Input.Keys.F) {
             inputKey = false;
         }
         if (inputKey) {
             choosingCards(keycode);
         }
+        //plays the first card from chosenCards Queue, one per press
         if(keycode == Input.Keys.S) {
             if(chosenCards != null) {
                 if(!chosenCards.isEmpty()) {
                     client.sendPayload(Payload.create(PayloadAction.CARD, MoveCardData.create(playerName, chosenCards.poll())));
+                } else {
+                    System.out.println("Hand is empty!");
+                    newCards = true;
                 }
             } else {
-                System.out.println("Hand is empty!");
-                newCards = true;
+                System.out.println("You have not chosen any cards!");
             }
         }
-
+        //manual input to test all movement and other things on board
         if (!inputKey) {
             client.sendPayload(Payload.create(PayloadAction.MOVE, MoveData.create(keycode, playerName)));
         }
@@ -280,6 +308,5 @@ public class Play implements Screen, InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
-
 
 }

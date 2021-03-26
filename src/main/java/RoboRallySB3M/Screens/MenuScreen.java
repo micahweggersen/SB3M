@@ -33,6 +33,7 @@ public class MenuScreen implements Screen {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
+        //DEBUG MODE
         table.setDebug(true);
         stage.addActor(table);
 
@@ -43,6 +44,7 @@ public class MenuScreen implements Screen {
         TextButton preferences = new TextButton("Preferences", skin);
         TextButton exit = new TextButton("Exit", skin);
 
+        //adding buttons
         table.add(newGame).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(joinGame).fillX().uniformX();
@@ -59,21 +61,21 @@ public class MenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-
+        //changes screens when corresponding button is clicked
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 parent.changeScreen(ParentScreen.APPLICATION);
             }
         });
-
+        //changes screens when corresponding button is clicked
         joinGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 parent.changeScreen(ParentScreen.JOINAPPLICATION);
             }
         });
-
+        //changes screens when corresponding button is clicked
         preferences.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

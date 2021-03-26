@@ -45,9 +45,13 @@ public class Client extends Thread {
             e.printStackTrace();
         }
 
+
         return resp;
     }
 
+    /**
+     * @return a connection to a server
+     */
     public boolean startConnection() {
         try {
             clientSocket = new Socket(ip, port);
@@ -60,12 +64,19 @@ public class Client extends Thread {
         }
     }
 
+    /**
+     * Not finished implemented yet, plan is to use a disconnect to shut down client and remove from list at server.
+     * @throws IOException stops the connection
+     */
     public void stopConnection() throws IOException {
         in.close();
         out.close();
         clientSocket.close();
     }
 
+    /**
+     * Constant updates to client from server with player data. Thread.sleep decides the frequency of these updates
+     */
     @Override
     public void run() {
         super.run();
@@ -100,6 +111,9 @@ public class Client extends Thread {
     }
 
     public interface UpdateListener {
+        /**
+         * @param playerData update interface to update playerData
+         */
         void update(List<PlayerData> playerData);
     }
 }

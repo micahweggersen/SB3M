@@ -1,6 +1,5 @@
 package RoboRallySB3M.Screens;
 
-import RoboRallySB3M.Screens.*;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
@@ -56,6 +55,9 @@ public class ParentScreen extends Game {
         super.resume();
     }
 
+    /**
+     * @param screen screen type
+     */
     public void changeScreen(int screen){
         switch(screen){
             case MENU:

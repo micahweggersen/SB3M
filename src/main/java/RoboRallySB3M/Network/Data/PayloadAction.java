@@ -1,5 +1,8 @@
 package RoboRallySB3M.Network.Data;
 
+/**
+ * Keywords to decide the action on server side or client side
+ */
 public enum PayloadAction {
     UPDATE,
     MOVE,
@@ -7,5 +10,6 @@ public enum PayloadAction {
     QUIT,
     JOIN,
     ERROR,
-    SUCCESS
+    SUCCESS,
+    DISCONNECT
 }

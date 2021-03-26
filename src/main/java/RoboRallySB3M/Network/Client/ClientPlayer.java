@@ -23,9 +23,14 @@ public class ClientPlayer extends Sprite {
 
     private float alpha = 0;
 
+    /**
+     * @param name of player
+     * @param position of player on map
+     */
     public ClientPlayer(String name, Vector2 position) {
+        //gets texture
         super(new Texture("src/assets/player.png"));
-
+        //sets playerFig
         if (playerFig == null) {
             playerFig = TextureRegion.split(getTexture(), 300, 300);
         }
@@ -35,6 +40,10 @@ public class ClientPlayer extends Sprite {
         this.position = position;
     }
 
+    /**
+     * @param player updates the visual location of each player. This is not the actual location of player.
+     * @return true if player was not null
+     */
     public boolean updatePosition(PlayerData player) {
 
         if (player.position == null) {
@@ -64,12 +73,19 @@ public class ClientPlayer extends Sprite {
         return true;
     }
 
+    /**
+     * @param spriteBatch draws the player figure from update
+     */
     @Override
     public void draw(Batch spriteBatch) {
         update(Gdx.graphics.getDeltaTime());
         super.draw(spriteBatch);
     }
 
+    /**
+     * @param delta
+     * a path from start position to final position and updates at each point
+     */
     public void update(float delta) {
         Vector2 temp = positionUpdating;
         if (temp != null) {
@@ -78,6 +94,9 @@ public class ClientPlayer extends Sprite {
         }
     }
 
+    /**
+     * @return pacing of the path
+     */
     private float getAlpha() {
         alpha += 0.7;
         if (alpha >= 1) alpha = 0;

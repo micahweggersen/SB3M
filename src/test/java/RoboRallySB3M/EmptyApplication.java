@@ -7,8 +7,6 @@ public class EmptyApplication implements ApplicationListener {
 
     @Override
     public void create() {
-        System.out.println("test create");
-
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.util.*;
 
 public class Deck {
 
-    public static boolean chooseCardNow;
     public Queue<Cards> cardQueue;
     public static ArrayList<Cards> dealtCards;
     public static Queue<Cards> chosenCards;

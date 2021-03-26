@@ -26,10 +26,17 @@ class ClientHandler extends Thread {
         this.players = players;
     }
 
+    /**
+     * @param name playerName
+     * @return player
+     */
     private PlayerServer findPlayer(String name) {
         return players.get(name);
     }
 
+    /**
+     * @return Updated values to playerData
+     */
     private UpdateData createUpdateData() {
         List<PlayerData> data = new ArrayList<>(players.size());
 
@@ -40,6 +47,10 @@ class ClientHandler extends Thread {
         return UpdateData.create(data);
     }
 
+    /**
+     * Thread that listens for input from clients and updates accordingly. Also gives output to update client.
+     * This is were the player logic and movement is handled.
+     */
     public void run() {
         try {
             out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -55,6 +66,7 @@ class ClientHandler extends Thread {
                     case QUIT:
                         out.writeObject(Payload.create(PayloadAction.QUIT));
                         break loop;
+
                     case CARD:
                         MoveCardData dataCard = (MoveCardData) payload.data;
                         String cardID = dataCard.cardID;
@@ -67,9 +79,7 @@ class ClientHandler extends Thread {
                         if (playerCard == null) {
                             continue;
                         }
-
                         playerCard.move(new Cards(cardPV, cardID, cardDir, cardMom));
-
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
 
                         break;
@@ -145,6 +155,9 @@ class ClientHandler extends Thread {
 
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
                         break;
+                    case DISCONNECT:
+                        break;
+
                 }
             }
 

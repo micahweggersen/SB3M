@@ -60,6 +60,7 @@ public class PlayerServer {
 
     /**
      * Checks if player can move to location
+     * //TODO NOT STATIC
      *
      * @param direction player pointing direction
      * @return true if can move false if cannot move

@@ -10,6 +10,11 @@ public class MoveCardData implements PayloadData {
     public String cardID;
     public String playerName;
 
+    /**
+     * @param playerName player ID - name
+     * @param card Card type with values
+     * @return MoveCardData type
+     */
     public static MoveCardData create(String playerName, Cards card) {
         return new MoveCardData(playerName, card);
     }
