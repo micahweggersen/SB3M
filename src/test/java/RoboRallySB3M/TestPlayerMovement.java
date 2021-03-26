@@ -132,11 +132,23 @@ public class TestPlayerMovement {
         player = new PlayerServer(Direction.NORTH, "PlayerTest");
         player.position = new Vector2(2,2);
 
-        card = new Cards(180, "Back Up", Direction.NORTH , -1);
+        card = new Cards(180, "Back Up", Direction.NORTH, -1);
         player.move(card);
 
         assertEquals(2, (int)player.position.x);
         assertEquals(1, (int)player.position.y);
+    }
+
+    @Test
+    public void playerMovementFromCellWithWallToCellWithWall_noBlock(){
+        player = new PlayerServer(Direction.EAST, "PlayerTest");
+        player.position = new Vector2(2,2);
+
+        card = new Cards(180, "Move One", Direction.NORTH, 1);
+        player.move(card);
+
+        assertEquals(3, (int)player.position.x);
+        assertEquals(2, (int)player.position.y);
     }
 
 }
