@@ -34,6 +34,10 @@ public class Board {
         return Board.holeLayer.getCell(x, y) != null;
     }
 
+    public static boolean isCellLaser(int x, int y) {
+        return Board.laserHorizontal.getCell(x, y) != null || Board.laserVertical.getCell(x, y) != null;
+    }
+
     /**
      * @param layer the entire game map and clears every piece
      */
