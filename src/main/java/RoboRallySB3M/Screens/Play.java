@@ -21,6 +21,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import java.util.*;
 
+/**
+ * This class is the screen that is rendered when the
+ * button "NEW GAME" is pressed in menu
+ */
 public class Play implements Screen, InputProcessor {
 
     private SpriteBatch batch;
@@ -44,8 +48,8 @@ public class Play implements Screen, InputProcessor {
     private boolean isClientOnly;
     private Client client;
 
-    public static final int WIDTH = 1500;
-    public static final int HEIGHT = 1000;
+    public static final int screenWidth = 1500;
+    public static final int screenHeight = 1000;
     public static final int gameboardPlacementX = 0;
     public static final int gameboardPlacementY = 0;
 
@@ -90,7 +94,7 @@ public class Play implements Screen, InputProcessor {
 
         //Size of camera in relation to map size
         cameraView = new OrthographicCamera();
-        cameraView.setToOrtho(false, (mapWidth * tileWidth) * ((float) WIDTH / (float) HEIGHT), mapHeight * tileHeight);
+        cameraView.setToOrtho(false, (mapWidth * tileWidth) * ((float) screenWidth / (float) screenHeight), mapHeight * tileHeight);
         cameraView.translate(gameboardPlacementX, gameboardPlacementY);
 
 
