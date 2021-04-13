@@ -16,6 +16,8 @@ public class Board {
     public static TiledMapTileLayer laserVertical;
     public static TiledMapTileLayer laserHorizontal;
 
+
+
     /**
      * @param x coordinate
      * @param y coordinate

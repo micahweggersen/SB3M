@@ -44,9 +44,17 @@ public class Play implements Screen, InputProcessor {
     private boolean isClientOnly;
     private Client client;
 
+    public static final int WIDTH = 1500;
+    public static final int HEIGHT = 1000;
+    public static final int gameboardPlacementX = 0;
+    public static final int gameboardPlacementY = 0;
+
+
+
     public Play(boolean isClientOnly) {
         this.isClientOnly = isClientOnly;
     }
+
 
     /**
      * Called when this screen becomes the current screen for a {@link Game}.
@@ -56,6 +64,7 @@ public class Play implements Screen, InputProcessor {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.RED);
+
 
         //Tile file load
         Board.map = new TmxMapLoader().load("src/assets/example.tmx");
@@ -73,10 +82,17 @@ public class Play implements Screen, InputProcessor {
         Board.laserHorizontal.setVisible(true);
         Board.laserVertical.setVisible(true);
 
+        int mapWidth = 400;
+        int mapHeight = 400;
+        int tileWidth = Board.holeLayer.getWidth();
+        int tileHeight = Board.holeLayer.getHeight();
+
+
         //Size of camera in relation to map size
         cameraView = new OrthographicCamera();
-        cameraView.setToOrtho(false, 5, 5);
-        cameraView.position.x = 2.5F;
+        cameraView.setToOrtho(false, (mapWidth * tileWidth) * ((float) WIDTH / (float) HEIGHT), mapHeight * tileHeight);
+        cameraView.translate(gameboardPlacementX, gameboardPlacementY);
+
 
         //Define playerLayer coordinate and playerFigure
         cameraView.update();
@@ -84,7 +100,7 @@ public class Play implements Screen, InputProcessor {
         startServer();
 
         //Load player figure and set size
-        renderer = new OrthogonalTiledMapRenderer(Board.map, (float) (1.0 / 600.0));
+        renderer = new OrthogonalTiledMapRenderer(Board.map, (float) 1.0 / (tileWidth) * (tileHeight));
 
         Gdx.input.setInputProcessor(this);
 
@@ -102,11 +118,12 @@ public class Play implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
+
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
+
 
         if (playerData != null) {
             Board.clear(Board.playerLayer);
-
             renderer.getBatch().begin();
             playerRender();
             renderer.getBatch().end();
