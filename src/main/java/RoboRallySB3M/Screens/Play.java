@@ -13,6 +13,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -52,7 +53,8 @@ public class Play implements Screen, InputProcessor {
     public static final int screenHeight = 1000;
     public static final int gameboardPlacementX = 0;
     public static final int gameboardPlacementY = 0;
-
+    private Texture damageToken;
+    private Texture damageTokenPosition;
 
 
     public Play(boolean isClientOnly) {
@@ -98,6 +100,7 @@ public class Play implements Screen, InputProcessor {
         cameraView.translate(gameboardPlacementX, gameboardPlacementY);
 
 
+
         //Define playerLayer coordinate and playerFigure
         cameraView.update();
 
@@ -109,6 +112,9 @@ public class Play implements Screen, InputProcessor {
         Gdx.input.setInputProcessor(this);
 
         clientConnectToServer();
+
+        damageToken = new Texture("src/assets/damage_token.png");
+        damageTokenPosition = new Texture("src/assets/damage_token_grey.png");
     }
 
     /**
@@ -126,6 +132,7 @@ public class Play implements Screen, InputProcessor {
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
 
 
+
         if (playerData != null) {
             Board.clear(Board.playerLayer);
             renderer.getBatch().begin();
@@ -133,11 +140,26 @@ public class Play implements Screen, InputProcessor {
             renderer.getBatch().end();
         }
 
-        Laser.drawLaser(playerData);
+        //Laser.drawLaser(playerData);
+        batch.begin();
+        drawDamageTokenPosition();
+        batch.end();
 
         renderer.setView(cameraView);
         renderer.render();
+
+
     }
+
+
+
+    private void drawDamageTokenPosition(){
+        for(int i = 10; i > 0; i--){
+            batch.draw(damageTokenPosition, 540-(i*54), 600, 40, 50);
+        }
+     }
+
+
 
     @Override
     public void resize(int width, int height) {
