@@ -117,6 +117,8 @@ public class Play implements Screen, InputProcessor {
         damageTokenPosition = new Texture("src/assets/damage_token_grey.png");
     }
 
+
+
     /**
      * Called when the screen should render itself.
      *
