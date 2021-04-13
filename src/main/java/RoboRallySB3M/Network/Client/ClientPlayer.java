@@ -17,9 +17,7 @@ public class ClientPlayer extends Sprite {
 
     public final String name;
     public final TiledMapTileLayer.Cell cell;
-    private int lifeTokens;
-    private int damageTokens;
-    private Status status;
+
 
     public Vector2 position;
     public Vector2 positionUpdating = null;
@@ -41,9 +39,7 @@ public class ClientPlayer extends Sprite {
         this.name = name;
         this.cell = new TiledMapTileLayer.Cell();
         this.position = position;
-        this.lifeTokens = 3;
-        this.damageTokens = 0;
-        this.status = Status.ALIVE;
+
     }
 
     /**
@@ -70,10 +66,6 @@ public class ClientPlayer extends Sprite {
             cell.setTile(new StaticTiledMapTile(playerFig[0][2]));
         } else if (Board.isCellHole(x, y)) {
             cell.setTile(new StaticTiledMapTile(playerFig[0][1]));
-            //loseLifeToken();
-        } else if (Board.isCellLaser(x, y)) {
-            //addDamageToken();
-            //System.out.println(getDamageTokens());
         }
         else {
             cell.setTile(new StaticTiledMapTile(playerFig[0][0]));
@@ -84,48 +76,7 @@ public class ClientPlayer extends Sprite {
         return true;
     }
 
-    public void loseLifeToken() {
-        lifeTokens -= 1;
-        if (lifeTokens <= 0)
-            setStatus(Status.DEAD);
-    }
 
-    public int getLifeTokens() {
-        return lifeTokens;
-    }
-
-    public void addDamageToken() {
-        damageTokens += 1;
-        if (damageTokens >= 10)
-            loseLifeToken();
-    }
-
-    public int getDamageTokens() {
-        return damageTokens;
-    }
-
-    public void powerDown() {
-        setStatus(Status.POWERDOWN);
-        damageTokens = 0;
-    }
-
-    public boolean isPowerDown() {
-        return status == Status.POWERDOWN;
-    }
-
-    public void setStatus(Status newStatus) {
-        this.status = newStatus;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public enum Status {
-        ALIVE,
-        DEAD,
-        POWERDOWN
-    }
 
     /**
      * @param spriteBatch draws the player figure from update
