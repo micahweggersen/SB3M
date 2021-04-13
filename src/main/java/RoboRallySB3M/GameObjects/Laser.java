@@ -69,7 +69,7 @@ public class Laser {
                 Board.laserHorizontal.setCell(x, y, laserH);
                 while (PlayerServer.canMove(dir, x, y)) {
                     //If laser hits a player, set the laser draw value to null
-                    if (playerWall(x , y, playerData)) {
+                    if (isCellLaser(x , y, playerData)) {
                         placeholder = null;
                     }
                     Board.laserHorizontal.setCell(x+x_change, y, placeholder);
@@ -87,7 +87,7 @@ public class Laser {
                 Board.laserVertical.setCell(x, y, laserV);
                 while (PlayerServer.canMove(dir, x, y)) {
                     //If laser hits a player, set the laser draw value to null
-                    if (playerWall(x , y, playerData)) {
+                    if (isCellLaser(x , y, playerData)) {
                         placeholder = null;
                     }
                     Board.laserVertical.setCell(x, y + y_change, placeholder);
@@ -109,7 +109,7 @@ public class Laser {
      * @param playerList list of current players
      * @return if player location is the same as drawn laser location then return true - this stops the laser form being drawn
      */
-    private static boolean playerWall(int x, int y, List<PlayerData> playerList) {
+    private static boolean isCellLaser(int x, int y, List<PlayerData> playerList) {
 
         if(playerList == null || laserLocationDraw.size() <= 0) {
             return false;
@@ -118,10 +118,24 @@ public class Laser {
         for (PlayerData player : playerList) {
             String key = String.valueOf(x) + String.valueOf(y);
             if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y) {
+
                 return true;
             }
         }
         return false;
     }
+
+    public static boolean getLaserPosition(int x, int y) {
+        String key = String.valueOf(x) + String.valueOf(y);
+        System.out.println("Laser");
+        if (laserLocationDraw.get(key) != null) {
+            System.out.println("IFLaser");
+           return true;
+        }
+        return false;
+    }
+
+
+
 
 }

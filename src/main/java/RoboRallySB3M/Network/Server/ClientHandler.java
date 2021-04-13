@@ -121,21 +121,26 @@ class ClientHandler extends Thread {
                             case Input.Keys.LEFT:
                                 if (player.canMove(Direction.WEST, (int) player.position.x, (int) player.position.y)) {
                                     player.position.x -= 1;
+                                    player.checkForDamage();
                                 }
                                 break;
                             case Input.Keys.RIGHT:
                                 if (player.canMove(Direction.EAST, (int) player.position.x, (int) player.position.y)) {
                                     player.position.x += 1;
+                                    player.checkForDamage();
                                 }
                                 break;
                             case Input.Keys.UP:
                                 if (player.canMove(Direction.NORTH, (int) player.position.x, (int) player.position.y)) {
                                     player.position.y += 1;
+                                    player.checkForDamage();
                                 }
                                 break;
                             case Input.Keys.DOWN:
                                 if (player.canMove(Direction.SOUTH, (int) player.position.x, (int) player.position.y)) {
                                     player.position.y -= 1;
+
+                                    player.checkForDamage();
                                 }
                                 break;
                         }

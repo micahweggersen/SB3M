@@ -35,7 +35,8 @@ public class Board {
     }
 
     public static boolean isCellLaser(int x, int y) {
-        return Board.laserHorizontal.getCell(x, y) != null || Board.laserVertical.getCell(x, y) != null;
+        System.out.println("isCellLaser");
+         return Laser.getLaserPosition(x, y);
     }
 
     /**
