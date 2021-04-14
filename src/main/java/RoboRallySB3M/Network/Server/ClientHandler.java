@@ -41,7 +41,7 @@ class ClientHandler extends Thread {
         List<PlayerData> data = new ArrayList<>(players.size());
 
         for (PlayerServer player : players.values()) {
-            data.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection()));
+            data.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder()));
         }
 
         return UpdateData.create(data);
@@ -93,6 +93,11 @@ class ClientHandler extends Thread {
                         if (player == null) {
                             continue;
                         }
+                        if(player.getTurnOrder() != 0) {
+                            System.out.println("Not your turn!");
+                            out.writeObject(Payload.create(PayloadAction.NOT_YOUR_TURN));
+                            break;
+                        }
 
                         Board.playerLayer.setCell((int) player.position.x, (int) player.position.y, null);
 
@@ -139,7 +144,7 @@ class ClientHandler extends Thread {
                                 }
                                 break;
                         }
-
+                        turnHandling(player);
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
                         break;
                     case UPDATE:
@@ -148,7 +153,7 @@ class ClientHandler extends Thread {
                     case JOIN:
                         PlayerData playerData = (PlayerData) payload.data;
 
-                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName);
+                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size());
                         newPlayer.position = new Vector2(players.size(), 0);
 
                         players.put(playerData.playerName, newPlayer);
@@ -166,6 +171,20 @@ class ClientHandler extends Thread {
             clientSocket.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void turnHandling(PlayerServer player) {
+        player.setTurnOrder(player.getTurnOrder()-1);
+
+        for (PlayerServer p: players.values()) {
+            if (!player.getName().equals(p.getName())) {
+                p.setTurnOrder(p.getTurnOrder()-1);
+            }
+            if(p.getTurnOrder() < 0) {
+                p.setTurnOrder(players.size()-1);
+            }
+            System.out.println(p.getTurnOrder());
         }
     }
 }

@@ -10,15 +10,25 @@ import static java.lang.Math.abs;
 public class PlayerServer {
 
     private final String name;
+    private int turnOrder;
     private Direction direction;
 
     //Define player-coordinates
     public Vector2 position;
 
-    public PlayerServer(Direction direction, String name) {
+    public PlayerServer(Direction direction, String name, int turnOrder) {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
+        this.turnOrder = turnOrder;
+    }
+
+    public void setTurnOrder(int turnOrder) {
+        this.turnOrder = turnOrder;
+    }
+
+    public int getTurnOrder() {
+        return turnOrder;
     }
 
     public String getName() {

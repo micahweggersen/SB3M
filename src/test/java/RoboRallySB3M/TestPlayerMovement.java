@@ -28,7 +28,7 @@ public class TestPlayerMovement {
         Board.playerLayer = (TiledMapTileLayer) Board.map.getLayers().get("Player");
         Board.walls = (TiledMapTileLayer) Board.map.getLayers().get("Wall");
 
-        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player = new PlayerServer(Direction.NORTH, "PlayerTest", 0);
         player.position = new Vector2(0,0);
     }
 
@@ -61,7 +61,7 @@ public class TestPlayerMovement {
 
     @Test
     public void playerBackUpTest(){
-        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player = new PlayerServer(Direction.NORTH, "PlayerTest", 0);
         player.position = new Vector2(0,1);
 
         card = new Cards(180, "Back Up", Direction.NORTH , -1);
@@ -93,7 +93,7 @@ public class TestPlayerMovement {
 
     @Test
     public void playerMovementFromFreeCellToCellWithWallOnSameSide_shouldBlock(){
-        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player = new PlayerServer(Direction.NORTH, "PlayerTest", 0);
         player.position = new Vector2(2,1);
 
         card = new Cards(180, "Move One", Direction.NORTH , 1);
@@ -105,7 +105,7 @@ public class TestPlayerMovement {
 
     @Test
     public void playerMovementFromFreeCellToCellWithWallOnDifferentSide_noBlock(){
-        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player = new PlayerServer(Direction.NORTH, "PlayerTest", 0);
         player.position = new Vector2(2,3);
 
         card = new Cards(180, "Back up", Direction.NORTH , -1);
@@ -117,7 +117,7 @@ public class TestPlayerMovement {
 
     @Test
     public void playerMovementFromCellWithWallToFreeCell_noBlock(){
-        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player = new PlayerServer(Direction.NORTH, "PlayerTest", 0);
         player.position = new Vector2(2,2);
 
         card = new Cards(180, "Move One", Direction.NORTH , 1);
@@ -129,7 +129,7 @@ public class TestPlayerMovement {
 
     @Test
     public void playerMovementFromCellWithWallToFreeCell_shouldBlock(){
-        player = new PlayerServer(Direction.NORTH, "PlayerTest");
+        player = new PlayerServer(Direction.NORTH, "PlayerTest", 0);
         player.position = new Vector2(2,2);
 
         card = new Cards(180, "Back Up", Direction.NORTH, -1);
@@ -141,7 +141,7 @@ public class TestPlayerMovement {
 
     @Test
     public void playerMovementFromCellWithWallToCellWithWall_noBlock(){
-        player = new PlayerServer(Direction.EAST, "PlayerTest");
+        player = new PlayerServer(Direction.EAST, "PlayerTest", 0);
         player.position = new Vector2(2,2);
 
         card = new Cards(180, "Move One", Direction.NORTH, 1);

@@ -48,6 +48,7 @@ public class Play implements Screen, InputProcessor {
 
     private boolean isClientOnly;
     private Client client;
+    private Laser laser;
 
     public static final int screenWidth = 1500;
     public static final int screenHeight = 1000;
@@ -84,7 +85,8 @@ public class Play implements Screen, InputProcessor {
         Board.laserVertical = (TiledMapTileLayer) Board.map.getLayers().get("LaserVertical");
         Board.laserHorizontal = (TiledMapTileLayer) Board.map.getLayers().get("LaserHorizontal");
 
-        Laser.createLaser();
+        laser = new Laser();
+        laser.initializeLaser();
         Board.laserHorizontal.setVisible(true);
         Board.laserVertical.setVisible(true);
 
@@ -141,8 +143,8 @@ public class Play implements Screen, InputProcessor {
             playerRender();
             renderer.getBatch().end();
         }
-
-        //Laser.drawLaser(playerData);
+        //TODO
+        //laser.drawLaser(playerData);
         batch.begin();
         drawDamageTokenPosition();
         batch.end();

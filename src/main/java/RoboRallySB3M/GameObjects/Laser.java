@@ -13,18 +13,18 @@ import java.util.*;
 
 public class Laser {
 
-    public static TiledMapTileLayer.Cell laserH;
-    public static TiledMapTileLayer.Cell laserV;
-    public static TiledMapTileLayer.Cell laserVH;
-    private static List<LaserData> laserLocation;
-    private static HashMap<String, LaserData> laserLocationDraw;
+    public TiledMapTileLayer.Cell laserH;
+    public TiledMapTileLayer.Cell laserV;
+    public TiledMapTileLayer.Cell laserVH;
+    private List<LaserData> laserLocation;
+    private HashMap<String, LaserData> laserLocationDraw;
 
 
     /**
      * Creating laser from tileset and initializing list for storing laser locations.
      * Finds laser walls on the board and stores there location.
      */
-    public static void createLaser() {
+    public void initializeLaser() {
 
         laserH = new TiledMapTileLayer.Cell();
         laserV = new TiledMapTileLayer.Cell();
@@ -51,7 +51,7 @@ public class Laser {
     /**
      * @param playerData List of all current player positions
      */
-    public static void drawLaser(List<PlayerData> playerData){
+    public void drawLaser(List<PlayerData> playerData){
 
         for (LaserData v : laserLocation) {
 
@@ -109,7 +109,7 @@ public class Laser {
      * @param playerList list of current players
      * @return if player location is the same as drawn laser location then return true - this stops the laser form being drawn
      */
-    private static boolean playerWall(int x, int y, List<PlayerData> playerList) {
+    private boolean playerWall(int x, int y, List<PlayerData> playerList) {
 
         if(playerList == null || laserLocationDraw.size() <= 0) {
             return false;

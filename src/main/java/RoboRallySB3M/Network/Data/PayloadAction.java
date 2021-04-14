@@ -11,5 +11,6 @@ public enum PayloadAction {
     JOIN,
     ERROR,
     SUCCESS,
-    DISCONNECT
+    DISCONNECT,
+    NOT_YOUR_TURN
 }
