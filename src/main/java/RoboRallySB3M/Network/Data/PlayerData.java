@@ -8,7 +8,7 @@ public class PlayerData implements PayloadData {
     public String playerName;
     public Vector2 position;
     public Direction direction;
-    private int turnOrder;
+    public int turnOrder;
 
     /**
      * @param playerName id - string

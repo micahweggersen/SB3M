@@ -37,6 +37,7 @@ public class Play implements Screen, InputProcessor {
     private String playerName;
     private HashMap<String, ClientPlayer> playerTileCache = new HashMap<>();
     private List<PlayerData> playerData;
+    private HashMap<String, LaserData> laserData;
 
     private final int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
 
@@ -144,7 +145,7 @@ public class Play implements Screen, InputProcessor {
             renderer.getBatch().end();
         }
         //TODO
-        //laser.drawLaser(playerData);
+        laser.drawLaser(laserData);
         batch.begin();
         drawDamageTokenPosition();
         batch.end();
@@ -205,7 +206,10 @@ public class Play implements Screen, InputProcessor {
      * Connects a new client to server
      */
     private void clientConnectToServer() {
-        client = new Client("127.0.0.1", 8818, data -> playerData = data);
+        client = new Client("127.0.0.1", 8818, (data, lData) -> {
+            playerData = data;
+            laserData = lData;
+        });
 
         if (!client.startConnection()) {
             System.err.println("Connect failed!");
@@ -292,6 +296,13 @@ public class Play implements Screen, InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
+        for (PlayerData p :playerData) {
+            if(!p.playerName.equals(playerName) && p.turnOrder == 0){
+                System.out.println("Not your turn");
+                return false;
+            }
+        }
+
         //get a deck and lockout other functions
         if (keycode == Input.Keys.D) {
             inputKey = true;

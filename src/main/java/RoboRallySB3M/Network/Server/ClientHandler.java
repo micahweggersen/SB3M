@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,13 +39,16 @@ class ClientHandler extends Thread {
      * @return Updated values to playerData
      */
     private UpdateData createUpdateData() {
-        List<PlayerData> data = new ArrayList<>(players.size());
+        List<PlayerData> playerData = new ArrayList<>(players.size());
+        HashMap<String, LaserData> laserData;
+
+        LaserServer laser = new LaserServer();
+        laserData = laser.findLaserLocation(players);
 
         for (PlayerServer player : players.values()) {
-            data.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder()));
+            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder()));
         }
-
-        return UpdateData.create(data);
+        return UpdateData.create(playerData, laserData);
     }
 
     /**

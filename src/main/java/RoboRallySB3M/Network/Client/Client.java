@@ -1,14 +1,12 @@
 package RoboRallySB3M.Network.Client;
 
-import RoboRallySB3M.Network.Data.Payload;
-import RoboRallySB3M.Network.Data.PayloadAction;
-import RoboRallySB3M.Network.Data.PlayerData;
-import RoboRallySB3M.Network.Data.UpdateData;
+import RoboRallySB3M.Network.Data.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -99,7 +97,7 @@ public class Client extends Thread {
                 if (payload.action == PayloadAction.UPDATE) {
                     UpdateData data = (UpdateData) payload.data;
 
-                    listener.update(data.playerData);
+                    listener.update(data.playerData, data.laserData);
                 }
 
                 try {
@@ -116,8 +114,9 @@ public class Client extends Thread {
     public interface UpdateListener {
         /**
          * @param playerData update interface to update playerData
+         * @param laserData
          */
-        void update(List<PlayerData> playerData);
+        void update(List<PlayerData> playerData, HashMap<String, LaserData> laserData);
     }
 }
 

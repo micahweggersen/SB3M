@@ -1,9 +1,9 @@
-package RoboRallySB3M.GameObjects.Data;
+package RoboRallySB3M.Network.Data;
 
 /**
  * Type for lasers to be used for storing location
  */
-public class LaserData {
+public class LaserData implements PayloadData {
     public String laserType;
     public int x;
     public int y;
