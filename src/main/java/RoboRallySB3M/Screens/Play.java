@@ -256,6 +256,16 @@ public class Play implements Screen, InputProcessor {
         return Arrays.stream(numberKeyValues).anyMatch(i -> i == keycode);
     }
 
+    private boolean isYourTurn() {
+        for (PlayerData p :playerData) {
+            if(!p.playerName.equals(playerName) && p.turnOrder == 0){
+                System.out.println("Not your turn");
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Creates the possible cards to choose from
      */
@@ -299,11 +309,8 @@ public class Play implements Screen, InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
-        for (PlayerData p :playerData) {
-            if(!p.playerName.equals(playerName) && p.turnOrder == 0){
-                System.out.println("Not your turn");
-                return false;
-            }
+        if(!isYourTurn()) {
+            return false;
         }
 
         //get a deck and lockout other functions

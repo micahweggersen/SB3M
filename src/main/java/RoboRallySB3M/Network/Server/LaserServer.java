@@ -93,12 +93,12 @@ public class LaserServer {
             return false;
         }
 
-        for (PlayerServer player : players.values()) {
+        /*for (PlayerServer player : players.values()) {
             String key = String.valueOf(x) + String.valueOf(y);
-            /*if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y) {
+            if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y) {
                 return true;
-            }*/
-        }
+            }
+        }*/
         return false;
     }
 }
