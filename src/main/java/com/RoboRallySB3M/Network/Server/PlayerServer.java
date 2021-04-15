@@ -11,6 +11,7 @@ public class PlayerServer {
 
     private final String name;
     private int turnOrder;
+    private boolean finishedRound;
     private Direction direction;
 
     //Define player-coordinates
@@ -21,6 +22,15 @@ public class PlayerServer {
         this.name = name;
         this.position = Vector2.Zero;
         this.turnOrder = turnOrder;
+        this.finishedRound = false;
+    }
+
+    public boolean getFinishedRound() {
+        return finishedRound;
+    }
+
+    public void setFinishedRound(boolean finishedRound) {
+        this.finishedRound = finishedRound;
     }
 
     public void setTurnOrder(int turnOrder) {

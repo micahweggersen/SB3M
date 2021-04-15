@@ -20,6 +20,9 @@ public class LaserServer {
 
 
     public HashMap<String, LaserData> findLaserLocation(ConcurrentHashMap<String, PlayerServer> players) {
+        if(laserLocationDraw != null) {
+            laserLocationDraw.clear();
+        }
 
         laserH = new TiledMapTileLayer.Cell();
         laserV = new TiledMapTileLayer.Cell();
@@ -57,9 +60,9 @@ public class LaserServer {
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("H")) {
                 while (PlayerServer.canMove(dir, x, y)) {
                     //If laser hits a player, set the laser draw value to null
-                    /*if (playerWall(x , y, players)) {
+                    if (playerWall(x , y, players)) {
                         break;
-                    }*/
+                    }
 
                     //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
                     String key = String.valueOf(x) + String.valueOf(y);
@@ -72,9 +75,9 @@ public class LaserServer {
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("V")) {
                 while (PlayerServer.canMove(dir, x, y)) {
                     //If laser hits a player, set the laser draw value to null
-                    /*if (playerWall(x , y, players)) {
+                    if (playerWall(x , y, players)) {
                         break;
-                    }*/
+                    }
                     //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
                     String key = String.valueOf(x) + String.valueOf(y);
                     laserLocationDraw.put(key, LaserData.newLaser("laserV", x, y));
@@ -87,7 +90,7 @@ public class LaserServer {
         }
     }
 
-    /*private boolean playerWall(int x, int y, ConcurrentHashMap<String, PlayerServer> players) {
+    private boolean playerWall(int x, int y, ConcurrentHashMap<String, PlayerServer> players) {
 
         if(players == null || laserLocationDraw.size() <= 0) {
             return false;
@@ -95,10 +98,14 @@ public class LaserServer {
 
         for (PlayerServer player : players.values()) {
             String key = String.valueOf(x) + String.valueOf(y);
+            if(laserLocationDraw.get(key) == null) {
+                return false;
+            }
             if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y) {
+                System.out.println(laserLocationDraw.get(key).laserType);
                 return true;
             }
         }
         return false;
-    }*/
+    }
 }

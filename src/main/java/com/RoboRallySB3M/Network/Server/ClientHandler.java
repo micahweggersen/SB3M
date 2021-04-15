@@ -149,8 +149,9 @@ class ClientHandler extends Thread {
                                 break;
                         }
 
-                        playerMovedByObject(player);
-                        turnHandling(player);
+
+                        orderHandling(player);
+                        turnHandling();
 
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
                         break;
@@ -181,16 +182,8 @@ class ClientHandler extends Thread {
         }
     }
 
-    private void playerMovedByObject(PlayerServer player) {
-        if(isCellSpeedOne((int) player.position.x, (int) player.position.y)) {
-            player.position.y += 1;
-        }
-        if(isCellSpeedTwo((int) player.position.x, (int) player.position.y)) {
-            player.position.y += 2;
-        }
-    }
-
-    private void turnHandling(PlayerServer player) {
+    private void orderHandling(PlayerServer player) {
+        player.setFinishedRound(true);
         player.setTurnOrder(player.getTurnOrder()-1);
 
         for (PlayerServer p: players.values()) {
@@ -201,6 +194,41 @@ class ClientHandler extends Thread {
                 p.setTurnOrder(players.size()-1);
             }
         }
+    }
+
+    private void playerMovedByObject() {
+        for (PlayerServer p: players.values()) {
+            if(isCellSpeedOne((int) p.position.x, (int) p.position.y)) {
+                p.position.y += 1;
+            }
+            if(isCellSpeedTwo((int) p.position.x, (int) p.position.y)) {
+                p.position.y += 2;
+            }
+
+        }
+    }
+
+    private void turnHandling() {
+        int temp = 0;
+        for (PlayerServer p : players.values()) {
+            if(p.getFinishedRound()) {
+                temp++;
+                System.out.println(p.getName() + "'s round is finished!");
+            }
+            else {
+                System.out.println(p.getName() + "'s has not completed there turn!");
+            }
+        }
+
+        //End of turn
+        if (temp == players.size()) {
+            for (PlayerServer p : players.values()) {
+                p.setFinishedRound(false);
+            }
+            playerMovedByObject();
+            System.out.println("All turns are complete!");
+        }
+
     }
 
     public boolean isCellSpeedOne(int x, int y) {
