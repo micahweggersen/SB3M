@@ -58,7 +58,7 @@ public class LaserServer {
             int y = v.y;
             //Creates lasers Horizontal
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("H")) {
-                while (PlayerServer.canMove(dir, x, y)) {
+                while (canMove(dir, x, y)) {
                     //If laser hits a player, set the laser draw value to null
                     if (playerWall(x , y, players)) {
                         break;
@@ -73,7 +73,7 @@ public class LaserServer {
             }
             //Creates lasers Vertical
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("V")) {
-                while (PlayerServer.canMove(dir, x, y)) {
+                while (canMove(dir, x, y)) {
                     //If laser hits a player, set the laser draw value to null
                     if (playerWall(x , y, players)) {
                         break;
@@ -107,5 +107,20 @@ public class LaserServer {
             }
         }
         return false;
+    }
+
+    public boolean canMove(Direction direction, int oldX, int oldY) {
+        int x_change = Direction.changeInXdir(direction);
+        int y_change = Direction.changeInYdir(direction);
+
+        if (Board.walls.getCell(oldX, oldY) != null) {
+            if (Board.walls.getCell(oldX, oldY).getTile().getProperties().containsKey(direction.toString()))
+                return false;
+        }
+        if (Board.walls.getCell((oldX + x_change), oldY + y_change) != null) {
+            return (!Board.walls.getCell(oldX + x_change, oldY + y_change).getTile().getProperties()
+                    .containsKey(Direction.oppositeDirection(direction).toString()));
+        }
+        return true;
     }
 }

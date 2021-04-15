@@ -46,7 +46,7 @@ class ClientHandler extends Thread {
         laserData = laser.findLaserLocation(players);
 
         for (PlayerServer player : players.values()) {
-            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder()));
+            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageToken(), player.getHealth()));
         }
         return UpdateData.create(playerData, laserData);
     }
@@ -161,7 +161,7 @@ class ClientHandler extends Thread {
                     case JOIN:
                         PlayerData playerData = (PlayerData) payload.data;
 
-                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size());
+                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), 10, 10);
                         newPlayer.position = new Vector2(players.size(), 0);
 
                         players.put(playerData.playerName, newPlayer);
@@ -197,12 +197,12 @@ class ClientHandler extends Thread {
     }
 
     private void playerMovedByObject() {
-        for (PlayerServer p: players.values()) {
-            if(isCellSpeedOne((int) p.position.x, (int) p.position.y)) {
-                p.position.y += 1;
+        for (PlayerServer player: players.values()) {
+            if(isCellSpeedOne((int) player.position.x, (int) player.position.y)) {
+                player.position.y += 1;
             }
-            if(isCellSpeedTwo((int) p.position.x, (int) p.position.y)) {
-                p.position.y += 2;
+            if(isCellSpeedTwo((int) player.position.x, (int) player.position.y)) {
+                player.position.y += 2;
             }
 
         }
@@ -210,20 +210,20 @@ class ClientHandler extends Thread {
 
     private void turnHandling() {
         int temp = 0;
-        for (PlayerServer p : players.values()) {
-            if(p.getFinishedRound()) {
+        for (PlayerServer player : players.values()) {
+            if(player.getFinishedRound()) {
                 temp++;
-                System.out.println(p.getName() + "'s round is finished!");
+                System.out.println(player.getName() + "'s round is finished!");
             }
             else {
-                System.out.println(p.getName() + "'s has not completed there turn!");
+                System.out.println(player.getName() + "'s has not completed there turn!");
             }
         }
 
         //End of turn
         if (temp == players.size()) {
-            for (PlayerServer p : players.values()) {
-                p.setFinishedRound(false);
+            for (PlayerServer player : players.values()) {
+                player.setFinishedRound(false);
             }
             playerMovedByObject();
             System.out.println("All turns are complete!");

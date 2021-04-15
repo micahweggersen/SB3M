@@ -10,6 +10,8 @@ import static java.lang.Math.abs;
 public class PlayerServer {
 
     private final String name;
+    private int damageToken;
+    private int health;
     private int turnOrder;
     private boolean finishedRound;
     private Direction direction;
@@ -17,12 +19,30 @@ public class PlayerServer {
     //Define player-coordinates
     public Vector2 position;
 
-    public PlayerServer(Direction direction, String name, int turnOrder) {
+    public PlayerServer(Direction direction, String name, int turnOrder, int damageToken, int health) {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
+        this.damageToken = damageToken;
+        this.health = health;
+    }
+
+    public int getDamageToken() {
+        return damageToken;
+    }
+
+    public void setDamageToken(int health) {
+        this.damageToken = damageToken;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public boolean getFinishedRound() {
@@ -80,13 +100,11 @@ public class PlayerServer {
 
     /**
      * Checks if player can move to location
-     * //TODO NOT STATIC
      *
      * @param direction player pointing direction
      * @return true if can move false if cannot move
      */
-    public static boolean canMove(Direction direction, int oldX, int oldY) {
-
+    public boolean canMove(Direction direction, int oldX, int oldY) {
         int x_change = Direction.changeInXdir(direction);
         int y_change = Direction.changeInYdir(direction);
 
