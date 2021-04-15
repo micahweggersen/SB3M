@@ -23,16 +23,17 @@
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx</artifactId>
-            <version>1.9.10</version>
+            <version>1.9.14</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>2.0.2-beta</version>
+            <artifactId>mockito-core</artifactId>
+            <version>3.9.0</version>
             <scope>test</scope>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-backend-headless -->
         <dependency>
@@ -43,34 +44,28 @@
         </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-platform -->
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-platform</artifactId>
-            <version>1.9.10</version>
-            <classifier>natives-desktop</classifier>
+            <version>1.9.14</version>
+            <scope>test</scope>
         </dependency>
 
+
+        <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-backend-gwt -->
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
-            <artifactId>gdx-backend-lwjgl3</artifactId>
-            <version>1.9.10</version>
+            <artifactId>gdx-backend-gwt</artifactId>
+            <version>1.9.14</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
             <version>5.8.0-M1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -104,12 +99,8 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19.1</version>
-                    <configuration>
-                        <!-- Tests do pass when run but maven struggles to pass.
-                             This is only temporary and we plan on fixing this for next turn in -->
-                        <testFailureIgnore>true</testFailureIgnore>
-                    </configuration>
+                    <version>3.0.0-M5</version>
+
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
