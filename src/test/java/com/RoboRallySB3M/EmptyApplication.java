@@ -1,4 +1,4 @@
-package roboRallySB3M;
+package com.RoboRallySB3M;
 
 
 import com.badlogic.gdx.ApplicationListener;
