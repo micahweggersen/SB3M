@@ -148,7 +148,10 @@ class ClientHandler extends Thread {
                                 }
                                 break;
                         }
+
+                        playerMovedByObject(player);
                         turnHandling(player);
+
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
                         break;
                     case UPDATE:
@@ -178,6 +181,15 @@ class ClientHandler extends Thread {
         }
     }
 
+    private void playerMovedByObject(PlayerServer player) {
+        if(isCellSpeedOne((int) player.position.x, (int) player.position.y)) {
+            player.position.y += 1;
+        }
+        if(isCellSpeedTwo((int) player.position.x, (int) player.position.y)) {
+            player.position.y += 2;
+        }
+    }
+
     private void turnHandling(PlayerServer player) {
         player.setTurnOrder(player.getTurnOrder()-1);
 
@@ -188,7 +200,19 @@ class ClientHandler extends Thread {
             if(p.getTurnOrder() < 0) {
                 p.setTurnOrder(players.size()-1);
             }
-            System.out.println(p.getTurnOrder());
         }
+    }
+
+    public boolean isCellSpeedOne(int x, int y) {
+        return Board.speedOne.getCell(x,y) != null;
+    }
+    public boolean isCellSpeedTwo(int x, int y) {
+        return Board.speedTwo.getCell(x,y) != null;
+    }
+    public boolean isCellFlag(int x, int y) {
+        return Board.flagLayer.getCell(x, y) != null;
+    }
+    public boolean isCellHole(int x, int y) {
+        return Board.holeLayer.getCell(x, y) != null;
     }
 }
