@@ -16,6 +16,8 @@ public class LaserServer implements Movement {
     private HashMap<String, LaserData> laserLocationDraw;
     private static final String LASER = "Laser";
 
+
+
     public LaserServer() {
         //No values to store
     }
@@ -46,60 +48,46 @@ public class LaserServer implements Movement {
     }
 
     private void findLaser(List<PlayerData> players){
+        int x;
+        int y;
 
         for (LaserData v : laserLocation) {
 
             Direction dir = Direction.oppositeDirection(
                     Objects.requireNonNull(Direction.stringToDirection(
                             Board.walls.getCell(v.x, v.y).getTile().getProperties().get("direction").toString())));
-
-            int xChange = 0;
-            int yChange = 0;
-            if (dir != null) {
-                xChange = Direction.changeInDirectionX(dir);
-                yChange = Direction.changeInDirectionY(dir);
-            }
-
-            int x = v.x;
-            int y = v.y;
-
+            x = v.x;
+            y = v.y;
             //Creates lasers Horizontal
-            String placeholder = "laserH";
-
-            if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get(LASER).equals("H")) {
-                while (canMove(dir, x, y)) {
-                    //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
-                    String key = x + String.valueOf(y) + "H";
-
-                    //If laser hits a player, set the laser draw value to null
-                    if (playerWall(key, players)) placeholder = "null";
-
-                    laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
-                    if(x > Board.boardLayer.getWidth() || x < 0 ) break;
-                    x += xChange;
-                }
-                addLaserOnWall(players, dir, x, y, placeholder, "H");
-
-            }
+            lasers(players, x, y, v, dir, "laserH", "H");
             //Creates lasers Vertical
-            placeholder = "laserV";
 
-            if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get(LASER).equals("V")) {
-                while (canMove(dir, x, y)) {
-                    //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
-                    String key = x + String.valueOf(y) + "V";
-
-                    //If laser hits a player, set the laser draw value to null
-                    if (playerWall(key, players)) placeholder = "null";
-
-                    laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
-                    if (y > Board.boardLayer.getHeight() || y < 0) break;
-                    y += yChange;
-                }
-                addLaserOnWall(players, dir, x, y, placeholder, "V");
-            }
+            lasers(players, x, y, v, dir, "laserV", "V");
         }
     }
+
+    private void lasers(List<PlayerData> players, int x, int y, LaserData v, Direction dir,String placeholder, String pointer) {
+        if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get(LASER).equals(pointer)) {
+            while (canMove(dir, x, y)) {
+                //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
+                String key = x + String.valueOf(y) + pointer;
+                //If laser hits a player, set the laser draw value to null
+                if (playerWall(key, players)) placeholder = "null";
+                laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
+                if (y > Board.boardLayer.getHeight() || y < 0) break;
+                if (dir != null) {
+                    if(placeholder.equals("laserV")) {
+                        y += Direction.changeInDirectionY(dir);
+                    }
+                    if(placeholder.equals("laserH")) {
+                        x += Direction.changeInDirectionX(dir);
+                    }
+                }
+            }
+            addLaserOnWall(players, dir, x, y, placeholder, pointer);
+        }
+    }
+
 
     private void addLaserOnWall(List<PlayerData> players, Direction dir, int x, int y, String placeholder, String directionKey) {
         if(!canMove(dir, x, y)) {
