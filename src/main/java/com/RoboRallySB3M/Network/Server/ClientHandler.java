@@ -196,6 +196,7 @@ class ClientHandler extends Thread {
 
     private void playerMovedByObject() {
         for (PlayerServer player: players.values()) {
+            //TODO: use move methode
             if(isCellSpeedOne((int) player.position.x, (int) player.position.y)) {
                 player.position.y += 1;
             }
