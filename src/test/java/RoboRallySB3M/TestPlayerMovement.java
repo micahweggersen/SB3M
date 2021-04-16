@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -78,7 +77,7 @@ public class TestPlayerMovement {
         card = new Cards(180, "Rotate Left", Direction.EAST , 0);
         player.move(card);
 
-        Assert.assertEquals(Direction.EAST, player.getDirection());
+        assertEquals(Direction.EAST, player.getDirection());
         assertEquals(0, (int)player.position.x);
         assertEquals(0, (int)player.position.y);
     }
@@ -88,7 +87,7 @@ public class TestPlayerMovement {
         card = new Cards(180, "Rotate Right", Direction.EAST, 0);
         player.move(card);
 
-        Assert.assertEquals(Direction.EAST, player.getDirection());
+        assertEquals(Direction.EAST, player.getDirection());
         assertEquals(0, (int)player.position.x);
         assertEquals(0, (int)player.position.y);
     }
