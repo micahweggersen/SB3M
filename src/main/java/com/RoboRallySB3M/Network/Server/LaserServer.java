@@ -3,30 +3,20 @@ package com.RoboRallySB3M.Network.Server;
 import com.RoboRallySB3M.Direction;
 import com.RoboRallySB3M.GameObjects.Board;
 import com.RoboRallySB3M.Network.Data.LaserData;
+import com.RoboRallySB3M.Network.Data.PlayerData;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class LaserServer implements Movement {
-    public TiledMapTileLayer.Cell laserH;
-    public TiledMapTileLayer.Cell laserV;
-    public TiledMapTileLayer.Cell laserVH;
+
     private List<LaserData> laserLocation;
     private HashMap<String, LaserData> laserLocationDraw;
 
 
-
-    public HashMap<String, LaserData> findLaserLocation(ConcurrentHashMap<String, PlayerServer> players) {
-        if(laserLocationDraw != null) {
-            laserLocationDraw.clear();
-        }
-
-        laserH = new TiledMapTileLayer.Cell();
-        laserV = new TiledMapTileLayer.Cell();
-        laserVH = new TiledMapTileLayer.Cell();
+        if(laserLocationDraw != null) laserLocationDraw.clear();
 
         laserLocation = new ArrayList<>();
         laserLocationDraw = new HashMap<>();
@@ -38,13 +28,13 @@ public class LaserServer implements Movement {
                 }
             }
         }
-        drawLaser(players);
+        findLaser(players);
 
         return laserLocationDraw;
     }
 
 
-    public void drawLaser(ConcurrentHashMap<String, PlayerServer> players){
+    public void findLaser(List<PlayerData> players){
 
         for (LaserData v : laserLocation) {
 
@@ -57,53 +47,66 @@ public class LaserServer implements Movement {
             int x = v.x;
             int y = v.y;
             //Creates lasers Horizontal
+            String placeholder = "laserH";
+
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("H")) {
                 while (canMove(dir, x, y)) {
-                    //If laser hits a player, set the laser draw value to null
-                    if (playerWall(x , y, players)) {
-                        break;
-                    }
-
                     //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
-                    String key = String.valueOf(x) + String.valueOf(y);
-                    laserLocationDraw.put(key, LaserData.newLaser("laserH", x, y));
+                    String key = String.valueOf(x) + String.valueOf(y) + "H";
+
+                    //If laser hits a player, set the laser draw value to null
+                    if (playerWall(x , y, players)) placeholder = "null";
+
+                    laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
                     if(x > Board.boardLayer.getWidth() || x < 0 ) break;
                     x += x_change;
                 }
+                if(!canMove(dir, x, y) && !playerWall(x , y, players)) {
+                    String key = String.valueOf(x) + String.valueOf(y) + "H";
+                    laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
+                }
+
             }
             //Creates lasers Vertical
+            placeholder = "laserV";
+
             if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("V")) {
                 while (canMove(dir, x, y)) {
-                    //If laser hits a player, set the laser draw value to null
-                    if (playerWall(x , y, players)) {
-                        break;
-                    }
                     //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
-                    String key = String.valueOf(x) + String.valueOf(y);
-                    laserLocationDraw.put(key, LaserData.newLaser("laserV", x, y));
+                    String key = String.valueOf(x) + String.valueOf(y) + "V";
 
+                    //If laser hits a player, set the laser draw value to null
+                    if (playerWall(x , y, players)) placeholder = "null";
+
+                    laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
                     if (y > Board.boardLayer.getHeight() || y < 0) break;
                     y += y_change;
 
+                }
+                if(!canMove(dir, x, y) && !playerWall(x , y, players)) {
+                    String key = String.valueOf(x) + String.valueOf(y) + "V";
+                    laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
                 }
             }
         }
     }
 
-    private boolean playerWall(int x, int y, ConcurrentHashMap<String, PlayerServer> players) {
+    private boolean playerWall(int x, int y, List<PlayerData> players) {
 
         if(players == null || laserLocationDraw.size() <= 0) {
             return false;
         }
 
-        for (PlayerServer player : players.values()) {
-            String key = String.valueOf(x) + String.valueOf(y);
-            if(laserLocationDraw.get(key) == null) {
-                return false;
-            }
-            if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y) {
-                System.out.println(laserLocationDraw.get(key).laserType);
-                return true;
+        for (PlayerData player : players) {
+            for (int i = 0; i <= 1; i++) {
+
+                String pointing = i == 0 ? "V" : "H";
+                String key = String.valueOf(x) + String.valueOf(y) + pointing;
+
+                if (laserLocationDraw.get(key) == null) return false;
+
+                if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y)
+                    return true;
             }
         }
         return false;

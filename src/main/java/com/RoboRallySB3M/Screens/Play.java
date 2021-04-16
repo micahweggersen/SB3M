@@ -148,7 +148,7 @@ public class Play implements Screen, InputProcessor {
             renderer.getBatch().end();
         }
         //TODO
-        laser.drawLaser(laserData);
+        laser.drawLaser(laserData, playerData);
         batch.begin();
         drawDamageTokenPosition();
         batch.end();

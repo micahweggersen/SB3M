@@ -4,7 +4,6 @@ import com.RoboRallySB3M.GameObjects.Board;
 import com.RoboRallySB3M.Cards.Cards;
 import com.RoboRallySB3M.Direction;
 import com.RoboRallySB3M.Network.Data.*;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-class ClientHandler extends Thread {
+class ClientHandler extends Thread implements Movement, GameLogic {
     private final Socket clientSocket;
     private final ConcurrentHashMap<String, PlayerServer> players;
     private ObjectOutputStream out;
@@ -42,12 +41,14 @@ class ClientHandler extends Thread {
         List<PlayerData> playerData = new ArrayList<>(players.size());
         HashMap<String, LaserData> laserData;
 
+
         LaserServer laser = new LaserServer();
-        laserData = laser.findLaserLocation(players);
 
         for (PlayerServer player : players.values()) {
             playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageToken(), player.getHealth()));
         }
+        laserData = laser.findLaserLocation(playerData);
+
         return UpdateData.create(playerData, laserData);
     }
 
@@ -104,52 +105,9 @@ class ClientHandler extends Thread {
 
                         Board.playerLayer.setCell((int) player.position.x, (int) player.position.y, null);
 
-                        switch (keycode) {
-                            case Input.Keys.NUM_1:
-                                player.move(new Cards(0, "Move One", Direction.NORTH, 1));
-                                break;
-                            case Input.Keys.NUM_2:
-                                player.move(new Cards(0, "Move Two", Direction.NORTH, 2));
-                                break;
-                            case Input.Keys.NUM_3:
-                                player.move(new Cards(0, "Move Three", Direction.NORTH, 3));
-                                break;
-                            case Input.Keys.NUM_4:
-                                player.move(new Cards(0, "Rotate Left", Direction.EAST, 0));
-                                break;
-                            case Input.Keys.NUM_5:
-                                player.move(new Cards(0, "Rotate Right", Direction.WEST, 0));
-                                break;
-                            case Input.Keys.NUM_6:
-                                player.move(new Cards(0, "U-Turn", Direction.SOUTH, 0));
-                                break;
-                            case Input.Keys.NUM_7:
-                                player.move(new Cards(0, "Back Up", Direction.NORTH, -1));
-                                break;
-                            case Input.Keys.LEFT:
-                                if (player.canMove(Direction.WEST, (int) player.position.x, (int) player.position.y)) {
-                                    player.position.x -= 1;
-                                }
-                                break;
-                            case Input.Keys.RIGHT:
-                                if (player.canMove(Direction.EAST, (int) player.position.x, (int) player.position.y)) {
-                                    player.position.x += 1;
-                                }
-                                break;
-                            case Input.Keys.UP:
-                                if (player.canMove(Direction.NORTH, (int) player.position.x, (int) player.position.y)) {
-                                    player.position.y += 1;
-                                }
-                                break;
-                            case Input.Keys.DOWN:
-                                if (player.canMove(Direction.SOUTH, (int) player.position.x, (int) player.position.y)) {
-                                    player.position.y -= 1;
-                                }
-                                break;
-                        }
-
-                        orderHandling(player);
-                        turnHandling();
+                        moveByKeyPress(keycode, player);
+                        orderHandling(player, players);
+                        turnHandling(players);
 
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
                         break;
@@ -168,7 +126,6 @@ class ClientHandler extends Thread {
                         break;
                     case DISCONNECT:
                         break;
-
                 }
             }
 
@@ -178,67 +135,5 @@ class ClientHandler extends Thread {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    private void orderHandling(PlayerServer player) {
-        player.setFinishedRound(true);
-        player.setTurnOrder(player.getTurnOrder()-1);
-
-        for (PlayerServer p: players.values()) {
-            if (!player.getName().equals(p.getName())) {
-                p.setTurnOrder(p.getTurnOrder()-1);
-            }
-            if(p.getTurnOrder() < 0) {
-                p.setTurnOrder(players.size()-1);
-            }
-        }
-    }
-
-    private void playerMovedByObject() {
-        for (PlayerServer player: players.values()) {
-            //TODO: use move methode
-            if(isCellSpeedOne((int) player.position.x, (int) player.position.y)) {
-                player.position.y += 1;
-            }
-            if(isCellSpeedTwo((int) player.position.x, (int) player.position.y)) {
-                player.position.y += 2;
-            }
-
-        }
-    }
-
-    private void turnHandling() {
-        int temp = 0;
-        for (PlayerServer player : players.values()) {
-            if(player.getFinishedRound()) {
-                temp++;
-                System.out.println(player.getName() + "'s round is finished!");
-            }
-            else {
-                System.out.println(player.getName() + "'s has not completed there turn!");
-            }
-        }
-
-        //End of turn
-        if (temp == players.size()) {
-            for (PlayerServer player : players.values()) {
-                player.setFinishedRound(false);
-            }
-            playerMovedByObject();
-            System.out.println("All turns are complete!");
-        }
-    }
-
-    public boolean isCellSpeedOne(int x, int y) {
-        return Board.speedOne.getCell(x,y) != null;
-    }
-    public boolean isCellSpeedTwo(int x, int y) {
-        return Board.speedTwo.getCell(x,y) != null;
-    }
-    public boolean isCellFlag(int x, int y) {
-        return Board.flagLayer.getCell(x, y) != null;
-    }
-    public boolean isCellHole(int x, int y) {
-        return Board.holeLayer.getCell(x, y) != null;
     }
 }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import static java.lang.Math.abs;
 
-public class PlayerServer  implements Movement{
+public class PlayerServer  implements Movement {
 
     private final String name;
     private int damageToken;
