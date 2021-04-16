@@ -3,7 +3,6 @@ package RoboRallySB3M.Cards;
 import static org.junit.Assert.*;
 
 import RoboRallySB3M.Direction;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
