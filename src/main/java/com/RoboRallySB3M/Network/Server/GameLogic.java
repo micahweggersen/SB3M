@@ -38,7 +38,7 @@ public interface GameLogic {
         for (PlayerServer player : players.values()) {
             if(player.getFinishedRound()) {
                 temp++;
-                System.out.println(player.getName() + "'s round is finished!");
+                //System.out.println(player.getName() + "'s round is finished!");
             }
             else {
                 System.out.println(player.getName() + "'s has not completed there turn!");
