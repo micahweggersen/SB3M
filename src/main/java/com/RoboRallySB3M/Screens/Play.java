@@ -136,13 +136,10 @@ public class Play implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
-
-
-
         if (playerData != null) {
             Board.clear(Board.playerLayer);
+
             renderer.getBatch().begin();
             playerRender();
             renderer.getBatch().end();

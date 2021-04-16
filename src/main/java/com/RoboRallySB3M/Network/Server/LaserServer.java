@@ -43,19 +43,20 @@ public class LaserServer implements Movement {
         return laserLocationDraw;
     }
 
-
     public void findLaser(List<PlayerData> players){
 
         for (LaserData v : laserLocation) {
 
             Direction dir = Direction.oppositeDirection(
-                    Direction.stringToDirection(Board.walls.getCell(v.x, v.y).getTile().getProperties().get("direction").toString()));
+                    Direction.stringToDirection(
+                            Board.walls.getCell(v.x, v.y).getTile().getProperties().get("direction").toString()));
 
             int x_change = Direction.changeInXdir(dir);
             int y_change = Direction.changeInYdir(dir);
 
             int x = v.x;
             int y = v.y;
+
             //Creates lasers Horizontal
             String placeholder = "laserH";
 
@@ -88,7 +89,6 @@ public class LaserServer implements Movement {
                     laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
                     if (y > Board.boardLayer.getHeight() || y < 0) break;
                     y += y_change;
-
                 }
                 addLaserOnWall(players, dir, x, y, placeholder, "V");
             }
@@ -107,9 +107,7 @@ public class LaserServer implements Movement {
 
     private boolean playerWall(String key, List<PlayerData> players) {
 
-        if(players == null || laserLocationDraw.size() <= 0) {
-            return false;
-        }
+        if(players == null || laserLocationDraw.size() <= 0 || laserLocationDraw.get(key) == null) return false;
 
         for (PlayerData player : players) {
             if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y)
