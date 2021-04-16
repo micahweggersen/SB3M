@@ -16,12 +16,6 @@ public class LaserServer implements Movement {
     private HashMap<String, LaserData> laserLocationDraw;
     private static final String LASER = "Laser";
 
-
-
-    public LaserServer() {
-        //No values to store
-    }
-
     private void initialise() {
         laserLocation = new ArrayList<>();
         for (int x = 0; x < Board.boardLayer.getHeight(); x++) {
