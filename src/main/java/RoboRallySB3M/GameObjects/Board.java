@@ -4,10 +4,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Board {
-    private Board() {
-        //doesn't have eny values
-    }
-
     public static TiledMap map;
 
     //Define board-layers for board, player, flag and hole
@@ -22,9 +18,9 @@ public class Board {
     public static TiledMapTileLayer speedTwo;
 
 
-
-
-
+    private Board() {
+        //doesn't have eny values
+    }
     /**
      * @param x coordinate
      * @param y coordinate

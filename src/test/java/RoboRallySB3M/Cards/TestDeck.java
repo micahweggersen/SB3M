@@ -127,7 +127,7 @@ public class TestDeck {
     public void testDirectionMoveOneCards(){
         for (Cards card : deck.cardQueue) {
             if (card.getId().equals("Move One"))
-                Assert.assertEquals(Direction.NORTH, card.getDirection());
+                assertEquals(Direction.NORTH, card.getDirection());
         }
     }
 
@@ -135,7 +135,7 @@ public class TestDeck {
     public void testDirectionUTurnCards(){
         for (Cards card : deck.cardQueue) {
             if (card.getId().equals("U-Turn"))
-                Assert.assertEquals(Direction.SOUTH, card.getDirection());
+                assertEquals(Direction.SOUTH, card.getDirection());
         }
     }
 
