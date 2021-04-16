@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class LaserServer {
+public class LaserServer implements Movement {
     public TiledMapTileLayer.Cell laserH;
     public TiledMapTileLayer.Cell laserV;
     public TiledMapTileLayer.Cell laserVH;
@@ -107,20 +107,5 @@ public class LaserServer {
             }
         }
         return false;
-    }
-
-    public boolean canMove(Direction direction, int oldX, int oldY) {
-        int x_change = Direction.changeInXdir(direction);
-        int y_change = Direction.changeInYdir(direction);
-
-        if (Board.walls.getCell(oldX, oldY) != null) {
-            if (Board.walls.getCell(oldX, oldY).getTile().getProperties().containsKey(direction.toString()))
-                return false;
-        }
-        if (Board.walls.getCell((oldX + x_change), oldY + y_change) != null) {
-            return (!Board.walls.getCell(oldX + x_change, oldY + y_change).getTile().getProperties()
-                    .containsKey(Direction.oppositeDirection(direction).toString()));
-        }
-        return true;
     }
 }

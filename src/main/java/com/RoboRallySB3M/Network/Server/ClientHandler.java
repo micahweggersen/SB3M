@@ -99,7 +99,6 @@ class ClientHandler extends Thread {
                         }
                         if(player.getTurnOrder() != 0) {
                             System.out.println("Not your turn!");
-                            out.writeObject(Payload.create(PayloadAction.NOT_YOUR_TURN));
                             break;
                         }
 
@@ -148,7 +147,6 @@ class ClientHandler extends Thread {
                                 }
                                 break;
                         }
-
 
                         orderHandling(player);
                         turnHandling();
@@ -228,7 +226,6 @@ class ClientHandler extends Thread {
             playerMovedByObject();
             System.out.println("All turns are complete!");
         }
-
     }
 
     public boolean isCellSpeedOne(int x, int y) {

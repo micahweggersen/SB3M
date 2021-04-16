@@ -94,7 +94,7 @@ public class Play implements Screen, InputProcessor {
         Board.laserHorizontal.setVisible(true);
         Board.laserVertical.setVisible(true);
 
-        int mapWidth = 400;
+        int mapWidth = 300;
         int mapHeight = 400;
         int tileWidth = Board.holeLayer.getWidth();
         int tileHeight = Board.holeLayer.getHeight();
@@ -163,7 +163,7 @@ public class Play implements Screen, InputProcessor {
 
     private void drawDamageTokenPosition(){
         for(int i = 10; i > 0; i--){
-            batch.draw(damageTokenPosition, 540-(i*54), 600, 40, 50);
+            batch.draw(damageTokenPosition, 540-(i*54), 800, 40, 50);
         }
      }
 
