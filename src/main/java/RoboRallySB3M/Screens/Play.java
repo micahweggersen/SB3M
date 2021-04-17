@@ -57,6 +57,7 @@ public class Play implements Screen, InputProcessor {
     public static final int GAMEBOARD_PLACEMENT_Y = 0;
     private Texture damageToken;
     private Texture damageTokenPosition;
+    private Texture cardPosition;
 
 
     public Play(boolean isClientOnly) {
@@ -94,18 +95,15 @@ public class Play implements Screen, InputProcessor {
         Board.laserHorizontal.setVisible(true);
         Board.laserVertical.setVisible(true);
 
-        int mapWidth = 300;
+        int mapWidth = 400;
         int mapHeight = 400;
         int tileWidth = Board.holeLayer.getWidth();
         int tileHeight = Board.holeLayer.getHeight();
-
 
         //Size of camera in relation to map size
         cameraView = new OrthographicCamera();
         cameraView.setToOrtho(false, (mapWidth * tileWidth) * ((float) SCREEN_WIDTH / (float) SCREEN_HEIGHT), mapHeight * tileHeight);
         cameraView.translate(GAMEBOARD_PLACEMENT_X, GAMEBOARD_PLACEMENT_Y);
-
-
 
         //Define playerLayer coordinate and playerFigure
         cameraView.update();
@@ -121,9 +119,8 @@ public class Play implements Screen, InputProcessor {
 
         damageToken = new Texture("src/assets/damage_token.png");
         damageTokenPosition = new Texture("src/assets/damage_token_grey.png");
+        cardPosition = new Texture("src/assets/cards/CardSpotHolder.png");
     }
-
-
 
     /**
      * Called when the screen should render itself.
@@ -139,7 +136,6 @@ public class Play implements Screen, InputProcessor {
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
         if (playerData != null) {
             Board.clear(Board.playerLayer);
-
             renderer.getBatch().begin();
             playerRender();
             renderer.getBatch().end();
@@ -148,7 +144,8 @@ public class Play implements Screen, InputProcessor {
         laser.drawLaser(laserData, playerData);
 
         batch.begin();
-        drawDamageTokenPosition();
+        drawDamageTokenPositions();
+        drawCardPositions();
         batch.end();
 
         renderer.setView(cameraView);
@@ -158,10 +155,21 @@ public class Play implements Screen, InputProcessor {
     }
 
 
-
-    private void drawDamageTokenPosition(){
+    /**
+     * Draws the positions of damage tokens
+     */
+    private void drawDamageTokenPositions(){
         for(int i = 10; i > 0; i--){
-            batch.draw(damageTokenPosition, 540-(i*54), 800, 40, 50);
+            batch.draw(damageTokenPosition, 995-(i*48), 150, 40, 50);
+        }
+     }
+
+    /**
+     * Draws the positions of where chosen cards should be on the screen
+     */
+     private void drawCardPositions(){
+        for (int i = 5; i>0; i--){
+            batch.draw(cardPosition, 952-(i*98), -15, 240, 180);
         }
      }
 

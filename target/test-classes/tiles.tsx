@@ -7,6 +7,12 @@
    <property name="SOUTH" value=""/>
   </properties>
  </tile>
+ <tile id="12">
+  <properties>
+   <property name="Direction" value="NORTH"/>
+   <property name="Move" value="2"/>
+  </properties>
+ </tile>
  <tile id="15">
   <properties>
    <property name="EAST" value=""/>
@@ -75,6 +81,12 @@
    <property name="EAST" value=""/>
    <property name="Laser" value="H"/>
    <property name="direction" value="EAST"/>
+  </properties>
+ </tile>
+ <tile id="48">
+  <properties>
+   <property name="Direction" value="NORTH"/>
+   <property name="MOVE" value="1"/>
   </properties>
  </tile>
 </tileset>
