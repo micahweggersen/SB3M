@@ -13,6 +13,7 @@ public class Laser {
 
     public TiledMapTileLayer.Cell laserH;
     public TiledMapTileLayer.Cell laserV;
+    private static HashMap<String, LaserData> laserLocationDraw;
 
 
     /**
@@ -70,4 +71,36 @@ public class Laser {
                 Board.laserHorizontal.setCell(x, y, null);
             }
     }
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @param playerList list of current players
+     * @return if player location is the same as drawn laser location then return true - this stops the laser form being drawn
+     */
+    private static boolean isCellLaser(int x, int y, List<PlayerData> playerList) {
+
+        if(playerList == null || laserLocationDraw.size() <= 0) {
+            return false;
+        }
+
+        for (PlayerData player : playerList) {
+            String key = String.valueOf(x) + String.valueOf(y);
+            if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean getLaserPosition(int x, int y) {
+        String key = String.valueOf(x) + String.valueOf(y);
+        System.out.println("Laser");
+        if (laserLocationDraw.get(key) != null) {
+            System.out.println("IFLaser");
+            return true;
+        }
+        return false;
+    }
+
 }

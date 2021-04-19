@@ -2,6 +2,7 @@ package RoboRallySB3M.Network.Server;
 
 import RoboRallySB3M.Cards.Cards;
 import RoboRallySB3M.Direction;
+import RoboRallySB3M.GameObjects.Board;
 import com.badlogic.gdx.math.Vector2;
 
 import static java.lang.Math.abs;
@@ -14,6 +15,9 @@ public class PlayerServer  implements Movement {
     private int turnOrder;
     private boolean finishedRound;
     private Direction direction;
+    private int lifeTokens;
+    private int damageTokens;
+    private Status status;
 
     //Define player-coordinates
     public Vector2 position;
@@ -95,5 +99,64 @@ public class PlayerServer  implements Movement {
         }
 
         position = new Vector2(position.x + 0.00001F, position.y + 0.00001F);
+        checkForDamage();
+    }
+
+    public void checkForDamage() {
+        float currentX = position.x;
+        float currentY = position.y;
+        System.out.println("checkdamage");
+        if (Board.isCellLaser((int)currentX,(int)currentY)) {
+            addDamageToken();
+            System.out.println("damagetokenadded");
+        }
+        else if (Board.isCellHole((int)currentX,(int)currentY)) {
+            loseLifeToken();
+            System.out.println("lifetokenlost");
+        }
+
+    }
+
+    public void loseLifeToken() {
+        lifeTokens -= 1;
+        if (lifeTokens <= 0)
+            setStatus(Status.DEAD);
+    }
+
+    public int getLifeTokens() {
+        return lifeTokens;
+    }
+
+    public void addDamageToken() {
+        damageTokens += 1;
+        if (damageTokens >= 10)
+            loseLifeToken();
+    }
+
+    public int getDamageTokens() {
+        return damageTokens;
+    }
+
+    public void powerDown() {
+        setStatus(Status.POWERDOWN);
+        damageTokens = 0;
+    }
+
+    public boolean isPowerDown() {
+        return status == Status.POWERDOWN;
+    }
+
+    public void setStatus(Status newStatus) {
+        this.status = newStatus;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public enum Status {
+        ALIVE,
+        DEAD,
+        POWERDOWN
     }
 }
