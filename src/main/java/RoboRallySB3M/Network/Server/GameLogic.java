@@ -20,28 +20,28 @@ public interface GameLogic {
     default void checkFlags(PlayerServer player) {
         int x = (int) player.position.x;
         int y = (int) player.position.y;
+        int id = 0;
         Map<String, Boolean> flags = player.getFlags();
         System.out.println(flags.values());
         if(isCellFlag(x,y)){
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("1")) {
+                id = 1;
                 flags.put("flag1", true);
             }
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("2")) {
-                if(checkPreviousFlags(flags,2)) {
-                    flags.put("flag2", true);
+                id = 2;
                 }
-            }
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("3")) {
-                if(checkPreviousFlags(flags,3)) {
-                    flags.put("flag3", true);
+                id = 3;
                 }
-            }
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("4")) {
-                if(checkPreviousFlags(flags,4)) {
-                    flags.put("flag4", true);
+                id = 4;
                 }
+            if(checkPreviousFlags(flags,id)) {
+                flags.put("flag" + id, true);
             }
         }
+
     }
 
     default void outOfBounds(PlayerServer player) {
