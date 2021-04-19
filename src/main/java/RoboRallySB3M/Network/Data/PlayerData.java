@@ -1,6 +1,7 @@
 package RoboRallySB3M.Network.Data;
 
 import RoboRallySB3M.Direction;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerData implements PayloadData {
@@ -11,13 +12,14 @@ public class PlayerData implements PayloadData {
     public int turnOrder;
     public int damageToken;
     public int health;
+    public String playerTexture;
 
     /**
      * @param playerName id - string
      * @return A new player with default values
      */
     public static PlayerData newPlayer(String playerName) {
-        return new PlayerData(playerName, Vector2.Zero, Direction.NORTH, 0, 10 ,10);
+        return new PlayerData(playerName, Vector2.Zero, Direction.NORTH, 0, 10 ,10, "src/assets/player.png");
     }
 
     /**
@@ -26,17 +28,18 @@ public class PlayerData implements PayloadData {
      * @param direction North, west, east, south - Direction enum
      * @return an updated player or new
      */
-    public static PlayerData create(String playerName, Vector2 position, Direction direction, int turnOrder, int damageToken,int health) {
-        return new PlayerData(playerName, position, direction, turnOrder,damageToken, health);
+    public static PlayerData create(String playerName, Vector2 position, Direction direction, int turnOrder, int damageToken,int health, String playerTexture) {
+        return new PlayerData(playerName, position, direction, turnOrder,damageToken, health, playerTexture);
     }
 
-    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageToken, int health) {
+    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageToken, int health, String playerTexture) {
         this.playerName = playerName;
         this.position = position;
         this.direction = direction;
         this.turnOrder = turnOrder;
         this.damageToken = damageToken;
         this.health = health;
+        this.playerTexture = playerTexture;
     }
 
 }

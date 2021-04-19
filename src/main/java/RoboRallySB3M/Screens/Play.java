@@ -130,7 +130,7 @@ public class Play implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(135/255f, 206/255f, 235/255f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
@@ -315,6 +315,7 @@ public class Play implements Screen, InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
+        if(keycode == 00)
         if(!isYourTurn()) {
             return false;
         }

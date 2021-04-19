@@ -3,6 +3,7 @@ package RoboRallySB3M.Network.Client;
 import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.Network.Data.PlayerData;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,6 +11,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class ClientPlayer extends Sprite {
 
@@ -29,7 +33,9 @@ public class ClientPlayer extends Sprite {
      */
     public ClientPlayer(String name, Vector2 position) {
         //gets texture
+
         super(new Texture("src/assets/player.png"));
+
         //sets playerFig
         if (playerFig == null) {
             playerFig = TextureRegion.split(getTexture(), 300, 300);
@@ -56,18 +62,19 @@ public class ClientPlayer extends Sprite {
         int y = (int) this.position.y;
 
         if (player.playerName.equals(this.name)) {
-            // Customize your own piece
+            if(player.playerTexture != null) {
+                playerFig = TextureRegion.split(new Texture(player.playerTexture), 300, 300);
+            }
             cell.setFlipHorizontally(true);
-        }
 
-        if (Board.isCellFlag(x, y)) {
-            cell.setTile(new StaticTiledMapTile(playerFig[0][2]));
-        } else if (Board.isCellHole(x, y)) {
-            cell.setTile(new StaticTiledMapTile(playerFig[0][1]));
-        } else {
-            cell.setTile(new StaticTiledMapTile(playerFig[0][0]));
+            if (Board.isCellFlag(x, y)) {
+                cell.setTile(new StaticTiledMapTile(playerFig[0][2]));
+            } else if (Board.isCellHole(x, y)) {
+                cell.setTile(new StaticTiledMapTile(playerFig[0][1]));
+            } else {
+                cell.setTile(new StaticTiledMapTile(playerFig[0][0]));
+            }
         }
-
         Board.playerLayer.setCell(x, y, cell.setRotation(player.direction.value));
 
         return true;

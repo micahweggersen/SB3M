@@ -5,6 +5,9 @@ import RoboRallySB3M.Direction;
 import RoboRallySB3M.GameObjects.Board;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static java.lang.Math.abs;
 
 public class PlayerServer  implements Movement {
@@ -17,11 +20,19 @@ public class PlayerServer  implements Movement {
     private Direction direction;
     private int lifeTokens;
     private Status status;
+    private Map<String, Boolean> flags;
+    private String playerTexture;
+
 
     //Define player-coordinates
     public Vector2 position;
 
-    public PlayerServer(Direction direction, String name, int turnOrder, int damageToken, int health) {
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public PlayerServer(Direction direction, String name, int turnOrder, int damageToken, int health, String playerTexture) {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
@@ -29,6 +40,36 @@ public class PlayerServer  implements Movement {
         this.finishedRound = false;
         this.damageTokens = damageToken;
         this.health = health;
+        this.flags = initializeFlags();
+        this.playerTexture = playerTexture;
+    }
+
+    public String getPlayerTexture() {
+        return playerTexture;
+    }
+
+    public void setPlayerTexture(String playerTexture) {
+        this.playerTexture = playerTexture;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
+
+    private Map<String, Boolean> initializeFlags() {
+        flags = new HashMap();
+        for (int i = 1; i < 5; i++) {
+            flags.put("flag"+i, false);
+        }
+        return flags;
+    }
+
+    public Map<String, Boolean> getFlags() {
+        return flags;
+    }
+
+    public void setFlags(Map<String, Boolean> flags) {
+        this.flags = flags;
     }
 
     public int getDamageTokens() {
@@ -70,6 +111,8 @@ public class PlayerServer  implements Movement {
     public Direction getDirection() {
         return direction;
     }
+
+
 
     /**
      * @param card Card with directional value

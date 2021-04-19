@@ -3,6 +3,8 @@ package RoboRallySB3M.Network.Server;
 import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.Cards.Cards;
 import RoboRallySB3M.Direction;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import RoboRallySB3M.Network.Data.*;
 
@@ -10,18 +12,21 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 class ClientHandler extends Thread implements Movement, GameLogic {
     private final Socket clientSocket;
     private final ConcurrentHashMap<String, PlayerServer> players;
+    private final ConcurrentLinkedDeque<String> playersTexture;
 
-    public ClientHandler(Socket socket, ConcurrentHashMap<String, PlayerServer> players) {
+
+
+    public ClientHandler(Socket socket, ConcurrentHashMap<String, PlayerServer> players, ConcurrentLinkedDeque<String> playersTexture) {
         this.clientSocket = socket;
         this.players = players;
+        this.playersTexture = playersTexture;
     }
 
     /**
@@ -42,7 +47,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
         LaserServer laser = new LaserServer();
 
         for (PlayerServer player : players.values()) {
-            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getHealth()));
+            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getHealth(), player.getPlayerTexture()));
         }
         laserData = laser.findLaserLocation(playerData);
 
@@ -103,8 +108,8 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                         Board.playerLayer.setCell((int) player.position.x, (int) player.position.y, null);
 
                         moveByKeyPress(keycode, player);
-                        orderHandling(player, players);
-                        turnHandling(players);
+
+                        turn(player, players);
 
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
                         break;
@@ -114,7 +119,11 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                     case JOIN:
                         PlayerData playerData = (PlayerData) payload.data;
 
-                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), 10, 10);
+                        if(playersTexture.isEmpty()) {
+                            initialisePlayerTexture();
+                        }
+
+                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), playerData.damageToken, playerData.health, playersTexture.pop());
                         newPlayer.position = new Vector2(players.size(), 0);
 
                         players.put(playerData.playerName, newPlayer);
@@ -133,5 +142,10 @@ class ClientHandler extends Thread implements Movement, GameLogic {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void initialisePlayerTexture() {
+        playersTexture.add("src/assets/player.png");
+        playersTexture.add("src/assets/playerYellow.png");
     }
 }

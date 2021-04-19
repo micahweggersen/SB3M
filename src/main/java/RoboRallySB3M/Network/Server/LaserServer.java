@@ -13,7 +13,7 @@ import java.util.Objects;
 public class LaserServer implements Movement {
 
     private List<LaserData> laserLocation;
-    private HashMap<String, LaserData> laserLocationDraw;
+    private HashMap<String, LaserData> laserLocationDraw = new HashMap<>();;
     private static final String LASER = "Laser";
 
     private void initialise() {
@@ -35,7 +35,6 @@ public class LaserServer implements Movement {
 
         if(laserLocationDraw != null) laserLocationDraw.clear();
 
-        laserLocationDraw = new HashMap<>();
         findLaser(players);
 
         return laserLocationDraw;
