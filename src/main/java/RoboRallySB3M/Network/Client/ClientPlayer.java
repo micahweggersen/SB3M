@@ -3,7 +3,6 @@ package RoboRallySB3M.Network.Client;
 import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.Network.Data.PlayerData;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,9 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class ClientPlayer extends Sprite {
 

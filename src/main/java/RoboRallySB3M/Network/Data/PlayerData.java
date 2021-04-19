@@ -1,7 +1,6 @@
 package RoboRallySB3M.Network.Data;
 
 import RoboRallySB3M.Direction;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerData implements PayloadData {

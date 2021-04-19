@@ -21,21 +21,25 @@ public interface GameLogic {
         int x = (int) player.position.x;
         int y = (int) player.position.y;
         Map<String, Boolean> flags = player.getFlags();
+        System.out.println(flags.values());
         if(isCellFlag(x,y)){
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("1")) {
                 flags.put("flag1", true);
             }
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("2")) {
-                checkPreviousFlags(flags,2);
-                flags.put("flag2", true);
+                if(checkPreviousFlags(flags,2)) {
+                    flags.put("flag2", true);
+                }
             }
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("3")) {
-                checkPreviousFlags(flags,3);
-                flags.put("flag3", true);
+                if(checkPreviousFlags(flags,3)) {
+                    flags.put("flag3", true);
+                }
             }
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("4")) {
-                checkPreviousFlags(flags,4);
-                flags.put("flag4", true);
+                if(checkPreviousFlags(flags,4)) {
+                    flags.put("flag4", true);
+                }
             }
         }
     }
@@ -119,7 +123,7 @@ public interface GameLogic {
             for (Boolean f: flags.values()) {
                 if(Boolean.TRUE.equals(f)) {
                     i++;
-                    if(i == 3) {
+                    if(i == 4) {
                         //TODO finish win condition
                         System.out.println(player.getName() + " Has won the game!");
                     }
@@ -130,13 +134,15 @@ public interface GameLogic {
 
 
 
-    default void checkPreviousFlags(Map<String, Boolean> flags, int flagID) {
-        for (int i = 1; i < 5; i++) {
-            if(Boolean.TRUE.equals(flags.get("flag" + i))) {
-
+    default Boolean checkPreviousFlags(Map<String, Boolean> flags, int flagID) {
+        for (int i = 1; i < flagID; i++) {
+            if(!Boolean.TRUE.equals(flags.get("flag" + i))) {
+                System.out.println("Cannot collect flag yet");
+                return false;
             }
         }
-
+        System.out.println("Collected flag");
+        return true;
     }
 
     default boolean isCellSpeedOne(int x, int y) {
