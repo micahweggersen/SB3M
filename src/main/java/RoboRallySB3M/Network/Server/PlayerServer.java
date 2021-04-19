@@ -10,13 +10,12 @@ import static java.lang.Math.abs;
 public class PlayerServer  implements Movement {
 
     private final String name;
-    private int damageToken;
+    private int damageTokens;
     private int health;
     private int turnOrder;
     private boolean finishedRound;
     private Direction direction;
     private int lifeTokens;
-    private int damageTokens;
     private Status status;
 
     //Define player-coordinates
@@ -28,16 +27,16 @@ public class PlayerServer  implements Movement {
         this.position = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
-        this.damageToken = damageToken;
+        this.damageTokens = damageToken;
         this.health = health;
     }
 
-    public int getDamageToken() {
-        return damageToken;
+    public int getDamageTokens() {
+        return damageTokens;
     }
 
-    public void setDamageToken(int health) {
-        this.damageToken = damageToken;
+    public void setDamageTokens(int health) {
+        this.damageTokens = damageTokens;
     }
 
     public int getHealth() {
@@ -131,10 +130,6 @@ public class PlayerServer  implements Movement {
         damageTokens += 1;
         if (damageTokens >= 10)
             loseLifeToken();
-    }
-
-    public int getDamageTokens() {
-        return damageTokens;
     }
 
     public void powerDown() {
