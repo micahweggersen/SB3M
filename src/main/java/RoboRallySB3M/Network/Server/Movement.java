@@ -63,14 +63,14 @@ public interface Movement {
      * @return true if can move false if cannot move
      */
     default boolean canMove(Direction direction, int oldX, int oldY) {
-        int x_change = Direction.changeInDirectionX(direction);
-        int y_change = Direction.changeInDirectionY(direction);
+        int xChange = Direction.changeInDirectionX(direction);
+        int yChange = Direction.changeInDirectionY(direction);
 
         if (Board.walls.getCell(oldX, oldY) != null && Board.walls.getCell(oldX, oldY).getTile().getProperties().containsKey(direction.toString())) {
             return false;
         }
-        if (Board.walls.getCell((oldX + x_change), oldY + y_change) != null) {
-            return (!Board.walls.getCell(oldX + x_change, oldY + y_change).getTile().getProperties()
+        if (Board.walls.getCell((oldX + xChange), oldY + yChange) != null) {
+            return (!Board.walls.getCell(oldX + xChange, oldY + yChange).getTile().getProperties()
                     .containsKey(Objects.requireNonNull(Direction.oppositeDirection(direction)).toString()));
         }
         return true;

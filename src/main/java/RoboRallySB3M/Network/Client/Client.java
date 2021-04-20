@@ -104,7 +104,7 @@ public class Client extends Thread {
                     stopConnection();
                 }
 
-                Thread.sleep(50);
+                Thread.sleep(500);
             }
         } catch (IOException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();

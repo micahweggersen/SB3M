@@ -44,7 +44,6 @@ public class Play implements Screen, InputProcessor {
     private List<PlayerData> playerData;
     private PlayerData player;
     private HashMap<String, LaserData> laserData;
-    //private PlayerServer player = new PlayerServer();
 
     private final int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
 
@@ -87,6 +86,7 @@ public class Play implements Screen, InputProcessor {
         this.isClientOnly = isClientOnly;
     }
 
+
     /**
      * Called when this screen becomes the current screen for a {@link Game}.
      */
@@ -112,7 +112,7 @@ public class Play implements Screen, InputProcessor {
         cardPositionNumber.getData().setScale(1f);
 
         //Tile file load
-        Board.map = new TmxMapLoader().load("src/assets/testAutoWalk.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
 
         //Representation on GUI map
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
@@ -186,14 +186,14 @@ public class Play implements Screen, InputProcessor {
             renderer.getBatch().end();
         }
         //TODO
-        //laser.drawLaser(laserData, playerData);
+        laser.drawLaser(laserData, playerData);
 
         batch.begin();
         drawDamageTokenPositions();
         drawCardPositions();
 
         for(PlayerData player: playerData) {
-            drawDamageTokens(player.damageTokens);
+            drawDamageTokens(player.damageToken);
             drawLifeTokens(player.lifeTokens);
         }
 
@@ -226,10 +226,8 @@ public class Play implements Screen, InputProcessor {
      * Draws the damage tokens the player has received
      */
     private void drawDamageTokens(int damageTokens){
-        //for(PlayerData player: playerData) {
             for (int i = 10; i > damageTokens; i--) {
                 batch.draw(damageToken, 995 - (i * 48), 150, 40, 50);
-     //       }
         }
     }
 
@@ -359,9 +357,7 @@ public class Play implements Screen, InputProcessor {
             String name = player.playerName;
 
             if (!playerTileCache.containsKey(name)) {
-                //playerTileCache.put(name, new ClientPlayer(name, player.position, "src/assets/player.png"));
-                String s = "src/assets/player.png";
-                playerTileCache.put(name, new ClientPlayer(name, player.position, s));
+                playerTileCache.put(name, new ClientPlayer(name, player.position));
             }
 
             ClientPlayer cp = playerTileCache.get(name);

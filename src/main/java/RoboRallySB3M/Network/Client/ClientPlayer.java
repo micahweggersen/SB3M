@@ -29,7 +29,9 @@ public class ClientPlayer extends Sprite {
      */
     public ClientPlayer(String name, Vector2 position) {
         //gets texture
+
         super(new Texture("src/assets/player.png"));
+
         //sets playerFig
         if (playerFig == null) {
             playerFig = TextureRegion.split(getTexture(), 300, 300);
@@ -56,19 +58,21 @@ public class ClientPlayer extends Sprite {
         int y = (int) this.position.y;
 
         if (player.playerName.equals(this.name)) {
-            // Customize your own piece
+            if(player.playerTexture != null) {
+                playerFig = TextureRegion.split(new Texture(player.playerTexture), 300, 300);
+            }
             cell.setFlipHorizontally(true);
-        }
 
-        if (Board.isCellFlag(x, y)) {
-            cell.setTile(new StaticTiledMapTile(playerFig[0][2]));
-        } else if (Board.isCellHole(x, y)) {
-            cell.setTile(new StaticTiledMapTile(playerFig[0][1]));
-        } else {
-            cell.setTile(new StaticTiledMapTile(playerFig[0][0]));
-        }
 
-        Board.playerLayer.setCell(x, y, cell.setRotation(player.direction.value));
+            if (Board.isCellFlag(x, y)) {
+                cell.setTile(new StaticTiledMapTile(playerFig[0][2]));
+            } else if (Board.isCellHole(x, y)) {
+                cell.setTile(new StaticTiledMapTile(playerFig[0][1]));
+            } else {
+                cell.setTile(new StaticTiledMapTile(playerFig[0][0]));
+            }
+            Board.playerLayer.setCell(x, y, cell.setRotation(player.direction.value));
+        }
 
         return true;
     }

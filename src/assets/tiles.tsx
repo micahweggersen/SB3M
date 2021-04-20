@@ -101,4 +101,24 @@
    <property name="MOVE" value="1"/>
   </properties>
  </tile>
+ <tile id="54">
+  <properties>
+   <property name="1" value=""/>
+  </properties>
+ </tile>
+ <tile id="62">
+  <properties>
+   <property name="2" value=""/>
+  </properties>
+ </tile>
+ <tile id="70">
+  <properties>
+   <property name="3" value=""/>
+  </properties>
+ </tile>
+ <tile id="78">
+  <properties>
+   <property name="4" value=""/>
+  </properties>
+ </tile>
 </tileset>

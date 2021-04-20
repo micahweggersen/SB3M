@@ -9,15 +9,16 @@ public class PlayerData implements PayloadData {
     public Vector2 position;
     public Direction direction;
     public int turnOrder;
-    public int damageTokens;
+    public int damageToken;
     public int lifeTokens;
+    public String playerTexture;
 
     /**
      * @param playerName id - string
      * @return A new player with default values
      */
     public static PlayerData newPlayer(String playerName) {
-        return new PlayerData(playerName, Vector2.Zero, Direction.NORTH, 0, 0 ,3);
+        return new PlayerData(playerName, Vector2.Zero, Direction.NORTH, 0, 10 ,10, "src/assets/player.png");
     }
 
     /**
@@ -26,16 +27,17 @@ public class PlayerData implements PayloadData {
      * @param direction North, west, east, south - Direction enum
      * @return an updated player or new
      */
-    public static PlayerData create(String playerName, Vector2 position, Direction direction, int turnOrder, int damageToken,int health) {
-        return new PlayerData(playerName, position, direction, turnOrder,damageToken, health);
+    public static PlayerData create(String playerName, Vector2 position, Direction direction, int turnOrder, int damageToken,int lifeTokens, String playerTexture) {
+        return new PlayerData(playerName, position, direction, turnOrder,damageToken, lifeTokens, playerTexture);
     }
 
-    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageTokens, int lifeTokens) {
+    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageTokens, int lifeTokens, String playerTexture) {
         this.playerName = playerName;
         this.position = position;
         this.direction = direction;
         this.turnOrder = turnOrder;
-        this.damageTokens = damageTokens;
+        this.playerTexture = playerTexture;
+        this.damageToken = damageToken;
         this.lifeTokens = lifeTokens;
     }
 
