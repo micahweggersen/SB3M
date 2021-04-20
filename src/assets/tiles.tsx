@@ -19,6 +19,12 @@
    <property name="NORTH" value=""/>
   </properties>
  </tile>
+ <tile id="18">
+  <properties>
+   <property name="Direction" value="EAST"/>
+   <property name="MOVE" type="int" value="2"/>
+  </properties>
+ </tile>
  <tile id="22">
   <properties>
    <property name="EAST" value=""/>
