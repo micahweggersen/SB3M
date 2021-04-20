@@ -109,7 +109,7 @@ public class Play implements Screen, InputProcessor {
 
         cardPositionNumber = new BitmapFont();
         cardPositionNumber.setColor(Color.BLACK);
-        cardPositionNumber.getData().setScale(1.5f);
+        cardPositionNumber.getData().setScale(1f);
 
         //Tile file load
         Board.map = new TmxMapLoader().load("src/assets/example.tmx");
@@ -177,7 +177,7 @@ public class Play implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(150/255f, 150/255f, 150/255f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
@@ -225,7 +225,7 @@ public class Play implements Screen, InputProcessor {
      }
 
     /**
-     * Draws the damage tokens
+     * Draws the damage tokens the player has received
      */
     private void drawDamageTokens(int damageTokens){
         //for(PlayerData player: playerData) {
