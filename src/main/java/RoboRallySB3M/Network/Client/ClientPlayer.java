@@ -63,6 +63,7 @@ public class ClientPlayer extends Sprite {
             }
             cell.setFlipHorizontally(true);
 
+
             if (Board.isCellFlag(x, y)) {
                 cell.setTile(new StaticTiledMapTile(playerFig[0][2]));
             } else if (Board.isCellHole(x, y)) {
@@ -70,8 +71,8 @@ public class ClientPlayer extends Sprite {
             } else {
                 cell.setTile(new StaticTiledMapTile(playerFig[0][0]));
             }
+            Board.playerLayer.setCell(x, y, cell.setRotation(player.direction.value));
         }
-        Board.playerLayer.setCell(x, y, cell.setRotation(player.direction.value));
 
         return true;
     }

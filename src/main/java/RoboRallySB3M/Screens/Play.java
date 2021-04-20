@@ -1,6 +1,7 @@
 package RoboRallySB3M.Screens;
 
 
+import RoboRallySB3M.Direction;
 import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.GameObjects.Laser;
 import RoboRallySB3M.Network.Client.Client;

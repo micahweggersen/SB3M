@@ -11,6 +11,7 @@ public interface GameLogic {
     default void turn(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
         checkFlags(player);
         outOfBounds(player);
+        checkHole(player);
         playerCollision(player, players);
         orderHandling(player, players);
         turnHandling(players);
@@ -39,30 +40,39 @@ public interface GameLogic {
                 }
             if(checkPreviousFlags(flags,id)) {
                 flags.put("flag" + id, true);
+                player.setPositionSaved(new Vector2(x,y));
             }
         }
-
     }
 
     default void outOfBounds(PlayerServer player) {
         int x = Board.boardLayer.getWidth();
         int y = Board.boardLayer.getHeight();
 
-        if(player.position.x > x || player.position.x < 0) {
-            player.setPosition(new Vector2(0, 0));
+        if(player.position.x > x-1 || player.position.x < 0) {
+            player.setPosition(new Vector2(player.getPositionSaved()));
             System.out.println(player.getName() + " x Out of Bounds");
         }
-        if(player.position.y > y || player.position.y < 0) {
-            player.setPosition(new Vector2(0, 0));
+        if(player.position.y > y-1 || player.position.y < 0) {
+            player.setPosition(new Vector2(player.getPositionSaved()));
             System.out.println(player.getName() + " y Out of Bounds");
-
         }
 
 
     }
 
-    default void playerCollision(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
+    default void checkHole(PlayerServer player) {
+        if(isCellHole((int) player.position.x, (int) player.position.y)) {
+            System.out.println("HOLE!");
+        }
+    }
 
+    default void playerCollision(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
+        for (PlayerServer p: players.values()) {
+            if(player.position.equals(p.position)) {
+                System.out.println("Hit a player!");
+            }
+        }
 
     }
 
@@ -85,6 +95,7 @@ public interface GameLogic {
         for (PlayerServer player : players.values()) {
             if(player.getFinishedRound()) {
                 temp++;
+                playerMovedByObject(players);
                 System.out.println(player.getName() + "'s round is finished!");
             }
             else {
@@ -97,7 +108,7 @@ public interface GameLogic {
             for (PlayerServer player : players.values()) {
                 player.setFinishedRound(false);
             }
-            playerMovedByObject(players);
+
             checkVictoryCondition(players);
             System.out.println("All turns are complete!");
         }

@@ -26,16 +26,20 @@ public class PlayerServer  implements Movement {
 
     //Define player-coordinates
     public Vector2 position;
+    public Vector2 positionSaved;
 
 
     public Vector2 getPosition() {
         return position;
     }
 
+
+
     public PlayerServer(Direction direction, String name, int turnOrder, int damageToken, int health, String playerTexture) {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
+        this.positionSaved = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
         this.damageTokens = damageToken;
@@ -44,6 +48,13 @@ public class PlayerServer  implements Movement {
         this.playerTexture = playerTexture;
     }
 
+    public Vector2 getPositionSaved() {
+        return positionSaved;
+    }
+
+    public void setPositionSaved(Vector2 positionSaved) {
+        this.positionSaved = positionSaved;
+    }
     public String getPlayerTexture() {
         return playerTexture;
     }
