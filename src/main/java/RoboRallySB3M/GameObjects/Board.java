@@ -18,6 +18,7 @@ public class Board {
     public static TiledMapTileLayer speedOne;
     public static TiledMapTileLayer speedTwo;
     public static TiledMapTileLayer autowalk;
+    public static TiledMapTileLayer repairShop;
 
 
     private Board() {

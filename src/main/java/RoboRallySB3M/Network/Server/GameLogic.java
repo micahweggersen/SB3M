@@ -6,8 +6,9 @@ import RoboRallySB3M.GameObjects.Board;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public interface GameLogic {
+import static java.lang.Math.max;
 
+public interface GameLogic {
 
     default void orderHandling(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
         player.setFinishedRound(true);
@@ -42,6 +43,22 @@ public interface GameLogic {
         }
     }
 
+    default void playerRepairObject(ConcurrentHashMap<String, PlayerServer> players) {
+
+
+        for (PlayerServer player: players.values()) {
+
+            if (Board.repairShop.getCell((int) player.position.x, (int) player.position.y) != null){
+
+                String i = Board.repairShop.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("RepairValue").toString();
+                int j = Integer.valueOf(i);
+
+                player.setHealth(max(player.getHealth()+j, player.getMaxHealth()));
+
+            }
+        }
+    }
+
     default void turnHandling(ConcurrentHashMap<String, PlayerServer> players) {
         int temp = 0;
         for (PlayerServer player : players.values()) {
@@ -64,18 +81,7 @@ public interface GameLogic {
         }
     }
 
-    default boolean isCellSpeedOne(int x, int y) {
-        return Board.speedOne.getCell(x,y) != null;
-    }
-    default boolean isCellSpeedTwo(int x, int y) {
-        return Board.speedTwo.getCell(x,y) != null;
-    }
-    default boolean isCellFlag(int x, int y) {
-        return Board.flagLayer.getCell(x, y) != null;
-    }
-    default boolean isCellHole(int x, int y) {
-        return Board.holeLayer.getCell(x, y) != null;
-    }
-
+    default boolean isCellFlag(int x, int y) { return Board.flagLayer.getCell(x, y) != null; }
+    default boolean isCellHole(int x, int y) { return Board.holeLayer.getCell(x, y) != null; }
 
 }
