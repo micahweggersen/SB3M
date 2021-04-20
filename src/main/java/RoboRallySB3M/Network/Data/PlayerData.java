@@ -9,8 +9,8 @@ public class PlayerData implements PayloadData {
     public Vector2 position;
     public Direction direction;
     public int turnOrder;
-    public int damageToken;
-    public int health;
+    public int damageTokens;
+    public int lifeTokens;
 
     /**
      * @param playerName id - string
@@ -30,13 +30,13 @@ public class PlayerData implements PayloadData {
         return new PlayerData(playerName, position, direction, turnOrder,damageToken, health);
     }
 
-    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageToken, int health) {
+    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageTokens, int lifeTokens) {
         this.playerName = playerName;
         this.position = position;
         this.direction = direction;
         this.turnOrder = turnOrder;
-        this.damageToken = damageToken;
-        this.health = health;
+        this.damageTokens = damageTokens;
+        this.lifeTokens = lifeTokens;
     }
 
 }

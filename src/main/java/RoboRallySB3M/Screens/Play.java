@@ -42,7 +42,16 @@ public class Play implements Screen, InputProcessor {
     private final int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
 
     private List<Cards> dealtCards;
-    private Queue<Cards> chosenCards;
+    private LinkedList<Cards> chosenCards = new LinkedList<>();
+
+    // Variables needed for drawing cards
+    int[] cardX = new int[9];
+    int[] cardY = new int[9];
+    boolean[] isCardChosen = new boolean[9];
+    int numCardsChosen;
+    private boolean dealCardsNow = false;
+
+    BitmapFont cardPositionNumber;
 
     private boolean inputKey = false;
     private boolean newCards = true;
@@ -60,6 +69,11 @@ public class Play implements Screen, InputProcessor {
     private Texture damageToken;
     private Texture damageTokenPosition;
     private Texture cardPosition;
+    private Texture lifeToken;
+
+    private final ArrayList<Texture> cardsTextures = new ArrayList<>();
+    private final ArrayList<Texture> dealtCardsTextures = new ArrayList<>();
+    private final ArrayList<Texture> chosenCardsTextures = new ArrayList<>();
 
 
     public Play(boolean isClientOnly) {
@@ -75,9 +89,12 @@ public class Play implements Screen, InputProcessor {
         font = new BitmapFont();
         font.setColor(Color.RED);
 
+        cardPositionNumber = new BitmapFont();
+        cardPositionNumber.setColor(Color.BLACK);
+        cardPositionNumber.getData().setScale(1.5f);
 
         //Tile file load
-        Board.map = new TmxMapLoader().load("src/assets/testAutoWalk.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
 
         //Representation on GUI map
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
@@ -91,14 +108,13 @@ public class Play implements Screen, InputProcessor {
         Board.speedTwo = (TiledMapTileLayer) Board.map.getLayers().get("SpeedTwo");
         Board.autowalk = (TiledMapTileLayer) Board.map.getLayers().get("autowalk");
 
-
         laser = new Laser();
         laser.initializeLaser();
         Board.laserHorizontal.setVisible(true);
         Board.laserVertical.setVisible(true);
 
         int mapWidth = 400;
-        int mapHeight = 400;
+        int mapHeight = 300;
         int tileWidth = Board.holeLayer.getWidth();
         int tileHeight = Board.holeLayer.getHeight();
 
@@ -122,6 +138,16 @@ public class Play implements Screen, InputProcessor {
         damageToken = new Texture("src/assets/damage_token.png");
         damageTokenPosition = new Texture("src/assets/damage_token_grey.png");
         cardPosition = new Texture("src/assets/cards/CardSpotHolder.png");
+
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move1-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move2-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move3-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/back_up-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/rotate_left-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/rotate_right.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/u-turn-1.png")));
+
+        initializeCards();
     }
 
     /**
@@ -143,11 +169,20 @@ public class Play implements Screen, InputProcessor {
             renderer.getBatch().end();
         }
         //TODO
-        laser.drawLaser(laserData, playerData);
+        //laser.drawLaser(laserData, playerData);
 
         batch.begin();
         drawDamageTokenPositions();
         drawCardPositions();
+        drawLifeTokens();
+
+        if(dealCardsNow){
+            drawDealtCards();}
+
+        if(chosenCards.size() == 5){
+            drawChosenCards();
+            dealCardsNow = false;
+        }
         batch.end();
 
         renderer.setView(cameraView);
@@ -175,7 +210,42 @@ public class Play implements Screen, InputProcessor {
         }
      }
 
+    /**
+     * Draws the cards that a player is dealt at the start of each round
+     */
+    private void drawDealtCards() {
+         for (int i = 0; i < 9; i++) {
+             Cards card = dealtCards.get(i);
+             dealtCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
+             batch.draw(dealtCardsTextures.get(i), 490 + cardX[i], 300 + cardY[i], 160, 123);
+         }
+     }
 
+     private void drawChosenCards() {
+        for (int i = 0; i < 5; i++) {
+            Cards card = chosenCards.get(i);
+            chosenCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
+            batch.draw(chosenCardsTextures.get(i), 857-(i*98), -7, 240, 180);
+        }
+     }
+
+    /**
+     * Sets initial values for dealt and chosen program cards.
+     */
+    private void initializeCards() {
+        for (int i = 0; i < 9; i++) {
+            cardX[i] = i*50;
+            cardY[i] = 12;
+            isCardChosen[i] = false;
+        }
+        dealtCardsTextures.clear();
+        getChosenCards();
+        numCardsChosen = 0;
+    }
+
+    private LinkedList<Cards> getChosenCards(){
+        return chosenCards;
+    }
 
     @Override
     public void resize(int width, int height) {
@@ -246,7 +316,8 @@ public class Play implements Screen, InputProcessor {
             String name = player.playerName;
 
             if (!playerTileCache.containsKey(name)) {
-                playerTileCache.put(name, new ClientPlayer(name, player.position, "src/assets/player.png"));
+                //playerTileCache.put(name, new ClientPlayer(name, player.position, "src/assets/player.png"));
+                playerTileCache.put(name, new ClientPlayer(name, player.position));
             }
 
             ClientPlayer cp = playerTileCache.get(name);
@@ -281,6 +352,7 @@ public class Play implements Screen, InputProcessor {
         newCards = false;
         Deck deck = new Deck();
         dealtCards = deck.dealCards(8);
+        dealCardsNow = true;
         chosenCards = new LinkedList<>();
     }
 

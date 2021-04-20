@@ -7,6 +7,7 @@ public class Cards {
     private String id;
     private int momentum;
     private Direction direction;
+    public int cardType;
 
     /**
      * Constructor. Used by sub-classes.
@@ -39,9 +40,37 @@ public class Cards {
         return id;
     }
 
+    public int getIdInt(Cards card){
+        switch(card.getId()) {
+            case "Move One":
+                cardType = 0;
+                return cardType;
+            case "Move Two":
+                cardType = 1;
+                return cardType;
+            case "Move Three":
+                cardType = 2;
+                return cardType;
+            case "Back Up":
+                cardType = 3;
+                return cardType;
+            case "Rotate Left":
+                cardType = 4;
+                return cardType;
+            case "Rotate Right":
+                cardType = 5;
+                return cardType;
+            case "U-Turn":
+                cardType = 6;
+                return cardType;
+            default:
+                return Integer.parseInt("Unexpected value: " + cardType);
+        }
+    }
+
     @Override
     public String toString() {
-        return id + ", priorityValue: " + priorityValue + '}';
+    return id + ", priorityValue: " + priorityValue + '}';
     }
 
     /**
