@@ -19,6 +19,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import RoboRallySB3M.Network.Data.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.*;
 
@@ -76,6 +81,7 @@ public class Play implements Screen, InputProcessor {
     private final ArrayList<Texture> cardsTextures = new ArrayList<>();
     private final ArrayList<Texture> dealtCardsTextures = new ArrayList<>();
     private final ArrayList<Texture> chosenCardsTextures = new ArrayList<>();
+
 
     public Play(boolean isClientOnly) {
         this.isClientOnly = isClientOnly;
@@ -179,7 +185,7 @@ public class Play implements Screen, InputProcessor {
             playerRender();
             renderer.getBatch().end();
         }
-
+        //TODO
         laser.drawLaser(laserData, playerData);
 
         batch.begin();
@@ -187,7 +193,7 @@ public class Play implements Screen, InputProcessor {
         drawCardPositions();
 
         for(PlayerData player: playerData) {
-            drawDamageTokens(player.damageTokens);
+            drawDamageTokens(player.damageToken);
             drawLifeTokens(player.lifeTokens);
         }
 
@@ -220,10 +226,8 @@ public class Play implements Screen, InputProcessor {
      * Draws the damage tokens the player has received
      */
     private void drawDamageTokens(int damageTokens){
-        //for(PlayerData player: playerData) {
             for (int i = 10; i > damageTokens; i--) {
                 batch.draw(damageToken, 995 - (i * 48), 150, 40, 50);
-     //       }
         }
     }
 

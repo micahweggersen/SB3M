@@ -33,7 +33,6 @@ public class Laser {
     }
 
     public void drawLaser(HashMap<String, LaserData> laserData, List<PlayerData> playerData) {
-
         for (int t = 0; t <= 1; t++) {
             int k = 0;
             if(laserData == null || playerData == null) {
@@ -50,7 +49,6 @@ public class Laser {
                         }
                         draw(laserData.get(key).x, laserData.get(key).y, laserData.get(key).laserType);
                     }
-
                 }
             }
         }

@@ -29,10 +29,11 @@ public class PlayerServer  implements Movement {
     public Vector2 position;
     public Vector2 positionSaved;
 
+    public Vector2 getPosition() {
+        return position;
+    }
 
-
-
-    public PlayerServer(Direction direction, String name, int turnOrder, int damageTokens, int lifeTokens, String playerTexture) {
+    public PlayerServer(Direction direction, String name, int turnOrder, int damageTokens, int lifeTokens) {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
@@ -45,6 +46,13 @@ public class PlayerServer  implements Movement {
         this.flags = initializeFlags();
         this.playerTexture = playerTexture;
     }
+    public Vector2 getPositionSaved() {
+        return positionSaved;
+    }
+
+    public void setPositionSaved(Vector2 positionSaved) {
+        this.positionSaved = positionSaved;
+    }
     public String getPlayerTexture() {
         return playerTexture;
     }
@@ -53,29 +61,8 @@ public class PlayerServer  implements Movement {
         this.playerTexture = playerTexture;
     }
 
-    public int getLifeTokens() {
-        return lifeTokens;
-    }
-
-    public void setLifeTokens(int lifeTokens) {
-        this.lifeTokens = lifeTokens;
-    }
-
     public void setPosition(Vector2 position) {
         this.position = position;
-    }
-
-
-    public Vector2 getPositionSaved() {
-        return positionSaved;
-    }
-
-    public void setPositionSaved(Vector2 positionSaved) {
-        this.positionSaved = positionSaved;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
     }
 
     private Map<String, Boolean> initializeFlags() {
@@ -90,6 +77,9 @@ public class PlayerServer  implements Movement {
         return flags;
     }
 
+    public void setFlags(Map<String, Boolean> flags) {
+        this.flags = flags;
+    }
     public int getDamageTokens() {
         return damageTokens;
     }

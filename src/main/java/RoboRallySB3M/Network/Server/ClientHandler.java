@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
@@ -21,8 +19,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
     private final ConcurrentHashMap<String, PlayerServer> players;
     private final ConcurrentLinkedDeque<String> playersTexture;
     private HashMap<String, LaserData> laserData = new HashMap<>();
-
-
+    
     public ClientHandler(Socket socket, ConcurrentHashMap<String, PlayerServer> players, ConcurrentLinkedDeque<String> playersTexture) {
         this.clientSocket = socket;
         this.players = players;

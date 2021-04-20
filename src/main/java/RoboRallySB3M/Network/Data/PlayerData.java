@@ -9,7 +9,7 @@ public class PlayerData implements PayloadData {
     public Vector2 position;
     public Direction direction;
     public int turnOrder;
-    public int damageTokens;
+    public int damageToken;
     public int lifeTokens;
     public String playerTexture;
 
@@ -36,7 +36,7 @@ public class PlayerData implements PayloadData {
         this.position = position;
         this.direction = direction;
         this.turnOrder = turnOrder;
-        this.damageTokens = damageTokens;
+        this.damageToken = damageToken;
         this.lifeTokens = lifeTokens;
         this.playerTexture = playerTexture;
     }
