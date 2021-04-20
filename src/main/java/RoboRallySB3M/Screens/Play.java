@@ -38,6 +38,7 @@ public class Play implements Screen, InputProcessor {
     private HashMap<String, ClientPlayer> playerTileCache = new HashMap<>();
     private List<PlayerData> playerData;
     private HashMap<String, LaserData> laserData;
+    //private PlayerServer player = new PlayerServer();
 
     private final int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
 
@@ -137,6 +138,7 @@ public class Play implements Screen, InputProcessor {
 
         damageToken = new Texture("src/assets/damage_token.png");
         damageTokenPosition = new Texture("src/assets/damage_token_grey.png");
+        lifeToken = new Texture("src/assets/life_token.png");
         cardPosition = new Texture("src/assets/cards/CardSpotHolder.png");
 
         cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move1-1.png")));
@@ -200,6 +202,24 @@ public class Play implements Screen, InputProcessor {
             batch.draw(damageTokenPosition, 995-(i*48), 150, 40, 50);
         }
      }
+
+    /**
+     * Draws the damage tokens
+     */
+    private void drawDamageTokens(){
+        for (int i = 10; i > 0; i--) {
+            batch.draw(damageToken, 995-(i*48), 150, 40, 50);
+        }
+    }
+
+    /**
+     * Draws the life tokens
+     */
+    private void drawLifeTokens() {
+        for(int i = 0; i < 3; i++) {
+            batch.draw(lifeToken,770-(i*70),  200, 100, 100 );
+        }
+    }
 
     /**
      * Draws the positions of where chosen cards should be on the screen

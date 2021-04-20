@@ -21,14 +21,14 @@ public class PlayerServer  implements Movement {
     //Define player-coordinates
     public Vector2 position;
 
-    public PlayerServer(Direction direction, String name, int turnOrder, int damageToken, int health) {
+    public PlayerServer(Direction direction, String name, int turnOrder, int damageTokens, int lifeTokens) {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
-        this.damageTokens = damageToken;
-        this.health = health;
+        this.damageTokens = damageTokens;
+        this.lifeTokens = lifeTokens;
     }
 
     public int getDamageTokens() {
