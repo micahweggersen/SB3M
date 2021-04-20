@@ -30,6 +30,7 @@ public interface GameLogic {
         int y = (int) player.position.y;
         int id = 0;
         Map<String, Boolean> flags = player.getFlags();
+        System.out.println(flags);
         if(isCellFlag(x,y)){
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("1")) {
                 id = 1;
