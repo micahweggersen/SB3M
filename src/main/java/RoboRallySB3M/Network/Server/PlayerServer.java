@@ -5,11 +5,15 @@ import RoboRallySB3M.Direction;
 import RoboRallySB3M.GameObjects.Board;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static java.lang.Math.abs;
 
 public class PlayerServer  implements Movement {
 
     private final String name;
+    private final int maxHealth;
     private int damageTokens;
     private int health;
     private int turnOrder;
@@ -17,18 +21,73 @@ public class PlayerServer  implements Movement {
     private Direction direction;
     private int lifeTokens;
     private Status status;
+    private Map<String, Boolean> flags;
+    private String playerTexture;
+
 
     //Define player-coordinates
     public Vector2 position;
+    public Vector2 positionSaved;
 
-    public PlayerServer(Direction direction, String name, int turnOrder, int damageTokens, int lifeTokens) {
+
+
+
+    public PlayerServer(Direction direction, String name, int turnOrder, int damageTokens, int lifeTokens, String playerTexture) {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
+        this.positionSaved = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
         this.damageTokens = damageTokens;
         this.lifeTokens = lifeTokens;
+        this.maxHealth = 3;
+        this.flags = initializeFlags();
+        this.playerTexture = playerTexture;
+    }
+    public String getPlayerTexture() {
+        return playerTexture;
+    }
+
+    public void setPlayerTexture(String playerTexture) {
+        this.playerTexture = playerTexture;
+    }
+
+    public int getLifeTokens() {
+        return lifeTokens;
+    }
+
+    public void setLifeTokens(int lifeTokens) {
+        this.lifeTokens = lifeTokens;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
+
+
+    public Vector2 getPositionSaved() {
+        return positionSaved;
+    }
+
+    public void setPositionSaved(Vector2 positionSaved) {
+        this.positionSaved = positionSaved;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    private Map<String, Boolean> initializeFlags() {
+        flags = new HashMap();
+        for (int i = 1; i < 5; i++) {
+            flags.put("flag"+i, false);
+        }
+        return flags;
+    }
+
+    public Map<String, Boolean> getFlags() {
+        return flags;
     }
 
     public int getDamageTokens() {
@@ -98,38 +157,6 @@ public class PlayerServer  implements Movement {
         }
 
         position = new Vector2(position.x + 0.00001F, position.y + 0.00001F);
-        checkForDamage();
-    }
-
-    public void checkForDamage() {
-        float currentX = position.x;
-        float currentY = position.y;
-        System.out.println("checkdamage");
-        if (Board.isCellLaser((int)currentX,(int)currentY)) {
-            addDamageToken();
-            System.out.println("damagetokenadded");
-        }
-        else if (Board.isCellHole((int)currentX,(int)currentY)) {
-            loseLifeToken();
-            System.out.println("lifetokenlost");
-        }
-
-    }
-
-    public void loseLifeToken() {
-        lifeTokens -= 1;
-        if (lifeTokens <= 0)
-            setStatus(Status.DEAD);
-    }
-
-    public int getLifeTokens() {
-        return lifeTokens;
-    }
-
-    public void addDamageToken() {
-        damageTokens += 1;
-        if (damageTokens >= 10)
-            loseLifeToken();
     }
 
     public void powerDown() {

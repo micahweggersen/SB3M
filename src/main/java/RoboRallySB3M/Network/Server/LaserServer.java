@@ -5,15 +5,12 @@ import RoboRallySB3M.Direction;
 import RoboRallySB3M.Network.Data.LaserData;
 import RoboRallySB3M.Network.Data.PlayerData;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class LaserServer implements Movement {
 
     private List<LaserData> laserLocation;
-    private HashMap<String, LaserData> laserLocationDraw;
+    private HashMap<String, LaserData> laserLocationDraw = new HashMap<>();;
     private static final String LASER = "Laser";
 
     private void initialise() {
@@ -28,20 +25,19 @@ public class LaserServer implements Movement {
         }
     }
 
-    public HashMap<String, LaserData> findLaserLocation(List<PlayerData> players) {
+    public HashMap<String, LaserData> findLaserLocation(Collection<PlayerServer> players) {
         if(laserLocation == null) {
             initialise();
         }
 
         if(laserLocationDraw != null) laserLocationDraw.clear();
 
-        laserLocationDraw = new HashMap<>();
         findLaser(players);
 
         return laserLocationDraw;
     }
 
-    private void findLaser(List<PlayerData> players){
+    private void findLaser(Collection<PlayerServer> players){
         int x;
         int y;
 
@@ -55,18 +51,19 @@ public class LaserServer implements Movement {
             //Creates lasers Horizontal
             lasers(players, x, y, v, dir, "laserH", "H");
             //Creates lasers Vertical
-
             lasers(players, x, y, v, dir, "laserV", "V");
         }
     }
 
-    private void lasers(List<PlayerData> players, int x, int y, LaserData v, Direction dir,String placeholder, String pointer) {
+    private void lasers(Collection<PlayerServer> players, int x, int y, LaserData v, Direction dir, String placeholder, String pointer) {
         if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get(LASER).equals(pointer)) {
             while (canMove(dir, x, y)) {
                 //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
                 String key = x + String.valueOf(y) + pointer;
                 //If laser hits a player, set the laser draw value to null
-                if (playerWall(key, players)) placeholder = "null";
+                if (playerWall(players)) {
+                    break;
+                }
                 laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
                 if (y > Board.boardLayer.getHeight() || y < 0) break;
                 if (dir != null) {
@@ -83,23 +80,26 @@ public class LaserServer implements Movement {
     }
 
 
-    private void addLaserOnWall(List<PlayerData> players, Direction dir, int x, int y, String placeholder, String directionKey) {
+    private void addLaserOnWall(Collection<PlayerServer> players, Direction dir, int x, int y, String placeholder, String directionKey) {
         if(!canMove(dir, x, y)) {
             String key = x + String.valueOf(y) + directionKey;
-            if (!playerWall(key, players)) {
+            if (!playerWall(players)) {
                 laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
             }
         }
 
     }
 
-    private boolean playerWall(String key, List<PlayerData> players) {
+    private boolean playerWall(Collection<PlayerServer> players) {
 
-        if(players == null || laserLocationDraw.size() <= 0 || laserLocationDraw.get(key) == null) return false;
+        if(players == null || laserLocationDraw.size() <= 0) return false;
 
-        for (PlayerData player : players) {
-            if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y)
-                return true;
+        for (PlayerServer player : players) {
+            for (LaserData l: laserLocationDraw.values()) {
+                if ((int) player.position.x == l.x && (int) player.position.y == l.y) {
+                    return true;
+                }
+            }
         }
         return false;
     }

@@ -14,14 +14,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 class ClientHandler extends Thread implements Movement, GameLogic {
     private final Socket clientSocket;
     private final ConcurrentHashMap<String, PlayerServer> players;
+    private final ConcurrentLinkedDeque<String> playersTexture;
+    private HashMap<String, LaserData> laserData = new HashMap<>();
 
-    public ClientHandler(Socket socket, ConcurrentHashMap<String, PlayerServer> players) {
+
+    public ClientHandler(Socket socket, ConcurrentHashMap<String, PlayerServer> players, ConcurrentLinkedDeque<String> playersTexture) {
         this.clientSocket = socket;
         this.players = players;
+        this.playersTexture = playersTexture;
     }
 
     /**
@@ -39,12 +44,12 @@ class ClientHandler extends Thread implements Movement, GameLogic {
         List<PlayerData> playerData = new ArrayList<>(players.size());
         HashMap<String, LaserData> laserData;
 
-        LaserServer laser = new LaserServer();
-
         for (PlayerServer player : players.values()) {
-            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getHealth()));
+            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getHealth(), player.getPlayerTexture()));
         }
-        laserData = laser.findLaserLocation(playerData);
+
+        LaserServer laser = new LaserServer();
+        laserData = laser.findLaserLocation(players.values());
 
         return UpdateData.create(playerData, laserData);
     }
@@ -60,6 +65,11 @@ class ClientHandler extends Thread implements Movement, GameLogic {
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
             Object object;
+
+            if(laserData.isEmpty()) {
+                LaserServer laser = new LaserServer();
+                laserData = laser.findLaserLocation(players.values());
+            }
 
             while ((object = in.readObject()) != null) {
                 Payload payload = (Payload) object;
@@ -103,9 +113,8 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                         Board.playerLayer.setCell((int) player.position.x, (int) player.position.y, null);
 
                         moveByKeyPress(keycode, player);
-                        playerRepairObject(player);
-                        orderHandling(player, players);
-                        turnHandling(players);
+
+                        turn(player, players, laserData);
 
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
                         break;
@@ -115,7 +124,11 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                     case JOIN:
                         PlayerData playerData = (PlayerData) payload.data;
 
-                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), 10, 10);
+                        if(playersTexture.isEmpty()) {
+                            initialisePlayerTexture();
+                        }
+
+                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), 10, 10, playersTexture.pop());
                         newPlayer.position = new Vector2(players.size(), 0);
 
                         players.put(playerData.playerName, newPlayer);
@@ -134,5 +147,9 @@ class ClientHandler extends Thread implements Movement, GameLogic {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+    private void initialisePlayerTexture() {
+        playersTexture.add("src/assets/player.png");
+        playersTexture.add("src/assets/playerYellow.png");
     }
 }

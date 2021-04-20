@@ -11,9 +11,8 @@ import java.util.*;
 
 public class Laser {
 
-    public TiledMapTileLayer.Cell laserH;
-    public TiledMapTileLayer.Cell laserV;
-    private static HashMap<String, LaserData> laserLocationDraw;
+    private TiledMapTileLayer.Cell laserH;
+    private TiledMapTileLayer.Cell laserV;
 
 
     /**
@@ -34,71 +33,52 @@ public class Laser {
     }
 
     public void drawLaser(HashMap<String, LaserData> laserData, List<PlayerData> playerData) {
+
         for (int t = 0; t <= 1; t++) {
+            int k = 0;
+            if(laserData == null || playerData == null) {
+                break;
+            }
             String pointing = t == 0 ? "V" : "H";
-            for (int i = 0; i < Board.boardLayer.getHeight(); i++) {
-                for (int j = 0; j < Board.boardLayer.getWidth(); j++) {
+            String laserType = "";
+            for (int i = 0; i < Board.boardLayer.getHeight()-1; i++) {
+                for (int j = 0; j < Board.boardLayer.getWidth()-1; j++) {
                     String key = i + String.valueOf(j) + pointing;
-
-
-                    if(laserData == null || playerData == null) {
-                        break;
-                    }
                     if (laserData.containsKey(key)) {
-                        String laserType = laserData.get(key).laserType;
-                        int x = laserData.get(key).x;
-                        int y = laserData.get(key).y;
-
-                        draw(x, y, laserType);
+                        if(playerWall(playerData,laserData.get(key).x, laserData.get(key).y)) {
+                            draw(laserData.get(key).x, laserData.get(key).y, "null");
+                        }
+                        draw(laserData.get(key).x, laserData.get(key).y, laserData.get(key).laserType);
                     }
+
                 }
             }
         }
     }
-
     private void draw(int x, int y, String laserType) {
-            TiledMapTileLayer.Cell placeholder;
-            if (laserType.equals("laserV")) {
-                placeholder = laserV;
-                Board.laserVertical.setCell(x, y, placeholder);
-            }
-            else if (laserType.equals("laserH")) {
-                placeholder = laserH;
-                Board.laserHorizontal.setCell(x, y, placeholder);
-            }
-            else {
-                Board.laserVertical.setCell(x, y, null);
-                Board.laserHorizontal.setCell(x, y, null);
-            }
-    }
-    /**
-     * @param x coordinate
-     * @param y coordinate
-     * @param playerList list of current players
-     * @return if player location is the same as drawn laser location then return true - this stops the laser form being drawn
-     */
-    private static boolean isCellLaser(int x, int y, List<PlayerData> playerList) {
-
-        if(playerList == null || laserLocationDraw.size() <= 0) {
-            return false;
+        TiledMapTileLayer.Cell placeholder;
+        if (laserType.equals("laserV")) {
+            placeholder = laserV;
+            Board.laserVertical.setCell(x, y, placeholder);
         }
+        else if (laserType.equals("laserH")) {
+            placeholder = laserH;
+            Board.laserHorizontal.setCell(x, y, placeholder);
+        }
+        else {
+            Board.laserVertical.setCell(x, y, null);
+            Board.laserHorizontal.setCell(x, y, null);
+        }
+    }
 
-        for (PlayerData player : playerList) {
-            String key = String.valueOf(x) + String.valueOf(y);
-            if ((int) player.position.x == laserLocationDraw.get(key).x && (int) player.position.y == laserLocationDraw.get(key).y) {
+    private boolean playerWall(List<PlayerData> players, int x, int y) {
 
+        if(players == null) return false;
+
+        for (PlayerData player : players) {
+            if ((int) player.position.x == x && (int) player.position.y == y) {
                 return true;
             }
-        }
-        return false;
-    }
-
-    public static boolean getLaserPosition(int x, int y) {
-        String key = String.valueOf(x) + String.valueOf(y);
-        System.out.println("Laser");
-        if (laserLocationDraw.get(key) != null) {
-            System.out.println("IFLaser");
-            return true;
         }
         return false;
     }

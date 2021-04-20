@@ -19,11 +19,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import RoboRallySB3M.Network.Data.*;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.*;
 
@@ -81,7 +76,6 @@ public class Play implements Screen, InputProcessor {
     private final ArrayList<Texture> cardsTextures = new ArrayList<>();
     private final ArrayList<Texture> dealtCardsTextures = new ArrayList<>();
     private final ArrayList<Texture> chosenCardsTextures = new ArrayList<>();
-
 
     public Play(boolean isClientOnly) {
         this.isClientOnly = isClientOnly;
@@ -185,8 +179,8 @@ public class Play implements Screen, InputProcessor {
             playerRender();
             renderer.getBatch().end();
         }
-        //TODO
-        //laser.drawLaser(laserData, playerData);
+
+        laser.drawLaser(laserData, playerData);
 
         batch.begin();
         drawDamageTokenPositions();
@@ -359,9 +353,7 @@ public class Play implements Screen, InputProcessor {
             String name = player.playerName;
 
             if (!playerTileCache.containsKey(name)) {
-                //playerTileCache.put(name, new ClientPlayer(name, player.position, "src/assets/player.png"));
-                String s = "src/assets/player.png";
-                playerTileCache.put(name, new ClientPlayer(name, player.position, s));
+                playerTileCache.put(name, new ClientPlayer(name, player.position));
             }
 
             ClientPlayer cp = playerTileCache.get(name);

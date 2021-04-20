@@ -56,6 +56,9 @@ public class ClientPlayer extends Sprite {
         int y = (int) this.position.y;
 
         if (player.playerName.equals(this.name)) {
+            if(player.playerTexture != null) {
+                playerFig = TextureRegion.split(new Texture(player.playerTexture), 300, 300);
+            }
             // Customize your own piece
             cell.setFlipHorizontally(true);
         }
