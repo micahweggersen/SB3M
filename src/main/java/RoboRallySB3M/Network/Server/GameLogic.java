@@ -2,8 +2,10 @@ package RoboRallySB3M.Network.Server;
 
 import RoboRallySB3M.Direction;
 import RoboRallySB3M.GameObjects.Board;
+import RoboRallySB3M.Network.Data.LaserData;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -11,11 +13,11 @@ import static java.lang.Math.min;
 
 public interface GameLogic {
 
-    default void turn(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
+    default void turn(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players, HashMap<String, LaserData> laserData) {
         checkFlags(player);
         outOfBounds(player);
         checkHole(player);
-        //checkForDamage(player);
+        checkForDamage(player, laserData);
         playerCollision(player, players);
         orderHandling(player, players);
         turnHandling(players);
@@ -120,7 +122,7 @@ public interface GameLogic {
         for (PlayerServer player : players.values()) {
             if(player.getFinishedRound()) {
                 temp++;
-                //playerMovedByObject(players);
+                playerMovedByObject(players);
                 System.out.println(player.getName() + "'s round is finished!");
             }
             else {
@@ -139,9 +141,9 @@ public interface GameLogic {
         }
     }
 
-   /* default void checkForDamage(PlayerServer player) {
+   default void checkForDamage(PlayerServer player, HashMap<String, LaserData> laserData) {
         System.out.println("checkdamage");
-        if (isCellLaser((int)player.position.x ,(int)player.position.y)) {
+        if (isCellLaser((int)player.position.x ,(int)player.position.y, laserData)) {
             addDamageToken(player);
             System.out.println("damagetokenadded");
         }
@@ -149,7 +151,7 @@ public interface GameLogic {
             loseLifeToken(player);
             System.out.println("lifetokenlost");
         }
-    }*/
+    }
 
     default void loseLifeToken(PlayerServer player) {
         int lifeTokens = player.getLifeTokens();
@@ -200,8 +202,12 @@ public interface GameLogic {
     default boolean isCellHole(int x, int y) {
         return Board.holeLayer.getCell(x, y) != null;
     }
- /*   default boolean isCellLaser(int x, int y, LaserServer laser) {
-        System.out.println("isCellLaser");
-        return Laser.getLaserPosition(x, y);
-    }*/
+    default boolean isCellLaser(int x, int y, HashMap<String, LaserData> lasers) {
+        for (LaserData laser: lasers.values()) {
+            if(x == laser.x && y == laser.y) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

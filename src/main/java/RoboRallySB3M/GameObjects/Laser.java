@@ -1,5 +1,6 @@
 package RoboRallySB3M.GameObjects;
 
+import RoboRallySB3M.Direction;
 import RoboRallySB3M.Network.Data.LaserData;
 import RoboRallySB3M.Network.Data.PlayerData;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,8 +12,8 @@ import java.util.*;
 
 public class Laser {
 
-    public TiledMapTileLayer.Cell laserH;
-    public TiledMapTileLayer.Cell laserV;
+    private TiledMapTileLayer.Cell laserH;
+    private TiledMapTileLayer.Cell laserV;
 
 
     /**
@@ -33,28 +34,29 @@ public class Laser {
     }
 
     public void drawLaser(HashMap<String, LaserData> laserData, List<PlayerData> playerData) {
+
         for (int t = 0; t <= 1; t++) {
+            int k = 0;
+            if(laserData == null || playerData == null) {
+                break;
+            }
             String pointing = t == 0 ? "V" : "H";
+            String laserType = "";
             for (int i = 0; i < Board.boardLayer.getHeight()-1; i++) {
                 for (int j = 0; j < Board.boardLayer.getWidth()-1; j++) {
                     String key = i + String.valueOf(j) + pointing;
-
-                    if(laserData == null || playerData == null) {
-                        break;
-                    }
                     if (laserData.containsKey(key)) {
-                        String laserType = laserData.get(key).laserType;
-                        int x = laserData.get(key).x;
-                        int y = laserData.get(key).y;
-
-                        draw(x, y, laserType);
+                        if(playerWall(playerData,laserData.get(key).x, laserData.get(key).y)) {
+                            draw(laserData.get(key).x, laserData.get(key).y, "null");
+                        }
+                        draw(laserData.get(key).x, laserData.get(key).y, laserData.get(key).laserType);
                     }
+
                 }
             }
         }
     }
-
-    private void draw(int x, int y, String laserType) {
+        private void draw(int x, int y, String laserType) {
             TiledMapTileLayer.Cell placeholder;
             if (laserType.equals("laserV")) {
                 placeholder = laserV;
@@ -68,6 +70,18 @@ public class Laser {
                 Board.laserVertical.setCell(x, y, null);
                 Board.laserHorizontal.setCell(x, y, null);
             }
+    }
+
+    private boolean playerWall(List<PlayerData> players, int x, int y) {
+
+        if(players == null) return false;
+
+        for (PlayerData player : players) {
+            if ((int) player.position.x == x && (int) player.position.y == y) {
+                return true;
+            }
+        }
+        return false;
     }
 /*    *//**
      * @param x coordinate

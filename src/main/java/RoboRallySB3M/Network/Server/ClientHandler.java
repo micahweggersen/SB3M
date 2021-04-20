@@ -18,6 +18,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
     private final Socket clientSocket;
     private final ConcurrentHashMap<String, PlayerServer> players;
     private final ConcurrentLinkedDeque<String> playersTexture;
+    private HashMap<String, LaserData> laserData = new HashMap<>();
 
 
 
@@ -40,14 +41,13 @@ class ClientHandler extends Thread implements Movement, GameLogic {
      */
     private UpdateData createUpdateData() {
         List<PlayerData> playerData = new ArrayList<>(players.size());
-        HashMap<String, LaserData> laserData;
-
-        LaserServer laser = new LaserServer();
 
         for (PlayerServer player : players.values()) {
             playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getHealth(), player.getPlayerTexture()));
         }
-        laserData = laser.findLaserLocation(playerData);
+
+        LaserServer laser = new LaserServer();
+        laserData = laser.findLaserLocation(players.values());
 
         return UpdateData.create(playerData, laserData);
     }
@@ -63,6 +63,11 @@ class ClientHandler extends Thread implements Movement, GameLogic {
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
             Object object;
+
+            if(laserData.isEmpty()) {
+                LaserServer laser = new LaserServer();
+                laserData = laser.findLaserLocation(players.values());
+            }
 
             while ((object = in.readObject()) != null) {
                 Payload payload = (Payload) object;
@@ -107,7 +112,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
 
                         moveByKeyPress(keycode, player);
 
-                        turn(player, players);
+                        turn(player, players, laserData);
 
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
                         break;
@@ -121,7 +126,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                             initialisePlayerTexture();
                         }
 
-                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), playerData.damageToken, playerData.health, playersTexture.pop());
+                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), playerData.damageToken, playerData.lifeTokens, playersTexture.pop());
                         newPlayer.position = new Vector2(players.size(), 0);
 
                         players.put(playerData.playerName, newPlayer);

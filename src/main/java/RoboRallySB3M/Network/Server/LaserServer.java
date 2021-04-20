@@ -61,7 +61,7 @@ public class LaserServer implements Movement {
                 //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
                 String key = x + String.valueOf(y) + pointer;
                 //If laser hits a player, set the laser draw value to null
-                if (playerWall(key, players)) {
+                if (playerWall(players)) {
                     break;
                 }
                 laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
@@ -83,14 +83,14 @@ public class LaserServer implements Movement {
     private void addLaserOnWall(Collection<PlayerServer> players, Direction dir, int x, int y, String placeholder, String directionKey) {
         if(!canMove(dir, x, y)) {
             String key = x + String.valueOf(y) + directionKey;
-            if (!playerWall(key, players)) {
+            if (!playerWall(players)) {
                 laserLocationDraw.put(key, LaserData.newLaser(placeholder, x, y));
             }
         }
 
     }
 
-    private boolean playerWall(String key, Collection<PlayerServer> players) {
+    private boolean playerWall(Collection<PlayerServer> players) {
 
         if(players == null || laserLocationDraw.size() <= 0) return false;
 
