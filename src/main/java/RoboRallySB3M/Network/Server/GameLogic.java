@@ -1,7 +1,9 @@
 package RoboRallySB3M.Network.Server;
 
+import RoboRallySB3M.Direction;
 import RoboRallySB3M.GameObjects.Board;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public interface GameLogic {
@@ -22,15 +24,21 @@ public interface GameLogic {
     }
 
     default void playerMovedByObject(ConcurrentHashMap<String, PlayerServer> players) {
-        for (PlayerServer player: players.values()) {
-            //TODO: use move methode
-            if(isCellSpeedOne((int) player.position.x, (int) player.position.y)) {
-                player.position.y += 1;
-            }
-            if(isCellSpeedTwo((int) player.position.x, (int) player.position.y)) {
-                player.position.y += 2;
-            }
 
+        for (PlayerServer player: players.values()) {
+
+            if (Board.autowalk.getCell((int) player.position.x, (int) player.position.y) != null){
+
+                String i = Board.autowalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("MOVE").toString();
+                int j = Integer.valueOf(i);
+
+                Direction dir =
+                        (Direction.stringToDirection(
+                                Board.autowalk.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().get("Direction").toString()));
+                player.position.x += Direction.changeInDirectionX(dir)*j;
+                player.position.y += Direction.changeInDirectionY(dir)*j;
+
+            }
         }
     }
 

@@ -53,8 +53,10 @@ public class Play implements Screen, InputProcessor {
 
     public static final int SCREEN_WIDTH = 1500;
     public static final int SCREEN_HEIGHT = 1000;
+
     public static final int GAMEBOARD_PLACEMENT_X = 0;
     public static final int GAMEBOARD_PLACEMENT_Y = 0;
+
     private Texture damageToken;
     private Texture damageTokenPosition;
     private Texture cardPosition;
@@ -63,7 +65,6 @@ public class Play implements Screen, InputProcessor {
     public Play(boolean isClientOnly) {
         this.isClientOnly = isClientOnly;
     }
-
 
     /**
      * Called when this screen becomes the current screen for a {@link Game}.
@@ -76,7 +77,7 @@ public class Play implements Screen, InputProcessor {
 
 
         //Tile file load
-        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/testAutoWalk.tmx");
 
         //Representation on GUI map
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
@@ -88,6 +89,7 @@ public class Play implements Screen, InputProcessor {
         Board.laserHorizontal = (TiledMapTileLayer) Board.map.getLayers().get("LaserHorizontal");
         Board.speedOne = (TiledMapTileLayer) Board.map.getLayers().get("SpeedOne");
         Board.speedTwo = (TiledMapTileLayer) Board.map.getLayers().get("SpeedTwo");
+        Board.autowalk = (TiledMapTileLayer) Board.map.getLayers().get("autowalk");
 
 
         laser = new Laser();
@@ -244,7 +246,7 @@ public class Play implements Screen, InputProcessor {
             String name = player.playerName;
 
             if (!playerTileCache.containsKey(name)) {
-                playerTileCache.put(name, new ClientPlayer(name, player.position));
+                playerTileCache.put(name, new ClientPlayer(name, player.position, "src/assets/player.png"));
             }
 
             ClientPlayer cp = playerTileCache.get(name);

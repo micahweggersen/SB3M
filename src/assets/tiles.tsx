@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.5" tiledversion="1.5.0" name="tiles" tilewidth="300" tileheight="300" tilecount="136" columns="8">
+<tileset version="1.4" tiledversion="1.4.3" name="tiles" tilewidth="300" tileheight="300" tilecount="136" columns="8">
  <image source="tiles.png" width="2400" height="5100"/>
  <tile id="7">
   <properties>
@@ -10,7 +10,7 @@
  <tile id="12">
   <properties>
    <property name="Direction" value="NORTH"/>
-   <property name="Move" value="2"/>
+   <property name="MOVE" value="2"/>
   </properties>
  </tile>
  <tile id="15">
@@ -53,6 +53,12 @@
   <properties>
    <property name="SOUTH" value=""/>
    <property name="WEST" value=""/>
+  </properties>
+ </tile>
+ <tile id="34">
+  <properties>
+   <property name="Direction" value="EAST"/>
+   <property name="MOVE" value="1"/>
   </properties>
  </tile>
  <tile id="36">

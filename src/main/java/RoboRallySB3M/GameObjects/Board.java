@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Board {
+
     public static TiledMap map;
 
     //Define board-layers for board, player, flag and hole
@@ -16,6 +17,7 @@ public class Board {
     public static TiledMapTileLayer laserHorizontal;
     public static TiledMapTileLayer speedOne;
     public static TiledMapTileLayer speedTwo;
+    public static TiledMapTileLayer autowalk;
 
 
     private Board() {
