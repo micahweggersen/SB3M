@@ -112,7 +112,7 @@ public class Play implements Screen, InputProcessor {
         cardPositionNumber.getData().setScale(1f);
 
         //Tile file load
-        Board.map = new TmxMapLoader().load("src/assets/testAutoWalk.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
 
         //Representation on GUI map
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
@@ -186,14 +186,14 @@ public class Play implements Screen, InputProcessor {
             renderer.getBatch().end();
         }
         //TODO
-        //laser.drawLaser(laserData, playerData);
+        laser.drawLaser(laserData, playerData);
 
         batch.begin();
         drawDamageTokenPositions();
         drawCardPositions();
 
         for(PlayerData player: playerData) {
-            drawDamageTokens(player.damageTokens);
+            drawDamageTokens(player.damageToken);
             drawLifeTokens(player.lifeTokens);
         }
 
@@ -357,9 +357,7 @@ public class Play implements Screen, InputProcessor {
             String name = player.playerName;
 
             if (!playerTileCache.containsKey(name)) {
-                //playerTileCache.put(name, new ClientPlayer(name, player.position, "src/assets/player.png"));
-                String s = "src/assets/player.png";
-                playerTileCache.put(name, new ClientPlayer(name, player.position, s));
+                playerTileCache.put(name, new ClientPlayer(name, player.position));
             }
 
             ClientPlayer cp = playerTileCache.get(name);

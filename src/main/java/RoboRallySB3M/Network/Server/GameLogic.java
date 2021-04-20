@@ -15,6 +15,7 @@ public interface GameLogic {
         checkFlags(player);
         outOfBounds(player);
         checkHole(player);
+        //checkForDamage(player);
         playerCollision(player, players);
         orderHandling(player, players);
         turnHandling(players);
@@ -26,7 +27,6 @@ public interface GameLogic {
         int y = (int) player.position.y;
         int id = 0;
         Map<String, Boolean> flags = player.getFlags();
-        System.out.println(flags.values());
         if(isCellFlag(x,y)){
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("1")) {
                 id = 1;
@@ -41,7 +41,7 @@ public interface GameLogic {
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("4")) {
                 id = 4;
                 }
-            if(checkPreviousFlags(flags,id)) {
+            if(Boolean.TRUE.equals(checkPreviousFlags(flags,id))) {
                 flags.put("flag" + id, true);
                 player.setPositionSaved(new Vector2(x,y));
             }
@@ -72,8 +72,10 @@ public interface GameLogic {
 
     default void playerCollision(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
         for (PlayerServer p: players.values()) {
-            if(player.position.equals(p.position)) {
-                System.out.println("Hit a player!");
+            if(!player.getName().equals(p.getName())) {
+                if (player.position.equals(p.position)) {
+                    System.out.println("Hit a player!");
+                }
             }
         }
 
@@ -109,7 +111,8 @@ public interface GameLogic {
 
     default void playerRepairObject(PlayerServer player) {
         if (Board.repairShop.getCell((int) player.position.x, (int) player.position.y) != null)
-            player.setHealth(min(player.getHealth()+1, player.getMaxHealth()));
+            //TODO maxHealth
+            player.setHealth(min(player.getHealth()+1, player.getHealth()));
     }
 
     default void turnHandling(ConcurrentHashMap<String, PlayerServer> players) {
@@ -117,7 +120,7 @@ public interface GameLogic {
         for (PlayerServer player : players.values()) {
             if(player.getFinishedRound()) {
                 temp++;
-                playerMovedByObject(players);
+                //playerMovedByObject(players);
                 System.out.println(player.getName() + "'s round is finished!");
             }
             else {
@@ -136,17 +139,30 @@ public interface GameLogic {
         }
     }
 
-    default void playerMovedByObject(ConcurrentHashMap<String, PlayerServer> players) {
-        for (PlayerServer player: players.values()) {
-            //TODO: use move methode
-            if(isCellSpeedOne((int) player.position.x, (int) player.position.y)) {
-                player.position.y += 1;
-            }
-            if(isCellSpeedTwo((int) player.position.x, (int) player.position.y)) {
-                player.position.y += 2;
-            }
-
+   /* default void checkForDamage(PlayerServer player) {
+        System.out.println("checkdamage");
+        if (isCellLaser((int)player.position.x ,(int)player.position.y)) {
+            addDamageToken(player);
+            System.out.println("damagetokenadded");
         }
+        else if (isCellHole((int)player.position.x,(int)player.position.y)) {
+            loseLifeToken(player);
+            System.out.println("lifetokenlost");
+        }
+    }*/
+
+    default void loseLifeToken(PlayerServer player) {
+        int lifeTokens = player.getLifeTokens();
+        lifeTokens -= 1;
+        if (lifeTokens <= 0)
+            player.setStatus(PlayerServer.Status.DEAD);
+    }
+
+    default void addDamageToken(PlayerServer player) {
+        int damageTokens = player.getDamageTokens();
+        damageTokens += 1;
+        if (damageTokens >= 10)
+            loseLifeToken(player);
     }
 
     default void checkVictoryCondition(ConcurrentHashMap<String, PlayerServer> players) {
@@ -178,16 +194,14 @@ public interface GameLogic {
         return true;
     }
 
-    default boolean isCellSpeedOne(int x, int y) {
-        return Board.speedOne.getCell(x,y) != null;
-    }
-    default boolean isCellSpeedTwo(int x, int y) {
-        return Board.speedTwo.getCell(x,y) != null;
-    }
     default boolean isCellFlag(int x, int y) {
         return Board.flagLayer.getCell(x, y) != null;
     }
     default boolean isCellHole(int x, int y) {
         return Board.holeLayer.getCell(x, y) != null;
     }
+ /*   default boolean isCellLaser(int x, int y, LaserServer laser) {
+        System.out.println("isCellLaser");
+        return Laser.getLaserPosition(x, y);
+    }*/
 }

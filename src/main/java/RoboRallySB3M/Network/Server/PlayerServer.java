@@ -39,12 +39,17 @@ public class PlayerServer  implements Movement {
         this.positionSaved = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
-        this.damageTokens = damageTokens;
         this.lifeTokens = lifeTokens;
         this.damageTokens = damageToken;
-        this.health = health;
         this.flags = initializeFlags();
         this.playerTexture = playerTexture;
+    }
+
+    public int getLifeTokens() {
+        return lifeTokens;
+    }
+    public void setLifeTokens(int lifeTokens) {
+        this.lifeTokens = lifeTokens;
     }
 
     public Vector2 getPositionSaved() {
@@ -149,38 +154,6 @@ public class PlayerServer  implements Movement {
         }
 
         position = new Vector2(position.x + 0.00001F, position.y + 0.00001F);
-        checkForDamage();
-    }
-
-    public void checkForDamage() {
-        float currentX = position.x;
-        float currentY = position.y;
-        System.out.println("checkdamage");
-        if (Board.isCellLaser((int)currentX,(int)currentY)) {
-            addDamageToken();
-            System.out.println("damagetokenadded");
-        }
-        else if (Board.isCellHole((int)currentX,(int)currentY)) {
-            loseLifeToken();
-            System.out.println("lifetokenlost");
-        }
-
-    }
-
-    public void loseLifeToken() {
-        lifeTokens -= 1;
-        if (lifeTokens <= 0)
-            setStatus(Status.DEAD);
-    }
-
-    public int getLifeTokens() {
-        return lifeTokens;
-    }
-
-    public void addDamageToken() {
-        damageTokens += 1;
-        if (damageTokens >= 10)
-            loseLifeToken();
     }
 
     public void powerDown() {

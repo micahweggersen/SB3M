@@ -18,7 +18,7 @@ public class PlayerData implements PayloadData {
      * @return A new player with default values
      */
     public static PlayerData newPlayer(String playerName) {
-        return new PlayerData(playerName, Vector2.Zero, Direction.NORTH, 0, 10 ,10);
+        return new PlayerData(playerName, Vector2.Zero, Direction.NORTH, 0, 10 ,10, "src/assets/player.png");
     }
 
     /**
@@ -31,7 +31,7 @@ public class PlayerData implements PayloadData {
         return new PlayerData(playerName, position, direction, turnOrder,damageToken, lifeTokens, playerTexture);
     }
 
-    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageTokens, int lifeTokens) {
+    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageTokens, int lifeTokens, String playerTexture) {
         this.playerName = playerName;
         this.position = position;
         this.direction = direction;
