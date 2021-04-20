@@ -19,6 +19,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import RoboRallySB3M.Network.Data.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.*;
 
@@ -37,6 +42,7 @@ public class Play implements Screen, InputProcessor {
     private String playerName;
     private HashMap<String, ClientPlayer> playerTileCache = new HashMap<>();
     private List<PlayerData> playerData;
+    private PlayerData player;
     private HashMap<String, LaserData> laserData;
     //private PlayerServer player = new PlayerServer();
 
@@ -89,6 +95,17 @@ public class Play implements Screen, InputProcessor {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.RED);
+
+        /*Skin skin = new Skin(Gdx.files.internal("src/assets/quantum-horizon/skin/quantum-horizon-ui.json"));
+        TextButton exit = new TextButton("Exit", skin);
+        exit.setSize(60,60);
+        exit.setPosition(500, 600);
+        exit.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });*/
 
         cardPositionNumber = new BitmapFont();
         cardPositionNumber.setColor(Color.BLACK);
@@ -176,7 +193,11 @@ public class Play implements Screen, InputProcessor {
         batch.begin();
         drawDamageTokenPositions();
         drawCardPositions();
-        drawLifeTokens();
+
+        for(PlayerData player: playerData) {
+            drawDamageTokens(player.damageTokens);
+            drawLifeTokens(player.lifeTokens);
+        }
 
         if(dealCardsNow){
             drawDealtCards();}
@@ -206,19 +227,22 @@ public class Play implements Screen, InputProcessor {
     /**
      * Draws the damage tokens
      */
-    private void drawDamageTokens(){
-        for (int i = 10; i > 0; i--) {
-            batch.draw(damageToken, 995-(i*48), 150, 40, 50);
+    private void drawDamageTokens(int damageTokens){
+        //for(PlayerData player: playerData) {
+            for (int i = 10; i > damageTokens; i--) {
+                batch.draw(damageToken, 995 - (i * 48), 150, 40, 50);
+     //       }
         }
     }
 
     /**
      * Draws the life tokens
      */
-    private void drawLifeTokens() {
-        for(int i = 0; i < 3; i++) {
-            batch.draw(lifeToken,770-(i*70),  200, 100, 100 );
-        }
+    private void drawLifeTokens(int lifeTokens) {
+            for (int i = 0; i < lifeTokens; i++) {
+                batch.draw(lifeToken, 770 - (i * 70), 200, 100, 100);
+            }
+
     }
 
     /**
@@ -238,6 +262,7 @@ public class Play implements Screen, InputProcessor {
              Cards card = dealtCards.get(i);
              dealtCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
              batch.draw(dealtCardsTextures.get(i), 490 + cardX[i], 300 + cardY[i], 160, 123);
+             cardPositionNumber.draw(batch, String.valueOf(i+1), 548 + (i*50), 320);
          }
      }
 
