@@ -7,20 +7,18 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 public interface GameLogic {
 
     default void orderHandling(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
+
         player.setFinishedRound(true);
         player.setTurnOrder(player.getTurnOrder()-1);
 
         for (PlayerServer p: players.values()) {
-            if (!player.getName().equals(p.getName())) {
-                p.setTurnOrder(p.getTurnOrder()-1);
-            }
-            if(p.getTurnOrder() < 0) {
-                p.setTurnOrder(players.size()-1);
-            }
+            if (!player.getName().equals(p.getName())) { p.setTurnOrder(p.getTurnOrder()-1); }
+            if(p.getTurnOrder() < 0) { p.setTurnOrder(players.size()-1); }
         }
     }
 
@@ -28,35 +26,22 @@ public interface GameLogic {
 
         for (PlayerServer player: players.values()) {
 
-            if (Board.autowalk.getCell((int) player.position.x, (int) player.position.y) != null){
+            if (Board.autoWalk.getCell((int) player.position.x, (int) player.position.y) != null){
 
-                String i = Board.autowalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("MOVE").toString();
-                int j = Integer.valueOf(i);
-
+                String i = Board.autoWalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("MOVE").toString();
                 Direction dir =
                         (Direction.stringToDirection(
-                                Board.autowalk.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().get("Direction").toString()));
-                player.position.x += Direction.changeInDirectionX(dir)*j;
-                player.position.y += Direction.changeInDirectionY(dir)*j;
+                                Board.autoWalk.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().get("Direction").toString()));
 
+                player.position.x += Direction.changeInDirectionX(dir)*Integer.valueOf(i);
+                player.position.y += Direction.changeInDirectionY(dir)*Integer.valueOf(i);
             }
         }
     }
 
-    default void playerRepairObject(ConcurrentHashMap<String, PlayerServer> players) {
-
-
-        for (PlayerServer player: players.values()) {
-
-            if (Board.repairShop.getCell((int) player.position.x, (int) player.position.y) != null){
-
-                String i = Board.repairShop.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("RepairValue").toString();
-                int j = Integer.valueOf(i);
-
-                player.setHealth(max(player.getHealth()+j, player.getMaxHealth()));
-
-            }
-        }
+    default void playerRepairObject(PlayerServer player) {
+        if (Board.repairShop.getCell((int) player.position.x, (int) player.position.y) != null)
+            player.setHealth(min(player.getHealth()+1, player.getMaxHealth()));
     }
 
     default void turnHandling(ConcurrentHashMap<String, PlayerServer> players) {

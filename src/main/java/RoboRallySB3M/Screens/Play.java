@@ -112,7 +112,7 @@ public class Play implements Screen, InputProcessor {
         cardPositionNumber.getData().setScale(1f);
 
         //Tile file load
-        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/testAutoWalk.tmx");
 
         //Representation on GUI map
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
@@ -122,7 +122,7 @@ public class Play implements Screen, InputProcessor {
         Board.walls = (TiledMapTileLayer) Board.map.getLayers().get("Walls");
         Board.laserVertical = (TiledMapTileLayer) Board.map.getLayers().get("LaserVertical");
         Board.laserHorizontal = (TiledMapTileLayer) Board.map.getLayers().get("LaserHorizontal");
-        Board.autowalk = (TiledMapTileLayer) Board.map.getLayers().get("autowalk");
+        Board.autoWalk = (TiledMapTileLayer) Board.map.getLayers().get("Autowalk");
         Board.repairShop = (TiledMapTileLayer) Board.map.getLayers().get("RepairShop");
         laser = new Laser();
         laser.initializeLaser();
@@ -360,7 +360,8 @@ public class Play implements Screen, InputProcessor {
 
             if (!playerTileCache.containsKey(name)) {
                 //playerTileCache.put(name, new ClientPlayer(name, player.position, "src/assets/player.png"));
-                playerTileCache.put(name, new ClientPlayer(name, player.position));
+                String s = "src/assets/player.png";
+                playerTileCache.put(name, new ClientPlayer(name, player.position, s));
             }
 
             ClientPlayer cp = playerTileCache.get(name);

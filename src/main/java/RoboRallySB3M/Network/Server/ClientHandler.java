@@ -103,6 +103,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                         Board.playerLayer.setCell((int) player.position.x, (int) player.position.y, null);
 
                         moveByKeyPress(keycode, player);
+                        playerRepairObject(player);
                         orderHandling(player, players);
                         turnHandling(players);
 

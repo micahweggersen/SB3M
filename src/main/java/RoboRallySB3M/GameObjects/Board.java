@@ -15,9 +15,7 @@ public class Board {
     public static TiledMapTileLayer walls;
     public static TiledMapTileLayer laserVertical;
     public static TiledMapTileLayer laserHorizontal;
-    public static TiledMapTileLayer speedOne;
-    public static TiledMapTileLayer speedTwo;
-    public static TiledMapTileLayer autowalk;
+    public static TiledMapTileLayer autoWalk;
     public static TiledMapTileLayer repairShop;
 
 
