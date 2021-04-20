@@ -26,8 +26,6 @@ public class MenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
     }
-    //
-    //https://www.gamedevelopment.blog/full-libgdx-game-tutorial-menu-control/
 
     @Override
     public void show() {

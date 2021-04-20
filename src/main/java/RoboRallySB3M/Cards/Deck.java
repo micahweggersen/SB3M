@@ -13,6 +13,7 @@ public class Deck {
     public static Queue<Cards> chosenCards;
 //    private static boolean dealCardMode = false;
 
+
     /**
      * Creates and shuffles deck
      */
@@ -130,11 +131,13 @@ public class Deck {
         return temporaryDeck;
     }
 
+
     /**
      * shuffles the deck
      */
     public void shuffleDeck(){
         Collections.shuffle((List<?>) cardQueue);
     }
+
 }
 

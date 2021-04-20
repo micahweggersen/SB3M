@@ -11,8 +11,6 @@ public class ParentScreen extends Game {
     private EndScreen endScreen;
     private Play play;
 
-
-
     public static final int MENU = 0;
     public static final int PREFERENCES = 1;
     public static final int APPLICATION = 2;

@@ -1,7 +1,6 @@
 package RoboRallySB3M.Screens;
 
 
-import RoboRallySB3M.Direction;
 import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.GameObjects.Laser;
 import RoboRallySB3M.Network.Client.Client;
@@ -20,6 +19,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import RoboRallySB3M.Network.Data.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.*;
 
@@ -38,12 +42,22 @@ public class Play implements Screen, InputProcessor {
     private String playerName;
     private HashMap<String, ClientPlayer> playerTileCache = new HashMap<>();
     private List<PlayerData> playerData;
+    private PlayerData player;
     private HashMap<String, LaserData> laserData;
 
     private final int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
 
     private List<Cards> dealtCards;
-    private Queue<Cards> chosenCards;
+    private LinkedList<Cards> chosenCards = new LinkedList<>();
+
+    // Variables needed for drawing cards
+    int[] cardX = new int[9];
+    int[] cardY = new int[9];
+    boolean[] isCardChosen = new boolean[9];
+    int numCardsChosen;
+    private boolean dealCardsNow = false;
+
+    BitmapFont cardPositionNumber;
 
     private boolean inputKey = false;
     private boolean newCards = true;
@@ -54,11 +68,18 @@ public class Play implements Screen, InputProcessor {
 
     public static final int SCREEN_WIDTH = 1500;
     public static final int SCREEN_HEIGHT = 1000;
+
     public static final int GAMEBOARD_PLACEMENT_X = 0;
     public static final int GAMEBOARD_PLACEMENT_Y = 0;
+
     private Texture damageToken;
     private Texture damageTokenPosition;
     private Texture cardPosition;
+    private Texture lifeToken;
+
+    private final ArrayList<Texture> cardsTextures = new ArrayList<>();
+    private final ArrayList<Texture> dealtCardsTextures = new ArrayList<>();
+    private final ArrayList<Texture> chosenCardsTextures = new ArrayList<>();
 
 
     public Play(boolean isClientOnly) {
@@ -75,9 +96,23 @@ public class Play implements Screen, InputProcessor {
         font = new BitmapFont();
         font.setColor(Color.RED);
 
+        /*Skin skin = new Skin(Gdx.files.internal("src/assets/quantum-horizon/skin/quantum-horizon-ui.json"));
+        TextButton exit = new TextButton("Exit", skin);
+        exit.setSize(60,60);
+        exit.setPosition(500, 600);
+        exit.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });*/
+
+        cardPositionNumber = new BitmapFont();
+        cardPositionNumber.setColor(Color.BLACK);
+        cardPositionNumber.getData().setScale(1f);
 
         //Tile file load
-        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/testAutoWalk.tmx");
 
         //Representation on GUI map
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
@@ -87,17 +122,15 @@ public class Play implements Screen, InputProcessor {
         Board.walls = (TiledMapTileLayer) Board.map.getLayers().get("Walls");
         Board.laserVertical = (TiledMapTileLayer) Board.map.getLayers().get("LaserVertical");
         Board.laserHorizontal = (TiledMapTileLayer) Board.map.getLayers().get("LaserHorizontal");
-        Board.speedOne = (TiledMapTileLayer) Board.map.getLayers().get("SpeedOne");
-        Board.speedTwo = (TiledMapTileLayer) Board.map.getLayers().get("SpeedTwo");
-
-
+        Board.autoWalk = (TiledMapTileLayer) Board.map.getLayers().get("Autowalk");
+        Board.repairShop = (TiledMapTileLayer) Board.map.getLayers().get("RepairShop");
         laser = new Laser();
         laser.initializeLaser();
         Board.laserHorizontal.setVisible(true);
         Board.laserVertical.setVisible(true);
 
         int mapWidth = 400;
-        int mapHeight = 400;
+        int mapHeight = 300;
         int tileWidth = Board.holeLayer.getWidth();
         int tileHeight = Board.holeLayer.getHeight();
 
@@ -120,7 +153,18 @@ public class Play implements Screen, InputProcessor {
 
         damageToken = new Texture("src/assets/damage_token.png");
         damageTokenPosition = new Texture("src/assets/damage_token_grey.png");
+        lifeToken = new Texture("src/assets/life_token.png");
         cardPosition = new Texture("src/assets/cards/CardSpotHolder.png");
+
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move1-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move2-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move3-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/back_up-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/rotate_left-1.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/rotate_right.png")));
+        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/u-turn-1.png")));
+
+        initializeCards();
     }
 
     /**
@@ -131,7 +175,7 @@ public class Play implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(135/255f, 206/255f, 235/255f, 1);
+        Gdx.gl.glClearColor(150/255f, 150/255f, 150/255f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
@@ -142,11 +186,24 @@ public class Play implements Screen, InputProcessor {
             renderer.getBatch().end();
         }
         //TODO
-        laser.drawLaser(laserData, playerData);
+        //laser.drawLaser(laserData, playerData);
 
         batch.begin();
         drawDamageTokenPositions();
         drawCardPositions();
+
+        for(PlayerData player: playerData) {
+            drawDamageTokens(player.damageTokens);
+            drawLifeTokens(player.lifeTokens);
+        }
+
+        if(dealCardsNow){
+            drawDealtCards();}
+
+        if(chosenCards.size() == 5){
+            drawChosenCards();
+            dealCardsNow = false;
+        }
         batch.end();
 
         renderer.setView(cameraView);
@@ -166,6 +223,25 @@ public class Play implements Screen, InputProcessor {
      }
 
     /**
+     * Draws the damage tokens the player has received
+     */
+    private void drawDamageTokens(int damageTokens){
+            for (int i = 10; i > damageTokens; i--) {
+                batch.draw(damageToken, 995 - (i * 48), 150, 40, 50);
+        }
+    }
+
+    /**
+     * Draws the life tokens
+     */
+    private void drawLifeTokens(int lifeTokens) {
+            for (int i = 0; i < lifeTokens; i++) {
+                batch.draw(lifeToken, 770 - (i * 70), 200, 100, 100);
+            }
+
+    }
+
+    /**
      * Draws the positions of where chosen cards should be on the screen
      */
      private void drawCardPositions(){
@@ -174,7 +250,43 @@ public class Play implements Screen, InputProcessor {
         }
      }
 
+    /**
+     * Draws the cards that a player is dealt at the start of each round
+     */
+    private void drawDealtCards() {
+         for (int i = 0; i < 9; i++) {
+             Cards card = dealtCards.get(i);
+             dealtCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
+             batch.draw(dealtCardsTextures.get(i), 490 + cardX[i], 300 + cardY[i], 160, 123);
+             cardPositionNumber.draw(batch, String.valueOf(i+1), 548 + (i*50), 320);
+         }
+     }
 
+     private void drawChosenCards() {
+        for (int i = 0; i < 5; i++) {
+            Cards card = chosenCards.get(i);
+            chosenCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
+            batch.draw(chosenCardsTextures.get(i), 857-(i*98), -7, 240, 180);
+        }
+     }
+
+    /**
+     * Sets initial values for dealt and chosen program cards.
+     */
+    private void initializeCards() {
+        for (int i = 0; i < 9; i++) {
+            cardX[i] = i*50;
+            cardY[i] = 12;
+            isCardChosen[i] = false;
+        }
+        dealtCardsTextures.clear();
+        getChosenCards();
+        numCardsChosen = 0;
+    }
+
+    private LinkedList<Cards> getChosenCards(){
+        return chosenCards;
+    }
 
     @Override
     public void resize(int width, int height) {
@@ -245,7 +357,9 @@ public class Play implements Screen, InputProcessor {
             String name = player.playerName;
 
             if (!playerTileCache.containsKey(name)) {
-                playerTileCache.put(name, new ClientPlayer(name, player.position));
+                //playerTileCache.put(name, new ClientPlayer(name, player.position, "src/assets/player.png"));
+                String s = "src/assets/player.png";
+                playerTileCache.put(name, new ClientPlayer(name, player.position, s));
             }
 
             ClientPlayer cp = playerTileCache.get(name);
@@ -280,6 +394,7 @@ public class Play implements Screen, InputProcessor {
         newCards = false;
         Deck deck = new Deck();
         dealtCards = deck.dealCards(8);
+        dealCardsNow = true;
         chosenCards = new LinkedList<>();
     }
 
@@ -316,7 +431,6 @@ public class Play implements Screen, InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == 00)
         if(!isYourTurn()) {
             return false;
         }

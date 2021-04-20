@@ -23,25 +23,24 @@ public class PlayerServer  implements Movement {
     private Map<String, Boolean> flags;
     private String playerTexture;
 
-
     //Define player-coordinates
     public Vector2 position;
     public Vector2 positionSaved;
-
 
     public Vector2 getPosition() {
         return position;
     }
 
 
-
-    public PlayerServer(Direction direction, String name, int turnOrder, int damageToken, int health, String playerTexture) {
+    public PlayerServer(Direction direction, String name, int turnOrder, int damageToken, int lifeTokens, String playerTexture) {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
         this.positionSaved = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
+        this.damageTokens = damageTokens;
+        this.lifeTokens = lifeTokens;
         this.damageTokens = damageToken;
         this.health = health;
         this.flags = initializeFlags();
@@ -122,8 +121,6 @@ public class PlayerServer  implements Movement {
     public Direction getDirection() {
         return direction;
     }
-
-
 
     /**
      * @param card Card with directional value
