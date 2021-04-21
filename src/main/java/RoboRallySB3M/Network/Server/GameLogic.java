@@ -114,8 +114,7 @@ public interface GameLogic {
 
     default void playerRepairObject(PlayerServer player) {
         if (Board.repairShop.getCell((int) player.position.x, (int) player.position.y) != null)
-            //TODO maxHealth
-            player.setHealth(min(player.getHealth()+1, player.getHealth()));
+            player.setHealth(min(player.getHealth()+1, player.getMaxHealth()));
     }
 
     default void turnHandling(ConcurrentHashMap<String, PlayerServer> players) {
