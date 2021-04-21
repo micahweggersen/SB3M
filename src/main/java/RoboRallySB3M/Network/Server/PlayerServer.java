@@ -29,6 +29,8 @@ public class PlayerServer  implements Movement {
     public Vector2 position;
     public Vector2 positionSaved;
 
+
+
     public PlayerServer(Direction direction, String name, int turnOrder, int damageTokens, int lifeTokens, String playerTexture) {
         this.direction = direction;
         this.name = name;
@@ -38,7 +40,7 @@ public class PlayerServer  implements Movement {
         this.finishedRound = false;
         this.damageTokens = damageTokens;
         this.lifeTokens = lifeTokens;
-        this.maxHealth = 3;
+        this.maxHealth = 2;
         this.flags = initializeFlags();
         this.playerTexture = playerTexture;
     }
@@ -49,6 +51,10 @@ public class PlayerServer  implements Movement {
 
     public int getLifeTokens() {
         return lifeTokens;
+    }
+
+    public void setLifeTokens(int lifeTokens) {
+        this.lifeTokens = lifeTokens;
     }
     public Vector2 getPositionSaved() {
         return positionSaved;

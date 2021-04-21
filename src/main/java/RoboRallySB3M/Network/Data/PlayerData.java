@@ -31,7 +31,7 @@ public class PlayerData implements PayloadData {
         return new PlayerData(playerName, position, direction, turnOrder,damageToken, lifeTokens, playerTexture);
     }
 
-    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageTokens, int lifeTokens, String playerTexture) {
+    private PlayerData(String playerName, Vector2 position, Direction direction, int turnOrder, int damageToken, int lifeTokens, String playerTexture) {
         this.playerName = playerName;
         this.position = position;
         this.direction = direction;

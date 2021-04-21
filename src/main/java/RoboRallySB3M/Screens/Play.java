@@ -226,8 +226,8 @@ public class Play implements Screen, InputProcessor {
      * Draws the damage tokens the player has received
      */
     private void drawDamageTokens(int damageTokens){
-            for (int i = 10; i > damageTokens; i--) {
-                batch.draw(damageToken, 995 - (i * 48), 150, 40, 50);
+        for (int i = damageTokens; i >= 10; i--) {
+            batch.draw(damageToken, 995 - (i * 48), 150, 40, 50);
         }
     }
 
@@ -235,10 +235,9 @@ public class Play implements Screen, InputProcessor {
      * Draws the life tokens
      */
     private void drawLifeTokens(int lifeTokens) {
-            for (int i = 0; i < lifeTokens; i++) {
-                batch.draw(lifeToken, 770 - (i * 70), 200, 100, 100);
-            }
-
+        for (int i = 0; i <= lifeTokens; i++) {
+            batch.draw(lifeToken, 770 - (i * 70), 200, 100, 100);
+        }
     }
 
     /**

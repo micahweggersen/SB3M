@@ -16,6 +16,7 @@ public interface GameLogic {
 
     default void turn(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players, HashMap<String, LaserData> laserData) {
         checkFlags(player);
+        playerRepairObject(player);
         outOfBounds(player);
         checkHole(player);
         checkForDamage(player, laserData);
@@ -69,6 +70,7 @@ public interface GameLogic {
 
     default void checkHole(PlayerServer player) {
         if(isCellHole((int) player.position.x, (int) player.position.y)) {
+            player.setLifeTokens(player.getLifeTokens() - 1);
             System.out.println("HOLE!");
         }
     }

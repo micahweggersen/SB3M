@@ -125,7 +125,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                             initialisePlayerTexture();
                         }
 
-                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), 10, 10, playersTexture.pop());
+                        PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), 0, 3, playersTexture.pop());
                         newPlayer.position = new Vector2(players.size(), 0);
 
                         players.put(playerData.playerName, newPlayer);
