@@ -17,6 +17,8 @@ public class Board {
     public static TiledMapTileLayer laserHorizontal;
     public static TiledMapTileLayer autoWalk;
     public static TiledMapTileLayer repairShop;
+    public static TiledMapTileLayer rotationGears;
+    public static TiledMapTileLayer pushers;
 
 
     private Board() {

@@ -124,8 +124,12 @@ public class Play implements Screen, InputProcessor {
         Board.laserHorizontal = (TiledMapTileLayer) Board.map.getLayers().get("LaserHorizontal");
         Board.autoWalk = (TiledMapTileLayer) Board.map.getLayers().get("Autowalk");
         Board.repairShop = (TiledMapTileLayer) Board.map.getLayers().get("RepairShop");
+        Board.rotationGears = (TiledMapTileLayer) Board.map.getLayers().get("RotationGears");
+        Board.pushers = (TiledMapTileLayer) Board.map.getLayers().get("Pushers");
+
         laser = new Laser();
         laser.initializeLaser();
+
         Board.laserHorizontal.setVisible(true);
         Board.laserVertical.setVisible(true);
 

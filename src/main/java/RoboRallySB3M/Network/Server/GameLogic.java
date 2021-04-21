@@ -24,6 +24,8 @@ public interface GameLogic {
         playerCollision(player, players);
         orderHandling(player, players);
         turnHandling(players);
+        playerMovedByPushers(players);
+        handleRotationWheel(players);
 
     }
 
@@ -51,6 +53,17 @@ public interface GameLogic {
             if(checkPreviousFlags(flags,id)) {
                 flags.put("flag" + id, true);
                 player.setPositionSaved(new Vector2(x,y));
+            }
+        }
+    }
+
+    default void handleRotationWheel(ConcurrentHashMap<String, PlayerServer> players){
+        for (PlayerServer player: players.values()) {
+            if (Board.rotationGears.getCell((int) player.position.x, (int) player.position.y) != null){
+                Direction dir = (Direction.stringToDirection(
+                        Board.rotationGears.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().
+                                get("Direction").toString()));
+                player.move(new Cards(0, "Rotate Left", dir, 0));
             }
         }
     }
@@ -98,7 +111,23 @@ public interface GameLogic {
         }
     }
 
-    default void playerMovedByObject(ConcurrentHashMap<String, PlayerServer> players) {
+    default void playerMovedByPushers(ConcurrentHashMap<String, PlayerServer> players){
+
+        for (PlayerServer player : players.values()) {
+            if (Board.pushers.getCell((int) player.position.x, (int) player.position.y) != null){
+
+                Direction dir = Direction.stringToDirection(
+                        Board.pushers.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().
+                                get("Direction").toString());
+
+                player.position.y += Direction.changeInDirectionY(dir);
+                player.position.x += Direction.changeInDirectionX(dir);
+
+            }
+        }
+    }
+
+    default void playerMovedByAutowalks(ConcurrentHashMap<String, PlayerServer> players) {
 
         for (PlayerServer player: players.values()) {
             if (Board.autoWalk.getCell((int) player.position.x, (int) player.position.y) != null){
@@ -106,11 +135,11 @@ public interface GameLogic {
                 String i = Board.autoWalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("MOVE").toString();
                 Direction dir = getDir(player);
 
-                handleMovment(player, dir);
+                handleMovement(player, dir);
 
                 if(Integer.valueOf(i)==2){
                     if(Board.autoWalk.getCell((int) player.position.x, (int) player.position.y) != null) dir = getDir(player);
-                    handleMovment(player, dir);
+                    handleMovement(player, dir);
                 }
             }
         }
@@ -122,7 +151,7 @@ public interface GameLogic {
                         get("Direction").toString()));
     }
 
-    private void handleMovment(PlayerServer player, Direction dir){
+    private void handleMovement(PlayerServer player, Direction dir){
         handleTurning(player);
         player.position.y += Direction.changeInDirectionY(dir);
         player.position.x += Direction.changeInDirectionX(dir);
@@ -145,7 +174,7 @@ public interface GameLogic {
         for (PlayerServer player : players.values()) {
             if(player.getFinishedRound()) {
                 temp++;
-                playerMovedByObject(players);
+                playerMovedByAutowalks(players);
                 System.out.println(player.getName() + "'s round is finished!");
             }
             else {
@@ -206,8 +235,6 @@ public interface GameLogic {
         }
     }
 
-
-
     default Boolean checkPreviousFlags(Map<String, Boolean> flags, int flagID) {
         for (int i = 1; i < flagID; i++) {
             if(!Boolean.TRUE.equals(flags.get("flag" + i))) {
@@ -219,12 +246,10 @@ public interface GameLogic {
         return true;
     }
 
-    default boolean isCellFlag(int x, int y) {
-        return Board.flagLayer.getCell(x, y) != null;
-    }
-    default boolean isCellHole(int x, int y) {
-        return Board.holeLayer.getCell(x, y) != null;
-    }
+    default boolean isCellFlag(int x, int y) { return Board.flagLayer.getCell(x, y) != null; }
+
+    default boolean isCellHole(int x, int y) { return Board.holeLayer.getCell(x, y) != null; }
+
     default boolean isCellLaser(int x, int y, HashMap<String, LaserData> lasers) {
         for (LaserData laser: lasers.values()) {
             if(x == laser.x && y == laser.y) {

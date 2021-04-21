@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.4" tiledversion="1.4.3" name="tiles" tilewidth="300" tileheight="300" tilecount="136" columns="8">
  <image source="tiles.png" width="2400" height="5100"/>
+ <tile id="0">
+  <properties>
+   <property name="Direction" value="SOUTH"/>
+   <property name="ROUND" type="int" value="24"/>
+  </properties>
+ </tile>
  <tile id="7">
   <properties>
    <property name="EAST" value=""/>
@@ -106,6 +112,16 @@
   <properties>
    <property name="Direction" value="NORTH"/>
    <property name="MOVE" value="1"/>
+  </properties>
+ </tile>
+ <tile id="52">
+  <properties>
+   <property name="Direction" value="WEST"/>
+  </properties>
+ </tile>
+ <tile id="53">
+  <properties>
+   <property name="Direction" value="EAST"/>
   </properties>
  </tile>
  <tile id="54">
