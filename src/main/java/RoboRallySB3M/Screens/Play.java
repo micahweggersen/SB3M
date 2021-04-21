@@ -1,13 +1,14 @@
 package RoboRallySB3M.Screens;
 
 
+import RoboRallySB3M.Cards.Cards;
+import RoboRallySB3M.Cards.Deck;
 import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.GameObjects.Laser;
 import RoboRallySB3M.Network.Client.Client;
 import RoboRallySB3M.Network.Client.ClientPlayer;
+import RoboRallySB3M.Network.Data.*;
 import RoboRallySB3M.Network.Server.Server;
-import RoboRallySB3M.Cards.Cards;
-import RoboRallySB3M.Cards.Deck;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
@@ -18,12 +19,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import RoboRallySB3M.Network.Data.*;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.*;
 
@@ -180,7 +175,7 @@ public class Play implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(150/255f, 150/255f, 150/255f, 1);
+        Gdx.gl.glClearColor(150 / 255f, 150 / 255f, 150 / 255f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
         //Check if player-figure is on a cell that effect the state/visual of the player, win-state, lose-state and default state.
@@ -190,6 +185,9 @@ public class Play implements Screen, InputProcessor {
             playerRender();
             renderer.getBatch().end();
         }
+
+        Board.clear(Board.laserVertical);
+        Board.clear(Board.laserHorizontal);
         laser.drawLaser(laserData, playerData);
 
         batch.begin();
@@ -202,10 +200,11 @@ public class Play implements Screen, InputProcessor {
             drawLifeTokens(player.lifeTokens);
         }
 
-        if(dealCardsNow){
-            drawDealtCards();}
+        if (dealCardsNow) {
+            drawDealtCards();
+        }
 
-        if(chosenCards.size() == 5){
+        if (chosenCards.size() == 5) {
             drawChosenCards();
             dealCardsNow = false;
         }
@@ -221,16 +220,16 @@ public class Play implements Screen, InputProcessor {
     /**
      * Draws the positions of damage tokens
      */
-    private void drawDamageTokenPositions(){
-        for(int i = 10; i >= 0; i--){
-            batch.draw(damageTokenPosition, 995-(i*48), 150, 40, 50);
+    private void drawDamageTokenPositions() {
+        for (int i = 10; i >= 0; i--) {
+            batch.draw(damageTokenPosition, 995 - (i * 48), 150, 40, 50);
         }
-     }
+    }
 
     /**
      * Draws the damage tokens the player has received
      */
-    private void drawDamageTokens(int damageTokens){
+    private void drawDamageTokens(int damageTokens) {
         for (int i = damageTokens; i >= 10; i--) {
             batch.draw(damageToken, 995 - (i * 48), 150, 40, 50);
         }
@@ -240,47 +239,47 @@ public class Play implements Screen, InputProcessor {
      * Draws the life tokens
      */
     private void drawLifeTokens(int lifeTokens) {
-            for (int i = 0; i < lifeTokens; i++) {
-                batch.draw(lifeToken, 770 - (i * 70), 200, 100, 100);
-            }
+        for (int i = 0; i < lifeTokens; i++) {
+            batch.draw(lifeToken, 770 - (i * 70), 200, 100, 100);
+        }
 
     }
 
     /**
      * Draws the positions of where chosen cards should be on the screen
      */
-     private void drawCardPositions(){
-        for (int i = 5; i>0; i--){
-            batch.draw(cardPosition, 952-(i*98), -15, 240, 180);
+    private void drawCardPositions() {
+        for (int i = 5; i > 0; i--) {
+            batch.draw(cardPosition, 952 - (i * 98), -15, 240, 180);
         }
-     }
+    }
 
     /**
      * Draws the cards that a player is dealt at the start of each round
      */
     private void drawDealtCards() {
-         for (int i = 0; i < 9; i++) {
-             Cards card = dealtCards.get(i);
-             dealtCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
-             batch.draw(dealtCardsTextures.get(i), 490 + cardX[i], 300 + cardY[i], 160, 123);
-             cardPositionNumber.draw(batch, String.valueOf(i+1), 548 + (i*50), 320);
-         }
-     }
+        for (int i = 0; i < 9; i++) {
+            Cards card = dealtCards.get(i);
+            dealtCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
+            batch.draw(dealtCardsTextures.get(i), 490 + cardX[i], 300 + cardY[i], 160, 123);
+            cardPositionNumber.draw(batch, String.valueOf(i + 1), 548 + (i * 50), 320);
+        }
+    }
 
-     private void drawChosenCards() {
+    private void drawChosenCards() {
         for (int i = 0; i < 5; i++) {
             Cards card = chosenCards.get(i);
             chosenCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
-            batch.draw(chosenCardsTextures.get(i), 857-(i*98), -7, 240, 180);
+            batch.draw(chosenCardsTextures.get(i), 857 - (i * 98), -7, 240, 180);
         }
-     }
+    }
 
     /**
      * Sets initial values for dealt and chosen program cards.
      */
     private void initializeCards() {
         for (int i = 0; i < 9; i++) {
-            cardX[i] = i*50;
+            cardX[i] = i * 50;
             cardY[i] = 12;
             isCardChosen[i] = false;
         }
@@ -289,7 +288,7 @@ public class Play implements Screen, InputProcessor {
         numCardsChosen = 0;
     }
 
-    private LinkedList<Cards> getChosenCards(){
+    private LinkedList<Cards> getChosenCards() {
         return chosenCards;
     }
 
@@ -381,8 +380,8 @@ public class Play implements Screen, InputProcessor {
     }
 
     private boolean isYourTurn() {
-        for (PlayerData p :playerData) {
-            if(!p.playerName.equals(playerName) && p.turnOrder == 0){
+        for (PlayerData p : playerData) {
+            if (!p.playerName.equals(playerName) && p.turnOrder == 0) {
                 System.out.println("Not your turn");
                 return false;
             }
@@ -434,14 +433,14 @@ public class Play implements Screen, InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
-        if(!isYourTurn()) {
+        if (!isYourTurn()) {
             return false;
         }
 
         //get a deck and lockout other functions
         if (keycode == Input.Keys.D) {
             inputKey = true;
-            if(newCards) {
+            if (newCards) {
                 createPlayerDeck();
             }
         }
@@ -453,9 +452,9 @@ public class Play implements Screen, InputProcessor {
             choosingCards(keycode);
         }
         //plays the first card from chosenCards Queue, one per press
-        if(keycode == Input.Keys.S) {
-            if(chosenCards != null) {
-                if(!chosenCards.isEmpty()) {
+        if (keycode == Input.Keys.S) {
+            if (chosenCards != null) {
+                if (!chosenCards.isEmpty()) {
                     client.sendPayload(Payload.create(PayloadAction.CARD, MoveCardData.create(playerName, chosenCards.poll())));
                 } else {
                     System.out.println("Hand is empty!");

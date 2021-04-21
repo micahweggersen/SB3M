@@ -185,7 +185,6 @@ public interface GameLogic {
             if(player.getFinishedRound()) {
                 temp++;
                 playerMovedByAutowalks(players);
-                System.out.println(player.getName() + "'s round is finished!");
             }
             else {
                 System.out.println(player.getName() + "'s has not completed there turn!");
@@ -252,7 +251,6 @@ public interface GameLogic {
                 return false;
             }
         }
-        System.out.println("Collected flag");
         return true;
     }
 

@@ -27,7 +27,6 @@ public enum Direction {
         }
     }
 
-
     public static Direction oppositeDirection(Direction direction) {
         switch (direction) {
             case SOUTH:
@@ -43,7 +42,7 @@ public enum Direction {
         }
     }
 
-    public static Direction stringToDirection (String direction) {
+    public static Direction stringToDirection(String direction) {
         switch (direction) {
             case "SOUTH":
                 return SOUTH;
@@ -71,6 +70,7 @@ public enum Direction {
         }
         return 0;
     }
+
     public static int changeInDirectionY(Direction direction) {
         switch (direction) {
             case SOUTH:
