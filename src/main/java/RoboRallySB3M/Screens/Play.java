@@ -81,6 +81,7 @@ public class Play implements Screen, InputProcessor {
     private final ArrayList<Texture> cardsTextures = new ArrayList<>();
     private final ArrayList<Texture> dealtCardsTextures = new ArrayList<>();
     private final ArrayList<Texture> chosenCardsTextures = new ArrayList<>();
+    private List<LaserData> laserLocation;
 
 
     public Play(boolean isClientOnly) {
@@ -185,8 +186,7 @@ public class Play implements Screen, InputProcessor {
             playerRender();
             renderer.getBatch().end();
         }
-        //TODO
-        laser.drawLaser(laserData, playerData);
+        laser.drawLaser(laserData, playerData, laserLocation);
 
         batch.begin();
         drawDamageTokenPositions();
@@ -217,7 +217,7 @@ public class Play implements Screen, InputProcessor {
      * Draws the positions of damage tokens
      */
     private void drawDamageTokenPositions(){
-        for(int i = 10; i > 0; i--){
+        for(int i = 10; i >= 0; i--){
             batch.draw(damageTokenPosition, 995-(i*48), 150, 40, 50);
         }
      }
@@ -235,9 +235,10 @@ public class Play implements Screen, InputProcessor {
      * Draws the life tokens
      */
     private void drawLifeTokens(int lifeTokens) {
-        for (int i = 0; i <= lifeTokens; i++) {
-            batch.draw(lifeToken, 770 - (i * 70), 200, 100, 100);
-        }
+            for (int i = 0; i < lifeTokens; i++) {
+                batch.draw(lifeToken, 770 - (i * 70), 200, 100, 100);
+            }
+
     }
 
     /**
@@ -327,9 +328,10 @@ public class Play implements Screen, InputProcessor {
      * Connects a new client to server
      */
     private void clientConnectToServer() {
-        client = new Client("127.0.0.1", 8818, (data, lData) -> {
+        client = new Client("127.0.0.1", 8818, (data, lData, lLocation) -> {
             playerData = data;
             laserData = lData;
+            laserLocation = lLocation;
         });
 
         if (!client.startConnection()) {

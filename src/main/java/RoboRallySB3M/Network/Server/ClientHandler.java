@@ -48,7 +48,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
         LaserServer laser = new LaserServer();
         laserData = laser.findLaserLocation(players.values());
 
-        return UpdateData.create(playerData, laserData);
+        return UpdateData.create(playerData, laserData, laser.getLaserLocation());
     }
 
     /**
@@ -106,12 +106,12 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                             System.out.println("Not your turn!");
                             break;
                         }
-
                         Board.playerLayer.setCell((int) player.position.x, (int) player.position.y, null);
+                        player.setPositionStartOfTurn(player.getPosition().cpy());
 
                         moveByKeyPress(keycode, player);
-
                         turn(player, players, laserData);
+
 
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
                         break;
@@ -148,5 +148,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
     private void initialisePlayerTexture() {
         playersTexture.add("src/assets/player.png");
         playersTexture.add("src/assets/playerYellow.png");
+        playersTexture.add("src/assets/player.png");
+
     }
 }

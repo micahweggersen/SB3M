@@ -1,5 +1,6 @@
 package RoboRallySB3M.GameObjects;
 
+import RoboRallySB3M.Direction;
 import RoboRallySB3M.Network.Data.LaserData;
 import RoboRallySB3M.Network.Data.PlayerData;
 import com.badlogic.gdx.graphics.Texture;
@@ -32,40 +33,47 @@ public class Laser {
 
     }
 
-    public void drawLaser(HashMap<String, LaserData> laserData, List<PlayerData> playerData) {
-        for (int t = 0; t <= 1; t++) {
-            int k = 0;
-            if(laserData == null || playerData == null) {
-                break;
-            }
-            String pointing = t == 0 ? "V" : "H";
-            String laserType = "";
-            for (int i = 0; i < Board.boardLayer.getHeight()-1; i++) {
-                for (int j = 0; j < Board.boardLayer.getWidth()-1; j++) {
-                    String key = i + String.valueOf(j) + pointing;
-                    if (laserData.containsKey(key)) {
-                        if(playerWall(playerData,laserData.get(key).x, laserData.get(key).y)) {
-                            draw(laserData.get(key).x, laserData.get(key).y, "null");
-                        }
-                        draw(laserData.get(key).x, laserData.get(key).y, laserData.get(key).laserType);
+    public void drawLaser(HashMap<String, LaserData> laserData, List<PlayerData> playerData, List<LaserData> laserLocation){
+
+        for (LaserData v : laserLocation) {
+
+            Direction dir = Direction.oppositeDirection(
+                    Objects.requireNonNull(Direction.stringToDirection(Board.walls.getCell(v.x, v.y).getTile().getProperties().get("direction").toString())));
+
+            int xChange = Direction.changeInDirectionX(dir);
+            int yChange = Direction.changeInDirectionY(dir);
+
+            int x = v.x;
+            int y = v.y;
+            //Draws lasers Horizontal
+            TiledMapTileLayer.Cell placeholder = laserH;
+            if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("H")) {
+                Board.laserHorizontal.setCell(x, y, laserH);
+                while (canMove(dir, x, y)) {
+                    //If laser hits a player, set the laser draw value to null
+                    if (playerWall(playerData, x , y)) {
+                        placeholder = null;
                     }
+                    Board.laserHorizontal.setCell(x+xChange, y, placeholder);
+                    if(x > Board.boardLayer.getWidth() || x < 0 ) break;
+                    x += xChange;
                 }
             }
-        }
-    }
-    private void draw(int x, int y, String laserType) {
-        TiledMapTileLayer.Cell placeholder;
-        if (laserType.equals("laserV")) {
+            //Draws lasers Vertical
             placeholder = laserV;
-            Board.laserVertical.setCell(x, y, placeholder);
-        }
-        else if (laserType.equals("laserH")) {
-            placeholder = laserH;
-            Board.laserHorizontal.setCell(x, y, placeholder);
-        }
-        else {
-            Board.laserVertical.setCell(x, y, null);
-            Board.laserHorizontal.setCell(x, y, null);
+            if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get("Laser").equals("V")) {
+                Board.laserVertical.setCell(x, y, laserV);
+                while (canMove(dir, x, y)) {
+                    //If laser hits a player, set the laser draw value to null
+                    if (playerWall(playerData, x , y)) {
+                        placeholder = null;
+                    }
+                    Board.laserVertical.setCell(x, y + yChange, placeholder);
+                    if (y > Board.boardLayer.getHeight() || y < 0) break;
+                    y += yChange;
+
+                }
+            }
         }
     }
 
@@ -79,6 +87,29 @@ public class Laser {
             }
         }
         return false;
+    }
+
+
+    /**
+     * This method is duplicate as it cannot be reached from a client perspective while the original method is on
+     * server side.
+     * @param direction a
+     * @param oldX a
+     * @param oldY a
+     * @return a
+     */
+    private boolean canMove(Direction direction, int oldX, int oldY) {
+        int xChange = Direction.changeInDirectionX(direction);
+        int yChange = Direction.changeInDirectionY(direction);
+
+        if (Board.walls.getCell(oldX, oldY) != null && Board.walls.getCell(oldX, oldY).getTile().getProperties().containsKey(direction.toString())) {
+            return false;
+        }
+        if (Board.walls.getCell((oldX + xChange), oldY + yChange) != null) {
+            return (!Board.walls.getCell(oldX + xChange, oldY + yChange).getTile().getProperties()
+                    .containsKey(Objects.requireNonNull(Direction.oppositeDirection(direction)).toString()));
+        }
+        return true;
     }
 
 }

@@ -3,7 +3,6 @@ package RoboRallySB3M.Network.Server;
 import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.Direction;
 import RoboRallySB3M.Network.Data.LaserData;
-import RoboRallySB3M.Network.Data.PlayerData;
 
 import java.util.*;
 
@@ -23,6 +22,9 @@ public class LaserServer implements Movement {
                 }
             }
         }
+    }
+    public List<LaserData> getLaserLocation() {
+        return laserLocation;
     }
 
     public HashMap<String, LaserData> findLaserLocation(Collection<PlayerServer> players) {
