@@ -186,13 +186,14 @@ public class Play implements Screen, InputProcessor {
             playerRender();
             renderer.getBatch().end();
         }
-        laser.drawLaser(laserData, playerData, laserLocation);
+        laser.drawLaser(laserData, playerData);
 
         batch.begin();
         drawDamageTokenPositions();
         drawCardPositions();
 
-        for(PlayerData player: playerData) {
+
+        for (PlayerData player : playerData) {
             drawDamageTokens(player.damageToken);
             drawLifeTokens(player.lifeTokens);
         }
@@ -328,10 +329,9 @@ public class Play implements Screen, InputProcessor {
      * Connects a new client to server
      */
     private void clientConnectToServer() {
-        client = new Client("127.0.0.1", 8818, (data, lData, lLocation) -> {
+        client = new Client("127.0.0.1", 8818, (data, lData) -> {
             playerData = data;
             laserData = lData;
-            laserLocation = lLocation;
         });
 
         if (!client.startConnection()) {

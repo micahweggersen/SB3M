@@ -48,7 +48,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
         LaserServer laser = new LaserServer();
         laserData = laser.findLaserLocation(players.values());
 
-        return UpdateData.create(playerData, laserData, laser.getLaserLocation());
+        return UpdateData.create(playerData, laserData);
     }
 
     /**

@@ -98,7 +98,7 @@ public class Client extends Thread {
                 if (payload.action == PayloadAction.UPDATE) {
                     UpdateData data = (UpdateData) payload.data;
 
-                    listener.update(data.playerData, data.laserData, data.laserLocation);
+                    listener.update(data.playerData, data.laserData);
                 }
                 if(payload.action == PayloadAction.DISCONNECT) {
                     stopConnection();
@@ -117,7 +117,7 @@ public class Client extends Thread {
          * @param playerData update interface to update playerData
          * @param laserData update interface to update laserData
          */
-        void update(List<PlayerData> playerData, HashMap<String, LaserData> laserData,  List<LaserData> laserLocation);
+        void update(List<PlayerData> playerData, HashMap<String, LaserData> laserData);
     }
 }
 

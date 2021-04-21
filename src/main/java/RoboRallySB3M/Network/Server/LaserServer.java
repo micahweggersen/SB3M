@@ -23,9 +23,6 @@ public class LaserServer implements Movement {
             }
         }
     }
-    public List<LaserData> getLaserLocation() {
-        return laserLocation;
-    }
 
     public HashMap<String, LaserData> findLaserLocation(Collection<PlayerServer> players) {
         if(laserLocation == null) {
