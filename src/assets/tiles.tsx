@@ -13,6 +13,12 @@
    <property name="MOVE" value="2"/>
   </properties>
  </tile>
+ <tile id="13">
+  <properties>
+   <property name="Direction" value="EAST"/>
+   <property name="MOVE" type="int" value="2"/>
+  </properties>
+ </tile>
  <tile id="15">
   <properties>
    <property name="EAST" value=""/>
@@ -23,6 +29,7 @@
   <properties>
    <property name="Direction" value="EAST"/>
    <property name="MOVE" type="int" value="2"/>
+   <property name="Turning" value="EAST"/>
   </properties>
  </tile>
  <tile id="22">
