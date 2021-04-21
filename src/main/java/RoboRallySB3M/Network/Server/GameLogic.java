@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+import static java.lang.Math.*;
 
 public interface GameLogic {
 
@@ -34,7 +33,6 @@ public interface GameLogic {
         int y = (int) player.position.y;
         int id = 0;
         Map<String, Boolean> flags = player.getFlags();
-        System.out.println(flags);
         if(isCellFlag(x,y)){
             if(Board.flagLayer.getCell(x, y).getTile().getProperties().containsKey("1")) {
                 id = 1;
@@ -91,13 +89,25 @@ public interface GameLogic {
 
     default void playerCollision(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
         for (PlayerServer p: players.values()) {
-            if(!player.getName().equals(p.getName())) {
-                if (player.position.equals(p.position)) {
-                    System.out.println("Hit a player!");
+            if(!player.getName().equals(p.getName()) && player.position.equals(p.position) ) {
+                float x = p.position.x;
+                float y = p.position.y;
+                if(player.positionStartOfTurn.x < p.position.x) {
+                    x = p.position.x += 1;
                 }
+                if(player.positionStartOfTurn.y < p.position.y) {
+                    y = p.position.y += 1;
+                }
+                if(player.positionStartOfTurn.x > p.position.x) {
+                    x = p.position.x -= 1;
+                }
+                if(player.positionStartOfTurn.y > p.position.y) {
+                    y = p.position.y -= 1;
+                }
+                p.setPosition(new Vector2(x, y));
+                p.setPositionStartOfTurn(new Vector2(x, y));
             }
         }
-
     }
 
     default void orderHandling(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {

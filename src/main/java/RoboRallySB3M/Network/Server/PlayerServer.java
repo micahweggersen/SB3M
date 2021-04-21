@@ -28,6 +28,7 @@ public class PlayerServer  implements Movement {
     //Define player-coordinates
     public Vector2 position;
     public Vector2 positionSaved;
+    public Vector2 positionStartOfTurn;
 
 
 
@@ -36,6 +37,7 @@ public class PlayerServer  implements Movement {
         this.name = name;
         this.position = Vector2.Zero;
         this.positionSaved = Vector2.Zero;
+        this.positionStartOfTurn = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
         this.damageTokens = damageTokens;
@@ -43,6 +45,18 @@ public class PlayerServer  implements Movement {
         this.maxHealth = 2;
         this.flags = initializeFlags();
         this.playerTexture = playerTexture;
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public Vector2 getPositionStartOfTurn() {
+        return positionStartOfTurn;
+    }
+
+    public void setPositionStartOfTurn(Vector2 positionStartOfTurn) {
+        this.positionStartOfTurn = positionStartOfTurn;
     }
 
     public int getMaxHealth() {
