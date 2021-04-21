@@ -1,5 +1,6 @@
 package RoboRallySB3M.Network.Server;
 
+import RoboRallySB3M.Cards.Cards;
 import RoboRallySB3M.Direction;
 import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.Network.Data.LaserData;
@@ -110,17 +111,37 @@ public interface GameLogic {
     default void playerMovedByObject(ConcurrentHashMap<String, PlayerServer> players) {
 
         for (PlayerServer player: players.values()) {
-
             if (Board.autoWalk.getCell((int) player.position.x, (int) player.position.y) != null){
-
+                //TODO: make a concurrent update of x and y values
                 String i = Board.autoWalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("MOVE").toString();
-                Direction dir =
-                        (Direction.stringToDirection(
-                                Board.autoWalk.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().get("Direction").toString()));
+                Direction dir = getDir(player);
 
-                player.position.x += Direction.changeInDirectionX(dir)*Integer.valueOf(i);
-                player.position.y += Direction.changeInDirectionY(dir)*Integer.valueOf(i);
+                handleMovment(player, dir);
+
+                if(Integer.valueOf(i)==2){
+                    if(Board.autoWalk.getCell((int) player.position.x, (int) player.position.y) != null) dir = getDir(player);
+                    handleMovment(player, dir);
+                }
             }
+        }
+    }
+
+    private Direction getDir(PlayerServer player){
+        return (Direction.stringToDirection(
+                Board.autoWalk.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().
+                        get("Direction").toString()));
+    }
+
+    private void handleMovment(PlayerServer player, Direction dir){
+        handleTurning(player);
+        player.position.y += Direction.changeInDirectionY(dir);
+        player.position.x += Direction.changeInDirectionX(dir);
+    }
+
+    private void handleTurning(PlayerServer player){
+        if(Board.autoWalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("Turning") != null){
+            Direction turningDir = Direction.stringToDirection(Board.autoWalk.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().get("Turning").toString());
+            player.move(new Cards(0, "Rotate Left", turningDir, 0));
         }
     }
 
