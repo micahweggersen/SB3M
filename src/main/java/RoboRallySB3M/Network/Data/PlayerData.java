@@ -18,7 +18,7 @@ public class PlayerData implements PayloadData {
      * @return A new player with default values
      */
     public static PlayerData newPlayer(String playerName) {
-        return new PlayerData(playerName, Vector2.Zero, Direction.NORTH, 0, 0 ,3, "src/assets/player.png");
+        return new PlayerData(playerName, Vector2.Zero, Direction.NORTH, 0, 0 ,3, "src/assets/playerTexture/player.png");
     }
 
     /**

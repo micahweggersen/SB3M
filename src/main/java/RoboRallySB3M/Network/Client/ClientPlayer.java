@@ -29,7 +29,7 @@ public class ClientPlayer extends Sprite {
      */
     public ClientPlayer(String name, Vector2 position) {
         //gets texture
-        super(new Texture("src/assets/player.png"));
+        super(new Texture("src/assets/playerTexture/player.png"));
         //sets playerFig
         if (playerFig == null) {
             playerFig = TextureRegion.split(getTexture(), 300, 300);
