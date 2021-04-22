@@ -195,8 +195,10 @@ public class Play implements Screen, InputProcessor {
 
 
         for (PlayerData player : playerData) {
-            drawDamageTokens(player.damageToken);
-            drawLifeTokens(player.lifeTokens);
+            if(player.playerName.equals(playerName)) {
+                drawDamageTokens(player.damageToken);
+                drawLifeTokens(player.lifeTokens);
+            }
         }
 
         if (dealCardsNow) {
@@ -252,6 +254,7 @@ public class Play implements Screen, InputProcessor {
             batch.draw(cardPosition, 952 - (i * 98), -15, 240, 180);
         }
     }
+
 
     /**
      * Draws the cards that a player is dealt at the start of each round

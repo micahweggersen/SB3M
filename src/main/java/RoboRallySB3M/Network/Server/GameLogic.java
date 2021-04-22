@@ -19,12 +19,11 @@ public interface GameLogic {
         playerRepairObject(player);
         outOfBounds(player);
         checkForDamage(player, laserData);
-        playerCollision(player, players);
+        playerCollision(player, players, laserData);
         orderHandling(player, players);
         turnHandling(players);
         playerMovedByPushers(players);
         handleRotationWheel(players);
-
     }
 
     default void checkFlags(PlayerServer player) {
@@ -79,7 +78,7 @@ public interface GameLogic {
         }
     }
 
-    default void playerCollision(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
+    default void playerCollision(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players, HashMap<String, LaserData> laserData) {
         for (PlayerServer p: players.values()) {
             if(!player.getName().equals(p.getName()) && player.position.equals(p.position) ) {
                 float x = p.position.x;
@@ -98,6 +97,10 @@ public interface GameLogic {
                 }
                 p.setPosition(new Vector2(x, y));
                 p.setPositionStartOfTurn(new Vector2(x, y));
+                if (isCellLaser((int)p.position.x ,(int)p.position.y, laserData)) {
+                    addDamageToken(p);
+                    System.out.println("damagetokenadded");
+                }
             }
         }
     }
@@ -154,13 +157,14 @@ public interface GameLogic {
     }
 
     private void handleMovement(PlayerServer player, Direction dir){
-        handleTurning(player);
+        if(Board.autoWalk.getCell((int) player.position.x, (int) player.position.y) != null)
+            handleTurning(player);
         player.position.y += Direction.changeInDirectionY(dir);
         player.position.x += Direction.changeInDirectionX(dir);
     }
 
     private void handleTurning(PlayerServer player){
-        if(Board.autoWalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("Turning") != null){
+       if(Board.autoWalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("Turning") != null){
             Direction turningDir = Direction.stringToDirection(Board.autoWalk.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().get("Turning").toString());
             player.move(new Cards(0, "Rotate Left", turningDir, 0));
         }
