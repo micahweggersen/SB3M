@@ -53,6 +53,7 @@ public class Play implements Screen, InputProcessor {
     private boolean dealCardsNow = false;
 
     BitmapFont cardPositionNumber;
+    BitmapFont chosenCardsOrder;
 
     private boolean inputKey = false;
     private boolean newCards = true;
@@ -105,6 +106,10 @@ public class Play implements Screen, InputProcessor {
         cardPositionNumber = new BitmapFont();
         cardPositionNumber.setColor(Color.BLACK);
         cardPositionNumber.getData().setScale(1f);
+
+        chosenCardsOrder = new BitmapFont();
+        chosenCardsOrder.setColor(Color.BLACK);
+        chosenCardsOrder.getData().setScale(0.7f);
 
         //Tile file load
         Board.map = new TmxMapLoader().load("src/assets/example.tmx");
@@ -252,6 +257,7 @@ public class Play implements Screen, InputProcessor {
     private void drawCardPositions() {
         for (int i = 5; i > 0; i--) {
             batch.draw(cardPosition, 952 - (i * 98), -15, 240, 180);
+            chosenCardsOrder.draw(batch,String.valueOf(i),  1047 - (i * 99), 17);
         }
     }
 
