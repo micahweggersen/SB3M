@@ -15,7 +15,6 @@ public class PlayerServer  implements Movement {
     private final String name;
     private final int maxHealth;
     private int damageTokens;
-    private int health;
     private int turnOrder;
     private boolean finishedRound;
     private Direction direction;
@@ -107,14 +106,6 @@ public class PlayerServer  implements Movement {
 
     public void setDamageTokens(int health) {
         this.damageTokens = damageTokens;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public boolean getFinishedRound() {

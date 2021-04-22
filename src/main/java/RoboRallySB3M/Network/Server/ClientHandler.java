@@ -42,7 +42,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
         HashMap<String, LaserData> laserData;
 
         for (PlayerServer player : players.values()) {
-            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getHealth(), player.getPlayerTexture()));
+            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getLifeTokens(), player.getPlayerTexture()));
         }
 
         LaserServer laser = new LaserServer();
