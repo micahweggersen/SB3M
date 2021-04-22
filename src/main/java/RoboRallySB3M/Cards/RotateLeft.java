@@ -12,6 +12,6 @@ public class RotateLeft extends Cards {
      */
 
     public RotateLeft(int priorityValue, String id, Direction direction, int momentum) {
-        super(priorityValue, "Rotate Left", Direction.EAST, 0);
+        super(priorityValue, "Rotate Left", Direction.WEST, 0);
     }
 }
