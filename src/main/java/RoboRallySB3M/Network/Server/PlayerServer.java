@@ -2,7 +2,6 @@ package RoboRallySB3M.Network.Server;
 
 import RoboRallySB3M.Cards.Cards;
 import RoboRallySB3M.Direction;
-import RoboRallySB3M.GameObjects.Board;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
@@ -41,17 +40,13 @@ public class PlayerServer  implements Movement {
         this.finishedRound = false;
         this.damageTokens = damageTokens;
         this.lifeTokens = lifeTokens;
-        this.maxHealth = 2;
+        this.maxHealth = 10;
         this.flags = initializeFlags();
         this.playerTexture = playerTexture;
     }
 
     public Vector2 getPosition() {
         return position;
-    }
-
-    public Vector2 getPositionStartOfTurn() {
-        return positionStartOfTurn;
     }
 
     public void setPositionStartOfTurn(Vector2 positionStartOfTurn) {
@@ -78,10 +73,6 @@ public class PlayerServer  implements Movement {
     }
     public String getPlayerTexture() {
         return playerTexture;
-    }
-
-    public void setPlayerTexture(String playerTexture) {
-        this.playerTexture = playerTexture;
     }
 
     public void setPosition(Vector2 position) {
