@@ -88,7 +88,11 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                         if (playerCard == null) {
                             continue;
                         }
+                        playerCard.setPositionStartOfTurn(playerCard.getPosition().cpy());
+
                         playerCard.move(new Cards(cardPV, cardID, cardDir, cardMom));
+                        turn(playerCard, players, laserData);
+
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
 
                         break;

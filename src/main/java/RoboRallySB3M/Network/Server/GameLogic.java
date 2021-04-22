@@ -18,7 +18,6 @@ public interface GameLogic {
         checkFlags(player);
         playerRepairObject(player);
         outOfBounds(player);
-        checkHole(player);
         checkForDamage(player, laserData);
         playerCollision(player, players);
         orderHandling(player, players);
@@ -77,13 +76,6 @@ public interface GameLogic {
         if(player.position.y > y-1 || player.position.y < 0) {
             player.setPosition(new Vector2(player.getPositionSaved()));
             System.out.println(player.getName() + " y Out of Bounds");
-        }
-    }
-
-    default void checkHole(PlayerServer player) {
-        if(isCellHole((int) player.position.x, (int) player.position.y)) {
-            player.setLifeTokens(player.getLifeTokens() - 1);
-            System.out.println("HOLE!");
         }
     }
 
