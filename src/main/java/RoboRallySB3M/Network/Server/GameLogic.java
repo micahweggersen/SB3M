@@ -25,7 +25,6 @@ public interface GameLogic {
         turnHandling(players);
         playerMovedByPushers(players);
         handleRotationWheel(players);
-
     }
 
     default void checkFlags(PlayerServer player) {
@@ -162,13 +161,14 @@ public interface GameLogic {
     }
 
     private void handleMovement(PlayerServer player, Direction dir){
-        handleTurning(player);
+        if(Board.autoWalk.getCell((int) player.position.x, (int) player.position.y) != null)
+            handleTurning(player);
         player.position.y += Direction.changeInDirectionY(dir);
         player.position.x += Direction.changeInDirectionX(dir);
     }
 
     private void handleTurning(PlayerServer player){
-        if(Board.autoWalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("Turning") != null){
+       if(Board.autoWalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("Turning") != null){
             Direction turningDir = Direction.stringToDirection(Board.autoWalk.getCell((int)player.position.x, (int) player.position.y).getTile().getProperties().get("Turning").toString());
             player.move(new Cards(0, "Rotate Left", turningDir, 0));
         }
