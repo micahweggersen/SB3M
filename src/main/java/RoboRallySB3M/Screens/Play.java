@@ -406,7 +406,7 @@ public class Play implements Screen, InputProcessor {
     private void choosingCards(int keycode) {
         if (isNumberKey(keycode)) {
             if (!chosenCards.contains(dealtCards.get(keycode - 8))) {
-                chosenCards.addFirst(dealtCards.get(keycode - 8));
+                chosenCards.add(dealtCards.get(keycode - 8));
                 System.out.println("Added Card");
             }
             System.out.println("Choose another card!");
