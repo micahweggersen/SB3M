@@ -24,7 +24,6 @@ public interface GameLogic {
         turnHandling(players);
         playerMovedByPushers(players);
         handleRotationWheel(players);
-
     }
 
     default void checkFlags(PlayerServer player) {
