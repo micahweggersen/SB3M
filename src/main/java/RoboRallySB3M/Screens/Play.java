@@ -195,8 +195,10 @@ public class Play implements Screen, InputProcessor {
 
 
         for (PlayerData player : playerData) {
-            drawDamageTokens(player.damageToken);
-            drawLifeTokens(player.lifeTokens);
+            if(player.playerName.equals(playerName)) {
+                drawDamageTokens(player.damageToken);
+                drawLifeTokens(player.lifeTokens);
+            }
         }
 
         if (dealCardsNow) {

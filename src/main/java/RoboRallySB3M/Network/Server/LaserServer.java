@@ -15,6 +15,7 @@ public class LaserServer implements Movement {
     private HashMap<String, LaserData> laserLocationDraw = new HashMap<>();
 
     private static final String LASER = "Laser";
+    private boolean first = false;
 
     private void initialise() {
         laserLocation = new ArrayList<>();
@@ -41,6 +42,7 @@ public class LaserServer implements Movement {
     }
 
     private void findLaser(Collection<PlayerServer> players) {
+        first = true;
         for (LaserData v : laserLocation) {
 
             Direction direction = Direction.stringToDirection(
@@ -65,18 +67,23 @@ public class LaserServer implements Movement {
 
     private void lasers(Collection<PlayerServer> players, LaserData v, Direction dir, String laserType, String pointer) {
         if (Board.walls.getCell(v.x, v.y).getTile().getProperties().get(LASER).equals(pointer)) {
+            if(first) {
+                laserLocationDraw.put(v.x + String.valueOf(v.y) + pointer, LaserData.newLaser(laserType, v.x, v.y));
+                first = false;
+            }
             while (canMove(dir, v.x, v.y)) {
-                //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
-                String key = v.x + String.valueOf(v.y) + pointer;
-
                 //If laser hits a player, don't draw more laser
                 if (playerWall(players, v)) {
+                    System.out.println(v.x + " " + v.y);
                     return;
                 }
-
+                //Stores location of drawn lasers - Key is x an y coordinate as a string with no space
+                String key = v.x + String.valueOf(v.y) + pointer;
                 laserLocationDraw.put(key, LaserData.newLaser(laserType, v.x, v.y));
 
-                if (v.y > Board.boardLayer.getHeight() || v.y < 0) break;
+                if (v.y > Board.boardLayer.getHeight() || v.y < 0 || v.x > Board.boardLayer.getHeight() || v.x < 0) {
+                    break;
+                }
                 if (dir != null) {
                     if (laserType.equals("laserV")) {
                         v.y += Direction.changeInDirectionY(dir);
@@ -86,7 +93,6 @@ public class LaserServer implements Movement {
                     }
                 }
             }
-
             addLaserOnWall(players, dir, v.x, v.y, laserType, pointer);
         }
     }

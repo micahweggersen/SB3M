@@ -39,14 +39,10 @@ class ClientHandler extends Thread implements Movement, GameLogic {
      */
     private UpdateData createUpdateData() {
         List<PlayerData> playerData = new ArrayList<>(players.size());
-        HashMap<String, LaserData> laserData;
 
         for (PlayerServer player : players.values()) {
             playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getLifeTokens(), player.getPlayerTexture()));
         }
-
-        LaserServer laser = new LaserServer();
-        laserData = laser.findLaserLocation(players.values());
 
         return UpdateData.create(playerData, laserData);
     }
@@ -63,6 +59,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
 
             Object object;
 
+
             if(laserData.isEmpty()) {
                 LaserServer laser = new LaserServer();
                 laserData = laser.findLaserLocation(players.values());
@@ -74,6 +71,8 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                     out.writeObject(Payload.create(PayloadAction.QUIT));
                     break;
                 }
+                LaserServer laser = new LaserServer();
+                laserData = laser.findLaserLocation(players.values());
 
                 switch (payload.action) {
                     case CARD:
@@ -121,6 +120,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                         break;
                     case UPDATE:
                         out.writeObject(Payload.create(PayloadAction.UPDATE, createUpdateData()));
+                        laserData.clear();
                         break;
                     case JOIN:
                         PlayerData playerData = (PlayerData) payload.data;
