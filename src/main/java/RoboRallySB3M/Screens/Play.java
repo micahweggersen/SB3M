@@ -173,6 +173,10 @@ public class Play implements Screen, InputProcessor {
      */
     @Override
     public void render(float delta) {
+        Board.clear(Board.laserVertical);
+        Board.clear(Board.laserHorizontal);
+        try {
+            Thread.sleep(100);
 
         Gdx.gl.glClearColor(150 / 255f, 150 / 255f, 150 / 255f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
@@ -185,8 +189,6 @@ public class Play implements Screen, InputProcessor {
             renderer.getBatch().end();
         }
 
-        Board.clear(Board.laserVertical);
-        Board.clear(Board.laserHorizontal);
         laser.drawLaser(laserData, playerData);
 
         batch.begin();
@@ -214,9 +216,10 @@ public class Play implements Screen, InputProcessor {
         renderer.setView(cameraView);
         renderer.render();
 
-
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-
 
     /**
      * Draws the positions of damage tokens
@@ -454,22 +457,26 @@ public class Play implements Screen, InputProcessor {
         }
         //plays the first card from chosenCards Queue, one per press
         if (keycode == Input.Keys.S) {
-            if (chosenCards != null) {
-                if (!chosenCards.isEmpty()) {
-                    client.sendPayload(Payload.create(PayloadAction.CARD, MoveCardData.create(playerName, chosenCards.poll())));
-                } else {
-                    System.out.println("Hand is empty!");
-                    newCards = true;
-                }
-            } else {
-                System.out.println("You have not chosen any cards!");
-            }
+            useCards();
         }
         //manual input to test all movement and other things on board
         if (!inputKey) {
             client.sendPayload(Payload.create(PayloadAction.MOVE, MoveData.create(keycode, playerName)));
         }
         return true;
+    }
+
+    private void useCards() {
+        if (chosenCards != null) {
+            if (!chosenCards.isEmpty()) {
+                client.sendPayload(Payload.create(PayloadAction.CARD, MoveCardData.create(playerName, chosenCards.poll())));
+            } else {
+                createPlayerDeck();
+                newCards = true;
+            }
+        } else {
+            System.out.println("You have not chosen any cards!");
+        }
     }
 
     @Override

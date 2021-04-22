@@ -74,7 +74,6 @@ public class LaserServer implements Movement {
             while (canMove(dir, v.x, v.y)) {
                 //If laser hits a player, don't draw more laser
                 if (playerWall(players, v)) {
-                    System.out.println(v.x + " " + v.y);
                     return;
                 }
                 //Stores location of drawn lasers - Key is x an y coordinate as a string with no space

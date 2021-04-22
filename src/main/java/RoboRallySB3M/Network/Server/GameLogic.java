@@ -15,15 +15,57 @@ import static java.lang.Math.*;
 public interface GameLogic {
 
     default void turn(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players, HashMap<String, LaserData> laserData) {
-        checkFlags(player);
-        playerRepairObject(player);
+
+        /*
+        play card #1
+        autowalk
+        pushers
+        gears
+        laser
+        checkpoints/repairs
+
+        play card #2
+
+        gjenta til kort #5 er spilt og sjekk om en av spilleren opfyller vinner condition
+         */
+
+
         outOfBounds(player);
-        checkForDamage(player, laserData);
         playerCollision(player, players, laserData);
         orderHandling(player, players);
-        turnHandling(players);
-        playerMovedByPushers(players);
-        handleRotationWheel(players);
+        turnHandling(players, laserData);
+    }
+
+    default void turnHandling(ConcurrentHashMap<String, PlayerServer> players, HashMap<String, LaserData> laserData) {
+        int playersFinishedARound = 0;
+        for (PlayerServer player : players.values()) {
+            if(player.getFinishedRound()) {
+                playersFinishedARound++;
+                playerMovedByAutowalks(players);
+            }
+            else {
+                System.out.println(player.getName() + "'s has not completed there turn!");
+            }
+        }
+
+        //End of turn
+        if (playersFinishedARound == players.size()) {
+            for (PlayerServer player : players.values()) {
+                player.setFinishedRound(false);
+            }
+
+            playerMovedByAutowalks(players);
+            playerMovedByPushers(players);
+            handleRotationWheel(players);
+            for (PlayerServer player : players.values()) {
+                outOfBounds(player);
+                checkForDamage(player, laserData);
+                playerRepairObject(player);
+                checkFlags(player);
+            }
+            checkVictoryCondition(players);
+            System.out.println("All turns are complete!");
+        }
     }
 
     default void checkFlags(PlayerServer player) {
@@ -172,30 +214,7 @@ public interface GameLogic {
 
     default void playerRepairObject(PlayerServer player) {
         if (Board.repairShop.getCell((int) player.position.x, (int) player.position.y) != null)
-            player.setLifeTokens(min(player.getLifeTokens()+1, player.getMaxHealth()));
-    }
-
-    default void turnHandling(ConcurrentHashMap<String, PlayerServer> players) {
-        int temp = 0;
-        for (PlayerServer player : players.values()) {
-            if(player.getFinishedRound()) {
-                temp++;
-                playerMovedByAutowalks(players);
-            }
-            else {
-                System.out.println(player.getName() + "'s has not completed there turn!");
-            }
-        }
-
-        //End of turn
-        if (temp == players.size()) {
-            for (PlayerServer player : players.values()) {
-                player.setFinishedRound(false);
-            }
-
-            checkVictoryCondition(players);
-            System.out.println("All turns are complete!");
-        }
+            player.setDamageTokens(min(player.getDamageTokens()-1, player.getMaxHealth()));
     }
 
     default void checkForDamage(PlayerServer player, HashMap<String, LaserData> laserData) {
@@ -204,8 +223,9 @@ public interface GameLogic {
             addDamageToken(player);
             System.out.println("damagetokenadded");
         }
-        else if (isCellHole((int)player.position.x,(int)player.position.y)) {
+        else  if (isCellHole((int)player.position.x,(int)player.position.y)) {
             loseLifeToken(player);
+            System.out.println("yo");
             System.out.println("lifetokenlost");
         }
     }
