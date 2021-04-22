@@ -216,16 +216,19 @@ public interface GameLogic {
 
     default void loseLifeToken(PlayerServer player) {
         int lifeTokens = player.getLifeTokens();
-        lifeTokens -= 1;
+        player.setLifeTokens(player.getLifeTokens()-1);
+        player.setDamageTokens(0);
+        player.setPosition(new Vector2(player.getPositionSaved()));
         if (lifeTokens <= 0)
             player.setStatus(PlayerServer.Status.DEAD);
     }
 
     default void addDamageToken(PlayerServer player) {
-        int damageTokens = player.getDamageTokens();
-        damageTokens += 1;
-        if (damageTokens >= 10)
+        player.setDamageTokens(player.getDamageTokens()+1);
+        if (player.getDamageTokens() > 9) {
             loseLifeToken(player);
+            player.setDamageTokens(0);
+        }
     }
 
     default void checkVictoryCondition(ConcurrentHashMap<String, PlayerServer> players) {
