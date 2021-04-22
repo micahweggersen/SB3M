@@ -18,7 +18,6 @@ public interface GameLogic {
         checkFlags(player);
         playerRepairObject(player);
         outOfBounds(player);
-        checkHole(player);
         checkForDamage(player, laserData);
         playerCollision(player, players);
         orderHandling(player, players);
@@ -76,13 +75,6 @@ public interface GameLogic {
         if(player.position.y > y-1 || player.position.y < 0) {
             player.setPosition(new Vector2(player.getPositionSaved()));
             System.out.println(player.getName() + " y Out of Bounds");
-        }
-    }
-
-    default void checkHole(PlayerServer player) {
-        if(isCellHole((int) player.position.x, (int) player.position.y)) {
-            player.setLifeTokens(player.getLifeTokens() - 1);
-            System.out.println("HOLE!");
         }
     }
 
@@ -216,16 +208,19 @@ public interface GameLogic {
 
     default void loseLifeToken(PlayerServer player) {
         int lifeTokens = player.getLifeTokens();
-        lifeTokens -= 1;
+        player.setLifeTokens(player.getLifeTokens()-1);
+        player.setDamageTokens(0);
+        player.setPosition(new Vector2(player.getPositionSaved()));
         if (lifeTokens <= 0)
             player.setStatus(PlayerServer.Status.DEAD);
     }
 
     default void addDamageToken(PlayerServer player) {
-        int damageTokens = player.getDamageTokens();
-        damageTokens += 1;
-        if (damageTokens >= 10)
+        player.setDamageTokens(player.getDamageTokens()+1);
+        if (player.getDamageTokens() > 9) {
             loseLifeToken(player);
+            player.setDamageTokens(0);
+        }
     }
 
     default void checkVictoryCondition(ConcurrentHashMap<String, PlayerServer> players) {

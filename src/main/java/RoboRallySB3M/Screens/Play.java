@@ -107,7 +107,7 @@ public class Play implements Screen, InputProcessor {
         cardPositionNumber.getData().setScale(1f);
 
         //Tile file load
-        Board.map = new TmxMapLoader().load("src/assets/testAutoWalk.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
 
         //Representation on GUI map
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
@@ -220,8 +220,8 @@ public class Play implements Screen, InputProcessor {
      * Draws the positions of damage tokens
      */
     private void drawDamageTokenPositions() {
-        for (int i = 10; i >= 0; i--) {
-            batch.draw(damageTokenPosition, 995 - (i * 48), 150, 40, 50);
+        for (int i = 9; i >= 0; i--) {
+            batch.draw(damageTokenPosition, 949 - (i * 48), 150, 40, 50);
         }
     }
 
@@ -229,8 +229,8 @@ public class Play implements Screen, InputProcessor {
      * Draws the damage tokens the player has received
      */
     private void drawDamageTokens(int damageTokens) {
-        for (int i = damageTokens; i >= 10; i--) {
-            batch.draw(damageToken, 995 - (i * 48), 150, 40, 50);
+        for (int i = 0; i < damageTokens; i++) {
+            batch.draw(damageToken, 949 - (i * 48), 150, 40, 50);
         }
     }
 

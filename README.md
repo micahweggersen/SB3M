@@ -39,7 +39,7 @@
 
 
 ## Playing the game 
-Once you have started a game, you can press "D" to get dealt nine cards. These will be shown in the terminal, as well as on the screen. Press number keys 1-9 to schoose cards. When the fift card in chosen, your chosen cards will apears in reversed order (bug) further down on the screen. Press "S" to get the player to move according to eacg card. If you want to move around with arrow keys, press "F". This will
+Once you have started a game, you can press "D" to get dealt nine cards. These will be shown in the terminal, as well as on the screen. Press number keys 1-9 to choose your cards. When the fift card is chosen, your chosen cards will appear in reversed order (bug/mistake) further down on the screen. Press "S" to get the player to move according to eacg card. If you want to move around with arrow keys, press "F". This will
 also make you able to test the different card functions, as they correspond with the number keys when you are not in "choose card mode".
 
 ## Known bugs

@@ -104,7 +104,7 @@ public class PlayerServer  implements Movement {
         return damageTokens;
     }
 
-    public void setDamageTokens(int health) {
+    public void setDamageTokens(int damageTokens) {
         this.damageTokens = damageTokens;
     }
 

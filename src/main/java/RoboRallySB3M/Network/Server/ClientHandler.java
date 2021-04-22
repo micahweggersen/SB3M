@@ -88,7 +88,11 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                         if (playerCard == null) {
                             continue;
                         }
+                        playerCard.setPositionStartOfTurn(playerCard.getPosition().cpy());
+
                         playerCard.move(new Cards(cardPV, cardID, cardDir, cardMom));
+                        turn(playerCard, players, laserData);
+
                         out.writeObject(Payload.create(PayloadAction.SUCCESS));
 
                         break;
@@ -146,9 +150,13 @@ class ClientHandler extends Thread implements Movement, GameLogic {
         }
     }
     private void initialisePlayerTexture() {
-        playersTexture.add("src/assets/player.png");
-        playersTexture.add("src/assets/playerYellow.png");
-        playersTexture.add("src/assets/player.png");
-
+        playersTexture.add("src/assets/playerTexture/playerOceanBlue.png");
+        playersTexture.add("src/assets/playerTexture/playerLeopard.png");
+        playersTexture.add("src/assets/playerTexture/playerGreen.png");
+        playersTexture.add("src/assets/playerTexture/playerOrange.png");
+        playersTexture.add("src/assets/playerTexture/playerYellow.png");
+        playersTexture.add("src/assets/playerTexture/playerWalnut.png");
+        playersTexture.add("src/assets/playerTexture/playerYellowBlack.png");
+        playersTexture.add("src/assets/playerTexture/player.png");
     }
 }
