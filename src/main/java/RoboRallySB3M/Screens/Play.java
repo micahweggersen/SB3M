@@ -49,10 +49,13 @@ public class Play implements Screen, InputProcessor {
     int[] cardX = new int[9];
     int[] cardY = new int[9];
     boolean[] isCardChosen = new boolean[9];
-    int numCardsChosen;
     private boolean dealCardsNow = false;
 
     BitmapFont cardPositionNumber;
+    BitmapFont chosenCardsOrder;
+
+    private int damageTokenAmount;
+    //private int[] damageTokenAmount = new int[5];
 
     private boolean inputKey = false;
     private boolean newCards = true;
@@ -105,6 +108,10 @@ public class Play implements Screen, InputProcessor {
         cardPositionNumber = new BitmapFont();
         cardPositionNumber.setColor(Color.BLACK);
         cardPositionNumber.getData().setScale(1f);
+
+        chosenCardsOrder = new BitmapFont();
+        chosenCardsOrder.setColor(Color.BLACK);
+        chosenCardsOrder.getData().setScale(0.7f);
 
         //Tile file load
         Board.map = new TmxMapLoader().load("src/assets/example.tmx");
@@ -200,6 +207,10 @@ public class Play implements Screen, InputProcessor {
             if(player.playerName.equals(playerName)) {
                 drawDamageTokens(player.damageToken);
                 drawLifeTokens(player.lifeTokens);
+                damageTokenAmount = player.damageToken;
+                if (damageTokenAmount >= 5){
+                    damageTokenAmount = 4;
+                }
             }
         }
 
@@ -255,19 +266,22 @@ public class Play implements Screen, InputProcessor {
     private void drawCardPositions() {
         for (int i = 5; i > 0; i--) {
             batch.draw(cardPosition, 952 - (i * 98), -15, 240, 180);
+            chosenCardsOrder.draw(batch,String.valueOf(i),  1047 - (i * 99), 17);
         }
     }
+
 
     /**
      * Draws the cards that a player is dealt at the start of each round
      */
     private void drawDealtCards() {
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9-damageTokenAmount; i++) {
             Cards card = dealtCards.get(i);
             dealtCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
             batch.draw(dealtCardsTextures.get(i), 490 + cardX[i], 300 + cardY[i], 160, 123);
             cardPositionNumber.draw(batch, String.valueOf(i + 1), 548 + (i * 50), 320);
         }
+
     }
 
     private void drawChosenCards() {
@@ -289,7 +303,6 @@ public class Play implements Screen, InputProcessor {
         }
         dealtCardsTextures.clear();
         getChosenCards();
-        numCardsChosen = 0;
     }
 
     private LinkedList<Cards> getChosenCards() {
@@ -399,7 +412,7 @@ public class Play implements Screen, InputProcessor {
     public void createPlayerDeck() {
         newCards = false;
         Deck deck = new Deck();
-        dealtCards = deck.dealCards(8);
+        dealtCards = deck.dealCards(8-damageTokenAmount);
         dealCardsNow = true;
         chosenCards = new LinkedList<>();
     }
