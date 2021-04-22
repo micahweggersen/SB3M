@@ -37,9 +37,8 @@ public class Play implements Screen, InputProcessor {
     private String playerName;
     private HashMap<String, ClientPlayer> playerTileCache = new HashMap<>();
     private List<PlayerData> playerData;
-    private PlayerData player;
     private HashMap<String, LaserData> laserData;
-    //private PlayerServer player = new PlayerServer();
+
 
     private final int[] numberKeyValues = new int[]{8, 9, 10, 11, 12, 13, 14, 15, 16};
 
