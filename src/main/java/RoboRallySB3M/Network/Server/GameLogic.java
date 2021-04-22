@@ -19,7 +19,7 @@ public interface GameLogic {
         playerRepairObject(player);
         outOfBounds(player);
         checkForDamage(player, laserData);
-        playerCollision(player, players);
+        playerCollision(player, players, laserData);
         orderHandling(player, players);
         turnHandling(players);
         playerMovedByPushers(players);
@@ -79,7 +79,7 @@ public interface GameLogic {
         }
     }
 
-    default void playerCollision(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players) {
+    default void playerCollision(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players, HashMap<String, LaserData> laserData) {
         for (PlayerServer p: players.values()) {
             if(!player.getName().equals(p.getName()) && player.position.equals(p.position) ) {
                 float x = p.position.x;
@@ -98,6 +98,10 @@ public interface GameLogic {
                 }
                 p.setPosition(new Vector2(x, y));
                 p.setPositionStartOfTurn(new Vector2(x, y));
+                if (isCellLaser((int)p.position.x ,(int)p.position.y, laserData)) {
+                    addDamageToken(p);
+                    System.out.println("damagetokenadded");
+                }
             }
         }
     }

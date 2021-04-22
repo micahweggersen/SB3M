@@ -34,14 +34,12 @@ public class Laser {
 
     public void drawLaser(HashMap<String, LaserData> laserData, List<PlayerData> playerData) {
         for (int t = 0; t <= 1; t++) {
-            int k = 0;
             if(laserData == null || playerData == null) {
                 break;
             }
             String pointing = t == 0 ? "V" : "H";
-            String laserType = "";
-            for (int i = 0; i < Board.boardLayer.getHeight()-1; i++) {
-                for (int j = 0; j < Board.boardLayer.getWidth()-1; j++) {
+            for (int i = 0; i < Board.boardLayer.getHeight(); i++) {
+                for (int j = 0; j < Board.boardLayer.getWidth(); j++) {
                     String key = i + String.valueOf(j) + pointing;
                     if (laserData.containsKey(key)) {
                         if(playerWall(playerData,laserData.get(key).x, laserData.get(key).y)) {
