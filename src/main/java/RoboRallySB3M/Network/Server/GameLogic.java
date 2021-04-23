@@ -218,14 +218,12 @@ public interface GameLogic {
     }
 
     default void checkForDamage(PlayerServer player, HashMap<String, LaserData> laserData) {
-        System.out.println("checkdamage");
         if (isCellLaser((int)player.position.x ,(int)player.position.y, laserData)) {
             addDamageToken(player);
             System.out.println("damagetokenadded");
         }
         else  if (isCellHole((int)player.position.x,(int)player.position.y)) {
             loseLifeToken(player);
-            System.out.println("yo");
             System.out.println("lifetokenlost");
         }
     }
