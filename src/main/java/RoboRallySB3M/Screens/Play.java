@@ -152,7 +152,6 @@ public class Play implements Screen, InputProcessor {
         drawElem.drawDamageTokenPositions(batch);
         drawElem.drawCardPositions(batch);
 
-
         for (PlayerData player : playerData) {
             if(player.playerName.equals(playerName)) {
                 drawElem.drawDamageTokens(player.damageToken, batch);
