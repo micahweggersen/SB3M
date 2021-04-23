@@ -66,6 +66,10 @@ public interface GameLogic {
         }
     }
 
+    /*
+    Check if player is on a flag and that it's the next flag in the players series, if that's the case the flag
+    corrdinate is the new checkpoint for the player.
+     */
     default void checkFlags(PlayerServer player) {
         int x = (int) player.position.x;
         int y = (int) player.position.y;
@@ -93,6 +97,10 @@ public interface GameLogic {
         }
     }
 
+    /*
+    Change the direction of the player if they by the end of their movment is on a rotation wheel, by the direction indicated
+    on the cell.
+     */
     default void handleRotationWheel(ConcurrentHashMap<String, PlayerServer> players){
         for (PlayerServer player: players.values()) {
             if (Board.rotationGears.getCell((int) player.position.x, (int) player.position.y) != null){
@@ -104,6 +112,9 @@ public interface GameLogic {
         }
     }
 
+    /*
+    Check that the player is inside the board, if not their reset to last checkpoint
+     */
     default void outOfBounds(PlayerServer player) {
         int x = Board.boardLayer.getWidth();
         int y = Board.boardLayer.getHeight();
@@ -176,7 +187,6 @@ public interface GameLogic {
 
         for (PlayerServer player: players.values()) {
             if (Board.autoWalk.getCell((int) player.position.x, (int) player.position.y) != null){
-                //TODO: make a concurrent update of x and y values
                 String i = Board.autoWalk.getCell((int) player.position.x, (int) player.position.y).getTile().getProperties().get("MOVE").toString();
                 Direction dir = getDir(player);
 
@@ -210,6 +220,10 @@ public interface GameLogic {
         }
     }
 
+    /*
+    If player is on a repair cell by the end of their movement,
+    their healthpoint is increased by one, up to max health
+     */
     default void playerRepairObject(PlayerServer player) {
         if (Board.repairShop.getCell((int) player.position.x, (int) player.position.y) != null)
             player.setDamageTokens(min(player.getDamageTokens()-1, player.getMaxHealth()));
@@ -226,6 +240,10 @@ public interface GameLogic {
         }
     }
 
+    /*
+    Removes lifetoken if player loses all healthpoints,
+    and set total life-tokens to total life-tokens minus one
+     */
     default void loseLifeToken(PlayerServer player) {
         int lifeTokens = player.getLifeTokens();
         player.setLifeTokens(player.getLifeTokens()-1);
@@ -251,9 +269,7 @@ public interface GameLogic {
             for (Boolean f: flags.values()) {
                 if(Boolean.TRUE.equals(f)) {
                     i++;
-                    if(i == 4) {
-                        System.out.println(player.getName() + " Has won the game!");
-                    }
+                    if(i == 4) { System.out.println(player.getName() + " Has won the game!"); }
                 }
             }
         }
@@ -261,10 +277,7 @@ public interface GameLogic {
 
     default Boolean checkPreviousFlags(Map<String, Boolean> flags, int flagID) {
         for (int i = 1; i < flagID; i++) {
-            if(!Boolean.TRUE.equals(flags.get("flag" + i))) {
-                System.out.println("Cannot collect flag yet");
-                return false;
-            }
+            if(!Boolean.TRUE.equals(flags.get("flag" + i))) return false;
         }
         return true;
     }
