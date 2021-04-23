@@ -58,7 +58,7 @@ public class TestCards {
     @Test
     public void testGetDirectionOfRotateRightCard(){
         Direction direction = rotateRightCard.getDirection();
-        assertEquals(Direction.WEST, direction);
+        assertEquals(Direction.EAST, direction);
     }
 
     @Test
