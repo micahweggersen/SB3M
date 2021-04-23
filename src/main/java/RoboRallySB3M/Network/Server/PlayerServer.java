@@ -35,7 +35,7 @@ public class PlayerServer  implements Movement {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
-        this.positionSaved = null;
+        this.positionSaved = Vector2.Zero;
         this.positionStartOfTurn = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
