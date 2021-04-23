@@ -203,8 +203,8 @@
  </tile>
  <tile id="37">
   <properties>
-   <property name="EAST" value=""/>
    <property name="Laser" value="H"/>
+   <property name="WEST" value=""/>
    <property name="direction" value="WEST"/>
   </properties>
  </tile>
