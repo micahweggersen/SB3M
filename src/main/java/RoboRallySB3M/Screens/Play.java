@@ -78,7 +78,7 @@ public class Play implements Screen, InputProcessor {
         drawElem.show();
 
         //Tile file load
-        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/newBoard10x10.tmx");
 
         //Representation on GUI map
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
@@ -132,8 +132,6 @@ public class Play implements Screen, InputProcessor {
     public void render(float delta) {
         Board.clear(Board.laserVertical);
         Board.clear(Board.laserHorizontal);
-        try {
-            Thread.sleep(100);
 
         Gdx.gl.glClearColor(150 / 255f, 150 / 255f, 150 / 255f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
@@ -151,22 +149,24 @@ public class Play implements Screen, InputProcessor {
         batch.begin();
         drawElem.drawDamageTokenPositions(batch);
         drawElem.drawCardPositions(batch);
-
-        for (PlayerData player : playerData) {
-            if(player.playerName.equals(playerName)) {
-                drawElem.drawDamageTokens(player.damageToken, batch);
-                drawElem.drawLifeTokens(player.lifeTokens, batch);
-                damageTokenAmount = player.damageToken;
-                if (damageTokenAmount >= 5){
-                    damageTokenAmount = 4;
+        //Draws life for each player and only for your own player client
+        if(playerData != null) {
+            for (PlayerData player : playerData) {
+                if(player.playerName.equals(playerName)) {
+                    drawElem.drawDamageTokens(player.damageToken, batch);
+                    drawElem.drawLifeTokens(player.lifeTokens, batch);
+                    damageTokenAmount = player.damageToken;
+                    if (damageTokenAmount >= 5){
+                        damageTokenAmount = 4;
+                    }
                 }
             }
         }
-
+        //Draws Cards too choose form
         if (dealCardsNow) {
             drawElem.drawDealtCards(dealtCards, batch, damageTokenAmount);
         }
-
+        //Draws chosen Cards
         if (chosenCards.size() == 5) {
             drawElem.drawChosenCards(chosenCards, batch);
             dealCardsNow = false;
@@ -175,10 +175,6 @@ public class Play implements Screen, InputProcessor {
 
         renderer.setView(cameraView);
         renderer.render();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -270,6 +266,9 @@ public class Play implements Screen, InputProcessor {
         return Arrays.stream(numberKeyValues).anyMatch(i -> i == keycode);
     }
 
+    /**
+     * @return checks if it is your turn
+     */
     private boolean isYourTurn() {
         for (PlayerData p : playerData) {
             if (!p.playerName.equals(playerName) && p.turnOrder == 0) {
@@ -328,13 +327,6 @@ public class Play implements Screen, InputProcessor {
             return false;
         }
 
-        //get a deck and lockout other functions
-        if (keycode == Input.Keys.D) {
-            inputKey = true;
-            if (newCards) {
-                createPlayerDeck();
-            }
-        }
         //opens other functions
         if (keycode == Input.Keys.F) {
             inputKey = false;
@@ -344,7 +336,12 @@ public class Play implements Screen, InputProcessor {
         }
         //plays the first card from chosenCards Queue, one per press
         if (keycode == Input.Keys.S) {
-            useCards();
+            inputKey = true;
+            if (newCards) {
+                createPlayerDeck();
+            } else {
+                useCards();
+            }
         }
         //manual input to test all movement and other things on board
         if (!inputKey) {

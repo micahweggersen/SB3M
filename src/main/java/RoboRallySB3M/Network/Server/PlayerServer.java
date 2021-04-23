@@ -3,6 +3,7 @@ package RoboRallySB3M.Network.Server;
 import RoboRallySB3M.Cards.Cards;
 import RoboRallySB3M.Direction;
 import com.badlogic.gdx.math.Vector2;
+import RoboRallySB3M.Status;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class PlayerServer  implements Movement {
         this.direction = direction;
         this.name = name;
         this.position = Vector2.Zero;
-        this.positionSaved = Vector2.Zero;
+        this.positionSaved = null;
         this.positionStartOfTurn = Vector2.Zero;
         this.turnOrder = turnOrder;
         this.finishedRound = false;
@@ -43,6 +44,7 @@ public class PlayerServer  implements Movement {
         this.maxHealth = 10;
         this.flags = initializeFlags();
         this.playerTexture = playerTexture;
+        this.status = Status.ALIVE;
     }
 
     public Vector2 getPosition() {
@@ -167,11 +169,5 @@ public class PlayerServer  implements Movement {
 
     public Status getStatus() {
         return status;
-    }
-
-    public enum Status {
-        ALIVE,
-        DEAD,
-        POWERDOWN
     }
 }

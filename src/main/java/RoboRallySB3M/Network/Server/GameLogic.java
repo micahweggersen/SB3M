@@ -4,6 +4,7 @@ import RoboRallySB3M.Cards.Cards;
 import RoboRallySB3M.Direction;
 import RoboRallySB3M.GameObjects.Board;
 import RoboRallySB3M.Network.Data.LaserData;
+import RoboRallySB3M.Status;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
@@ -14,24 +15,22 @@ import static java.lang.Math.*;
 
 public interface GameLogic {
 
-    default void turn(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players, HashMap<String, LaserData> laserData) {
-
-        /*
-        play card #1
-        autowalk
-        pushers
-        gears
-        laser
-        checkpoints/repairs
-
-        play card #2
-
-        gjenta til kort #5 er spilt og sjekk om en av spilleren opfyller vinner condition
-         */
-
+    default void turn(PlayerServer player, ConcurrentHashMap<String, PlayerServer> players, HashMap<String, LaserData> laserData) throws InterruptedException {
 
         outOfBounds(player);
+        playerMovedByAutowalks(players);
+        outOfBounds(player);
         playerCollision(player, players, laserData);
+        outOfBounds(player);
+        playerMovedByPushers(players);
+        outOfBounds(player);
+        playerCollision(player, players, laserData);
+        outOfBounds(player);
+        handleRotationWheel(players);
+        checkForDamage(player, laserData);
+        checkFlags(player);
+        playerRepairObject(player);
+
         orderHandling(player, players);
         turnHandling(players, laserData);
     }
@@ -59,7 +58,6 @@ public interface GameLogic {
             handleRotationWheel(players);
             for (PlayerServer player : players.values()) {
                 outOfBounds(player);
-                checkForDamage(player, laserData);
                 playerRepairObject(player);
                 checkFlags(player);
             }
@@ -225,7 +223,6 @@ public interface GameLogic {
         }
         else  if (isCellHole((int)player.position.x,(int)player.position.y)) {
             loseLifeToken(player);
-            System.out.println("yo");
             System.out.println("lifetokenlost");
         }
     }
@@ -236,7 +233,8 @@ public interface GameLogic {
         player.setDamageTokens(0);
         player.setPosition(new Vector2(player.getPositionSaved()));
         if (lifeTokens <= 0)
-            player.setStatus(PlayerServer.Status.DEAD);
+            System.out.println("DEAD");
+            player.setStatus(Status.DEAD);
     }
 
     default void addDamageToken(PlayerServer player) {

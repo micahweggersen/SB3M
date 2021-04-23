@@ -92,9 +92,6 @@ public class Client extends Thread {
                 if(payload.action == PayloadAction.ERROR) {
                     System.out.println("Error");
                 }
-                if(payload.action == PayloadAction.NOT_YOUR_TURN) {
-                    System.out.println("Not your turn!");
-                }
                 if (payload.action == PayloadAction.UPDATE) {
                     UpdateData data = (UpdateData) payload.data;
 

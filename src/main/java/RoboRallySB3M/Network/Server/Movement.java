@@ -9,6 +9,10 @@ import java.util.Objects;
 
 public interface Movement {
 
+    /**
+     * @param keycode key indicator
+     * @param player character to be moved
+     */
     default void moveByKeyPress(int keycode, PlayerServer player) {
         switch (keycode) {
             case Input.Keys.NUM_1:

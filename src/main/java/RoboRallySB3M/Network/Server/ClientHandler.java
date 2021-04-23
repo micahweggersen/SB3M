@@ -41,7 +41,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
         List<PlayerData> playerData = new ArrayList<>(players.size());
 
         for (PlayerServer player : players.values()) {
-            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getLifeTokens(), player.getPlayerTexture()));
+            playerData.add(PlayerData.create(player.getName(), player.position.cpy(), player.getDirection(), player.getTurnOrder(), player.getDamageTokens(), player.getLifeTokens(), player.getPlayerTexture(), player.getStatus()));
         }
 
         return UpdateData.create(playerData, laserData);
@@ -130,7 +130,8 @@ class ClientHandler extends Thread implements Movement, GameLogic {
                         }
 
                         PlayerServer newPlayer = new PlayerServer(Direction.NORTH, playerData.playerName, players.size(), 0, 3, playersTexture.pop());
-                        newPlayer.position = new Vector2(players.size(), 0);
+                        newPlayer.position = new Vector2(players.size()+1, 1);
+                        newPlayer.positionSaved = new Vector2(players.size()+1, 1);
 
                         players.put(playerData.playerName, newPlayer);
 
@@ -145,7 +146,7 @@ class ClientHandler extends Thread implements Movement, GameLogic {
             in.close();
             out.close();
             clientSocket.close();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
         }
     }
