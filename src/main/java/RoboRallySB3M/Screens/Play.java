@@ -78,7 +78,7 @@ public class Play implements Screen, InputProcessor {
         drawElem.show();
 
         //Tile file load
-        Board.map = new TmxMapLoader().load("src/assets/example.tmx");
+        Board.map = new TmxMapLoader().load("src/assets/newBoard10x10.tmx");
 
         //Representation on GUI map
         Board.boardLayer = (TiledMapTileLayer) Board.map.getLayers().get("Board");
