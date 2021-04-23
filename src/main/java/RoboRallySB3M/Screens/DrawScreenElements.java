@@ -14,11 +14,11 @@ import java.util.List;
 
 public class DrawScreenElements implements Screen {
 
+    //Textures for visual elements
     private Texture damageToken;
     private Texture damageTokenPosition;
     private Texture cardPosition;
     private Texture lifeToken;
-
 
     private final ArrayList<Texture> cardsTextures = new ArrayList<>();
     private final ArrayList<Texture> dealtCardsTextures = new ArrayList<>();
@@ -33,6 +33,10 @@ public class DrawScreenElements implements Screen {
     int numCardsChosen;
     private boolean dealCardsNow = false;
 
+    /**
+     * loads and initializes all the different visual elements of the play-screen,
+     * except for the actual board
+     */
     @Override
     public void show() {
         cardPositionNumber = new BitmapFont();
@@ -61,7 +65,6 @@ public class DrawScreenElements implements Screen {
 
     @Override
     public void render(float v) {
-
     }
 
     /**
@@ -114,7 +117,9 @@ public class DrawScreenElements implements Screen {
         }
     }
 
-
+    /**
+     * draws the 5 cards the player has chose.
+     */
     public void drawChosenCards(LinkedList<Cards> chosenCards, SpriteBatch batch) {
         for (int i = 0; i < 5; i++) {
             Cards card = chosenCards.get(i);
@@ -133,11 +138,8 @@ public class DrawScreenElements implements Screen {
             isCardChosen[i] = false;
         }
         dealtCardsTextures.clear();
-        //play.getChosenCards();
         numCardsChosen = 0;
     }
-
-
 
     @Override
     public void resize(int i, int i1) {

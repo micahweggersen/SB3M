@@ -94,7 +94,8 @@
 
 ### Testing av damage tokens ved skade
 * Formål:
-	* Sjekke at man mottar en damage token ved skade.
+	* Sjekke at man mottar en damage token ved skade. 
+	* Sjekke at laser forårsaker skade.
 * Utførelse:
 	* Kjør programmet. Når menyen dukker opp på skjermen, trykk på den øverste knappen "NEW GAME".
 	* Bruk piltastene til å bevege roboten inn i en tile hvor det er laser.
@@ -126,3 +127,5 @@
 	* Bruk piltastene til å bevege roboten til flagg 1. 
 	* Beveg så roboten til et hull, slik at du dør.
 	* Kontroller at roboten nå spawner på flagg 1.
+
+

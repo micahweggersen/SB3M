@@ -216,7 +216,6 @@ public interface GameLogic {
     }
 
     default void checkForDamage(PlayerServer player, HashMap<String, LaserData> laserData) {
-        System.out.println("checkdamage");
         if (isCellLaser((int)player.position.x ,(int)player.position.y, laserData)) {
             addDamageToken(player);
             System.out.println("damagetokenadded");
@@ -253,7 +252,6 @@ public interface GameLogic {
                 if(Boolean.TRUE.equals(f)) {
                     i++;
                     if(i == 4) {
-                        //TODO finish win condition
                         System.out.println(player.getName() + " Has won the game!");
                     }
                 }
