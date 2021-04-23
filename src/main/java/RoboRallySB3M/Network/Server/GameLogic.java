@@ -253,7 +253,6 @@ public interface GameLogic {
                 if(Boolean.TRUE.equals(f)) {
                     i++;
                     if(i == 4) {
-                        //TODO finish win condition
                         System.out.println(player.getName() + " Has won the game!");
                     }
                 }
