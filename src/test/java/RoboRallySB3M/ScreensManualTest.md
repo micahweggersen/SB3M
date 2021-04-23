@@ -25,7 +25,7 @@
 	* Kontroller at alle rammene er nummerert fra 1-5 fra høyre til venstre. Tallet skal stå under rammen.
 	* Kontroller at de er plassert slik at en ramme har to damage token spot holders ovenfor rammen.
 
-### Testing av utdeling av kort
+### Testing av utdeling av kort på starten av en runde
 * Formål:
 	* Sjekke at kortene man har å velge blant når man taster "D" vises på skjermen.
 	* Sjekke at disse er plassert korrekt og er nummerert.
@@ -34,6 +34,19 @@
 	* Tast "D", og kontroller at 9 kort blir synlige omtrent mitt på skjermen til høyre.
 	* Kontrollert at kortene er synlige og lesbare, og at de ikke overlapper hverken hverandre eller andre objekter.
 	* Kontroller at de er nummerert 1-9 fra venstre til høyre.
+
+### Testing av utdeling av kort etter spiller har mottatt damage tokens
+* Formål:
+	* Sjekke at spiller mottar korrekt antall kort i henhold til hvor mye skade roboten har.
+* Urførelse:
+	* Kjør programmet. Når menyen dukker opp på skjermen, trykk på den øverste knappen "NEW GAME".
+	* Bruk piltastene til å bevege roboten inn i en laser. Nå skal du ha mottat en damage token.
+	* Tast så "D", og kontroller at du nå kun får utdelt 8 kort.
+	* Gjenta punkt 2 og kontroller at:
+		* 2 damage tokens gir 7 kort
+		* 3 damage tokens gir 6 kort
+		* 4 damage tokens gir 5 kort
+		* 5 eller flere damage tokens gir 5 kort
 
 ### Testing av valgte kort
 * Formål:

@@ -13,13 +13,11 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-
 import java.util.*;
 
 /**
@@ -45,17 +43,9 @@ public class Play implements Screen, InputProcessor {
     private List<Cards> dealtCards;
     private LinkedList<Cards> chosenCards = new LinkedList<>();
 
-    // Variables needed for drawing cards
-    int[] cardX = new int[9];
-    int[] cardY = new int[9];
-    boolean[] isCardChosen = new boolean[9];
     private boolean dealCardsNow = false;
 
-    BitmapFont cardPositionNumber;
-    BitmapFont chosenCardsOrder;
-
     private int damageTokenAmount;
-    //private int[] damageTokenAmount = new int[5];
 
     private boolean inputKey = false;
     private boolean newCards = true;
@@ -70,15 +60,7 @@ public class Play implements Screen, InputProcessor {
     public static final int GAMEBOARD_PLACEMENT_X = 0;
     public static final int GAMEBOARD_PLACEMENT_Y = 0;
 
-    private Texture damageToken;
-    private Texture damageTokenPosition;
-    private Texture cardPosition;
-    private Texture lifeToken;
-
-    private final ArrayList<Texture> cardsTextures = new ArrayList<>();
-    private final ArrayList<Texture> dealtCardsTextures = new ArrayList<>();
-    private final ArrayList<Texture> chosenCardsTextures = new ArrayList<>();
-    private List<LaserData> laserLocation;
+    DrawScreenElements drawElem = new DrawScreenElements();
 
 
     public Play(boolean isClientOnly) {
@@ -93,25 +75,7 @@ public class Play implements Screen, InputProcessor {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.RED);
-
-        /*Skin skin = new Skin(Gdx.files.internal("src/assets/quantum-horizon/skin/quantum-horizon-ui.json"));
-        TextButton exit = new TextButton("Exit", skin);
-        exit.setSize(60,60);
-        exit.setPosition(500, 600);
-        exit.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });*/
-
-        cardPositionNumber = new BitmapFont();
-        cardPositionNumber.setColor(Color.BLACK);
-        cardPositionNumber.getData().setScale(1f);
-
-        chosenCardsOrder = new BitmapFont();
-        chosenCardsOrder.setColor(Color.BLACK);
-        chosenCardsOrder.getData().setScale(0.7f);
+        drawElem.show();
 
         //Tile file load
         Board.map = new TmxMapLoader().load("src/assets/example.tmx");
@@ -157,20 +121,6 @@ public class Play implements Screen, InputProcessor {
 
         clientConnectToServer();
 
-        damageToken = new Texture("src/assets/damage_token.png");
-        damageTokenPosition = new Texture("src/assets/damage_token_grey.png");
-        lifeToken = new Texture("src/assets/life_token.png");
-        cardPosition = new Texture("src/assets/cards/CardSpotHolder.png");
-
-        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move1-1.png")));
-        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move2-1.png")));
-        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/move3-1.png")));
-        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/back_up-1.png")));
-        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/rotate_left-1.png")));
-        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/rotate_right.png")));
-        cardsTextures.add(new Texture(Gdx.files.internal("src/assets/cards/u-turn-1.png")));
-
-        initializeCards();
     }
 
     /**
@@ -199,14 +149,13 @@ public class Play implements Screen, InputProcessor {
         laser.drawLaser(laserData, playerData);
 
         batch.begin();
-        drawDamageTokenPositions();
-        drawCardPositions();
-
+        drawElem.drawDamageTokenPositions(batch);
+        drawElem.drawCardPositions(batch);
 
         for (PlayerData player : playerData) {
             if(player.playerName.equals(playerName)) {
-                drawDamageTokens(player.damageToken);
-                drawLifeTokens(player.lifeTokens);
+                drawElem.drawDamageTokens(player.damageToken, batch);
+                drawElem.drawLifeTokens(player.lifeTokens, batch);
                 damageTokenAmount = player.damageToken;
                 if (damageTokenAmount >= 5){
                     damageTokenAmount = 4;
@@ -215,11 +164,11 @@ public class Play implements Screen, InputProcessor {
         }
 
         if (dealCardsNow) {
-            drawDealtCards();
+            drawElem.drawDealtCards(dealtCards, batch, damageTokenAmount);
         }
 
         if (chosenCards.size() == 5) {
-            drawChosenCards();
+            drawElem.drawChosenCards(chosenCards, batch);
             dealCardsNow = false;
         }
         batch.end();
@@ -232,82 +181,6 @@ public class Play implements Screen, InputProcessor {
         }
     }
 
-    /**
-     * Draws the positions of damage tokens
-     */
-    private void drawDamageTokenPositions() {
-        for (int i = 9; i >= 0; i--) {
-            batch.draw(damageTokenPosition, 949 - (i * 48), 150, 40, 50);
-        }
-    }
-
-    /**
-     * Draws the damage tokens the player has received
-     */
-    private void drawDamageTokens(int damageTokens) {
-        for (int i = 0; i < damageTokens; i++) {
-            batch.draw(damageToken, 949 - (i * 48), 150, 40, 50);
-        }
-    }
-
-    /**
-     * Draws the life tokens
-     */
-    private void drawLifeTokens(int lifeTokens) {
-        for (int i = 0; i < lifeTokens; i++) {
-            batch.draw(lifeToken, 770 - (i * 70), 200, 100, 100);
-        }
-
-    }
-
-    /**
-     * Draws the positions of where chosen cards should be on the screen
-     */
-    private void drawCardPositions() {
-        for (int i = 5; i > 0; i--) {
-            batch.draw(cardPosition, 952 - (i * 98), -15, 240, 180);
-            chosenCardsOrder.draw(batch,String.valueOf(i),  1047 - (i * 99), 17);
-        }
-    }
-
-
-    /**
-     * Draws the cards that a player is dealt at the start of each round
-     */
-    private void drawDealtCards() {
-        for (int i = 0; i < 9-damageTokenAmount; i++) {
-            Cards card = dealtCards.get(i);
-            dealtCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
-            batch.draw(dealtCardsTextures.get(i), 490 + cardX[i], 300 + cardY[i], 160, 123);
-            cardPositionNumber.draw(batch, String.valueOf(i + 1), 548 + (i * 50), 320);
-        }
-
-    }
-
-    private void drawChosenCards() {
-        for (int i = 0; i < 5; i++) {
-            Cards card = chosenCards.get(i);
-            chosenCardsTextures.add(cardsTextures.get(card.getIdInt(card)));
-            batch.draw(chosenCardsTextures.get(i), 857 - (i * 98), -7, 240, 180);
-        }
-    }
-
-    /**
-     * Sets initial values for dealt and chosen program cards.
-     */
-    private void initializeCards() {
-        for (int i = 0; i < 9; i++) {
-            cardX[i] = i * 50;
-            cardY[i] = 12;
-            isCardChosen[i] = false;
-        }
-        dealtCardsTextures.clear();
-        getChosenCards();
-    }
-
-    private LinkedList<Cards> getChosenCards() {
-        return chosenCards;
-    }
 
     @Override
     public void resize(int width, int height) {
@@ -333,6 +206,7 @@ public class Play implements Screen, InputProcessor {
     public void dispose() {
         batch.dispose();
         font.dispose();
+
     }
 
     /**
